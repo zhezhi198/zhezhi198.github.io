@@ -1,5 +1,131 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Sat, 25 Oct 2025 12:08:43 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>test</title><link>https://zhezhi198.github.io/post/test.html</link><description>```cpp
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Sat, 25 Oct 2025 12:15:52 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>test2</title><link>https://zhezhi198.github.io/post/test2.html</link><description>```cpp
+#include &lt;bits/stdc++.h&gt;
+using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define out(x) cout &lt;&lt; ((x) ? 'YES' : 'NO') &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p &lt;&lt; 1
+#define rc p &lt;&lt; 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) &amp; (-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 1e5 + 10, M = 2 * N, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template &lt;typename T&gt;
+bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+struct Random
+{
+    mt19937_64 rng;
+    Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+    ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
+    ll rand_ll(ll l, ll r) { return uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
+    int rand_int(int l, int r) { return uniform_int_distribution&lt;int&gt;(l, r)(rng); }
+    double rand_db(double l, double r) { return uniform_real_distribution&lt;double&gt;(l, r)(rng); }
+    bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
+    template &lt;typename T&gt;
+    void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); }
+};
+ll qmi(ll a, ll b, ll p)
+{
+    ll res = 1 % p;
+    a %= p;
+    while (b)
+    {
+        if (b &amp; 1)
+            res = res * a % p;
+        a = a * a % p;
+        b &gt;&gt;= 1;
+    }
+    return res;
+}
+
+/*
+    10 20 15
+     9 8   6       -&gt;9 9 12
+*/
+
+void solve()
+{
+    ll n;
+    cin &gt;&gt; n;
+    vll a(n + 1, 0), b(n + 1, 0), preb(n + 1, 0);
+    rep(i, 1, n) cin &gt;&gt; a[i];
+    rep(i, 1, n) cin &gt;&gt; b[i];
+    rep(i, 1, n) preb[i] = preb[i - 1] + b[i];
+    vll d(n + 2, 0), sum(n + 2, 0);
+    rep(i, 1, n)
+    {
+        ll tag = a[i] + preb[i - 1];
+        auto it = lower_bound(preb.begin() + i, preb.end(), tag);
+        auto k = it - preb.begin();
+        if (k &lt;= n)
+        {
+            if (i &lt;= k - 1)
+            {
+                d[i]++;
+                d[k]--;
+            }
+            ll rem = a[i] - (preb[k - 1] - preb[i - 1]);
+            sum[k] += rem;
+        }
+        else
+        {
+            if (i &lt;= n)
+            {
+                d[i]++;
+                d[n + 1]--;
+            }
+        }
+    }
+    rep(i, 1, n) d[i] += d[i - 1];
+    rep(i, 1, n) cout &lt;&lt; d[i] * b[i] + sum[i] &lt;&lt; ' ';
+    cout &lt;&lt; endl;
+}
+
+int main()
+{
+    IOS;
+
+    int _ = 1;
+    cin &gt;&gt; _; // 如果是多组数据
+    while (_--)
+    {
+        solve();
+    }
+    return 0;
+}
+```
+[点这里挑战题目](https://codeforces.com/contest/1795/problem/C)
+// ch帅。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/test2.html</guid><pubDate>Sat, 25 Oct 2025 12:11:21 +0000</pubDate></item><item><title>test</title><link>https://zhezhi198.github.io/post/test.html</link><description>```cpp
 #include &lt;bits/stdc++.h&gt;
 using namespace std;
 // CJX__//
