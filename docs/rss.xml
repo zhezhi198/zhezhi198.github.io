@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Fri, 07 Nov 2025 00:49:03 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>abc430 C题三指针解法的说明</title><link>https://zhezhi198.github.io/post/abc430%20C-ti-san-zhi-zhen-jie-fa-de-shuo-ming.html</link><description>[点这里进入比赛界面](https://atcoder.jp/contests/abc430)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Fri, 07 Nov 2025 02:23:08 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>abc_430</title><link>https://zhezhi198.github.io/post/abc_430.html</link><description>[点这里进入比赛界面](https://atcoder.jp/contests/abc430)
 
 ### C - Truck Driver
 &gt;核心问题分析
@@ -10,7 +10,7 @@
 2.b 的数量 &lt; B
 
 &gt; 思路:
-问题要求统计所有满足两个条件的子串：1. 'a'的数量 ≥ A；2. 'b'的数量 &lt; B。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/abc430%20C-ti-san-zhi-zhen-jie-fa-de-shuo-ming.html</guid><pubDate>Thu, 06 Nov 2025 11:24:44 +0000</pubDate></item><item><title>test2</title><link>https://zhezhi198.github.io/post/test2.html</link><description>```cpp
+问题要求统计所有满足两个条件的子串：1. 'a'的数量 ≥ A；2. 'b'的数量 &lt; B。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/abc_430.html</guid><pubDate>Thu, 06 Nov 2025 11:24:44 +0000</pubDate></item><item><title>test2</title><link>https://zhezhi198.github.io/post/test2.html</link><description>```cpp
 #include &lt;bits/stdc++.h&gt;
 using namespace std;
 // CJX__//
