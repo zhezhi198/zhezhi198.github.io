@@ -580,7 +580,174 @@ int main()
 
 </code></pre>
 <p><a href="https://oi-wiki.org/string/kmp/" rel="nofollow">KMP算法介绍</a></p>
-<p>由于我的KMP板子在其他博客难以查到，后续有时间再单独写一篇自己KMP的算法专栏，考虑到当前只是想写题解，这个后续有时间再补。</p></div>
+<p>由于我的KMP板子在其他博客难以查到，后续有时间再单独写一篇自己KMP的算法专栏，考虑到当前只是想写题解，这个后续有时间再补。</p>
+<p>另外一种解法:</p>
+<blockquote>
+<p>双哈希解法：高效的模式匹配利器<br>
+在解决了朴素模拟法的效率瓶颈后，我们还可以利用双哈希技术来优化此问题。这种方法的核心思想是：通过计算两个独立的哈希值来代表字符串，当且仅当两个哈希值都匹配时，才判定子串相等，从而将哈希冲突的概率降至极低水平（约为两个哈希函数单独冲突概率的乘积）<br>
+那么思路就很简单了，预处理一下用B串来匹配一下即可。</p>
+</blockquote>
+<p><a href="https://blog.csdn.net/sin1810335764/article/details/136158507?ops_request_misc=%257B%2522request%255Fid%2522%253A%252276daf00b3a3a0f0d7f084af87588d57f%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=76daf00b3a3a0f0d7f084af87588d57f&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-136158507-null-null.142%5Ev102%5Epc_search_result_base1&amp;utm_term=%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%8C%E5%93%88%E5%B8%8C&amp;spm=1018.2226.3001.4187" rel="nofollow">不理解哈希或者双哈希的可以看看这个</a></p>
+<blockquote>
+<p>双哈希解法如下（附带部分注释）:</p>
+</blockquote>
+<pre lang="cpp#include" data-meta="&lt;bits/stdc++.h&gt;" class="notranslate"><code class="notranslate">using namespace std;
+// CJX__//
+typedef long long ll;
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p &lt;&lt; 1
+#define rc p &lt;&lt; 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) &amp; (-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 2e6 + 10;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template &lt;typename T&gt;
+bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+struct Random
+{
+    mt19937_64 rng;
+    Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+    ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
+    ll rand_ll(ll l, ll r) { return uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
+    int rand_int(int l, int r) { return uniform_int_distribution&lt;int&gt;(l, r)(rng); }
+    double rand_db(double l, double r) { return uniform_real_distribution&lt;double&gt;(l, r)(rng); }
+    bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
+    template &lt;typename T&gt;
+    void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); }
+};
+ll qmi(ll a, ll b, ll p)
+{
+    ll res = 1 % p;
+    a %= p;
+    while (b)
+    {
+        if (b &amp; 1)
+            res = res * a % p;
+        a = a * a % p;
+        b &gt;&gt;= 1;
+    }
+    return res;
+}
+
+/*
+ h1: 第一个哈希函数的前缀哈希值数组（使用unsigned long long，利用自然溢出）
+p1: 存储base1的幂次，用于快速计算子串哈希值
+ h2: 第二个哈希函数的前缀哈希值数组（使用long long，手动取模）
+ p2: 存储base2的幂次
+*/
+ull h1[N], p1[N];
+ll h2[N], p2[N];
+
+// 预处理函数
+void pre(int len) {
+    p1[0] = 1;
+    p2[0] = 1;
+    for (int i = 1; i &lt;= len; i++) {
+        p1[i] = p1[i-1] * base1;
+        p2[i] = mod(p2[i-1] * base2, Md7);
+    }
+}
+
+/*
+获取子串哈希值
+ 	l: 子串起始位置
+  	r: 子串结束位置
+ 	len: 子串长度（r-l+1）
+*/
+
+PLL get_hash(int l, int r, int len) {
+    ull v1 = h1[r] - h1[l-1] * p1[len];
+    ll v2 = mod(h2[r] - mod(h2[l-1] * p2[len], Md7), Md7);
+    return {v1, v2};
+}
+
+void solve()
+{
+    string a, b; 
+    cin &gt;&gt; a &gt;&gt; b;
+
+    int n = a.size();
+    if (n != b.size()) {
+        cout &lt;&lt; -1 &lt;&lt; endl;
+        return;
+    }
+    
+    if (n == 0) {
+        cout &lt;&lt; 0 &lt;&lt; endl;
+        return;
+    }
+
+    ull bh1 = 0;// b的第一个哈希值
+    ll bh2 = 0;// b的第二个哈希值
+    for (char c : b) {
+		// 滚动哈希计算：新哈希值 = 旧哈希值 * base + 当前字符
+        bh1 = bh1 * base1 + c;
+        bh2 = mod(bh2 * base2 + c, Md7);
+    }
+
+    string s = a + a;
+    
+    h1[0] = h2[0] = 0;// 计算s的前缀哈希
+    for (int i = 0; i &lt; s.size(); i++) {
+        h1[i+1] = h1[i] * base1 + s[i];
+        h2[i+1] = mod(h2[i] * base2 + s[i], Md7);
+    }
+
+    // 查找匹配
+    for (int i = 0; i &lt; n; i++) {
+        PLL hv = get_hash(i+1, i+n, n);
+        if (hv.fi == bh1 &amp;&amp; hv.se == bh2) {
+            cout &lt;&lt; i &lt;&lt; endl;
+            return;
+        }
+    }
+
+    cout &lt;&lt; -1 &lt;&lt; endl;
+}
+
+int main()
+{
+    IOS;
+    pre(2000000); 
+    int T = 1;
+    cin &gt;&gt; T;
+    while (T--)
+    {
+        solve();
+    }
+    return 0;
+}
+</code></pre></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
