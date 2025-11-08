@@ -747,7 +747,216 @@ int main()
     }
     return 0;
 }
-</code></pre></div>
+</code></pre>
+<h3>F - Back and Forth Filling</h3>
+<p>题意:</p>
+<blockquote>
+<p>问题陈述你得到一个整数 N 和一个长度为 N−1 的字符串 S ，由‘ L ’和‘ R ’组成。考虑将整数写入排成一行的 N 单元格中，以满足以下条件：—每个单元格上写一个整数。—每个整数 1,2,…,N 只出现在一个单元格中。—当 S 的第 i \第一个字符为‘ L ’时， i+1 被写到 i 的左边。—当 S 的 i \第一个字符为“R”时， i+1 被写到 i 的右侧。设 C i为可以写入左边第 i \单元格的整数个数。 C 1 ,C ,…,C N​ 。给你 T 个测试用例；找出每个问题的答案。</p>
+</blockquote>
+<p>思路:</p>
+<blockquote>
+<p>这个问题类似与萝卜填坑，我们很难确定每个坑填了那些萝卜，但是我们可以直到这些萝卜可以填在那些坑里面，于是我们想到了求每个萝卜的"活动范围"，我们求出每个萝卜的活动范围，然后用差分数组来算对活动范围内坑的贡献，然后差分数组累加之后就可以救出最后每个坑可以放多少种萝卜。<br>
+我们来深入探讨这道题的核心——如何确定每个萝卜 i 能到达的最左和最右位置。很多题解会直接给出公式 l = rp[i] + ls[i+1]，但这个公式是怎么来的？为什么它能精确地算出极限位置？现在，我们一步步把它讲清楚。首先，我们要明确一点：规则 L 和 R 只定义了相邻萝卜的相对位置，并不意味着任何一个萝卜的最终位置是固定的。一个萝卜 i 的最终位置取决于所有 n-1 条规则共同作用下的结果。因此，我们要求的不是萝卜 i “必然”在哪里，而是它在所有可能的、合法的排列中，能够占据的位置范围我们要求的是这个范围的两个端点：</p>
+</blockquote>
+<blockquote>
+<p>最左极限 l：存在一种合法的排列，让萝卜 i 落在位置 l，且不存在任何合法排列能让它落在比 l 更左的位置。</p>
+</blockquote>
+<blockquote>
+<p>最右极限 r：同理，r 是萝卜 i 能到达的最右边的位置。</p>
+</blockquote>
+<blockquote>
+<p>第二步：极限思维——如何构造最左极限？<br>
+为了把萝卜 i 尽可能地推向左边，我们需要把尽可能多的其他萝卜都安排到它的右边。</p>
+</blockquote>
+<blockquote>
+<p>现在，我们把除 i 之外的所有萝卜分成两组：</p>
+</blockquote>
+<blockquote>
+<p>A 组（左侧组）：萝卜 0, 1, ..., i-1<br>
+B 组（右侧组）：萝卜 i+1, i+2, ..., n-1<br>
+萝卜 i 的最终位置，就等于排在它左边的萝卜总数。这个总数由两部分构成：<br>
+最终位置 = (来自 A 组，且排在 i 左边的数量) + (来自 B 组，且排在 i 左边的数量)</p>
+</blockquote>
+<blockquote>
+<p>我们的目标，就是让这个总数变得最小。<br>
+第三步：分而治之——分析两组萝卜的贡献<br>
+现在我们来玩一场“拔河比赛”，萝卜 i 是中心点。我们想让它尽量向左移动。</p>
+</blockquote>
+<blockquote>
+<ol>
+<li>分析 B 组（右侧组）{i+1, ..., n-1}：</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>这组萝卜天然在 i 的“右边”。为了让 i 最靠左，我们希望 B 组的萝卜全都待在 i 的右边。</p>
+</blockquote>
+<blockquote>
+<p>但是，有些规则会阻止我们这么做。考虑规则 k L k+1，它意味着 k 必须在 k+1 的左边。</p>
+</blockquote>
+<blockquote>
+<p>想象一下，如果 k 和 k+1 都在 B 组里，这条 L 规则就像一根绳子，把 k “锚定”在 k+1 的左边。如果 i 在 k 的左边，k+1 也在 k 的右边，那么 i, k, k+1 的顺序是 pos(i) &lt; pos(k) &lt; pos(k+1)，这很和谐。</p>
+</blockquote>
+<blockquote>
+<p>但如果规则是 i L i+1 呢？i 就必须在 i+1 的左边。<br>
+如果规则是 i+1 L i+2 呢？i+1 就必须在 i+2 的左边。</p>
+</blockquote>
+<blockquote>
+<p>现在，把所有这些 L 规则串联起来。每一条位于 s[k] (k &gt; i) 的 L 规则，都像一个“拉力”，试图把萝卜 k-1 拉到萝卜 k 的左边。</p>
+</blockquote>
+<blockquote>
+<p>这是一个非常深刻的组合学结论：</p>
+</blockquote>
+<blockquote>
+<p>当我们试图将 i 推到最左时，对于 B 组的萝卜，有多少条 L 规则，最终就会有多少个萝卜从 B 组被“拉”到 i 的左边。</p>
+</blockquote>
+<blockquote>
+<p>这些 L 规则形成了一个无法挣脱的“依赖链”。ls[i+1] 正是 s[i+1] 到 s[n-1] 中 L 规则的总数。所以，B 组对 i 左侧萝卜数量的最小贡献就是 ls[i+1]。</p>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>分析 A 组（左侧组）{0, ..., i-1}：</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>这组萝卜天然在 i 的“左边”。为了让 i 最靠左，我们希望 A 组的萝卜尽可能多地移动到 i 的右边。</p>
+</blockquote>
+<blockquote>
+<p>什么规则会阻止它们移动呢？是 R 规则。<br>
+规则 k R k+1 意味着 k 必须在 k+1 的右边。</p>
+</blockquote>
+<blockquote>
+<p>如果 k 和 k+1 都在 A 组，这条 R 规则就像一个“反向的锚”，把 k+1 “钉”在了 k 的左边。它加强了 k+1 留在 i 左侧的趋势。</p>
+</blockquote>
+<blockquote>
+<p>我们可以得出与 B 组对称的结论：</p>
+</blockquote>
+<blockquote>
+<p>当我们试图将 i 推到最左时，对于 A 组的萝卜，有多少条 R 规则，最终就会有多少个萝卜被“锁”在 i 的左边，无法移动到右侧。</p>
+</blockquote>
+<blockquote>
+<p>rp[i] 正是 s[1] 到 s[i] 中 R 规则的总数。所以，A 组对 i 左侧萝卜数量的最小贡献就是 rp[i]。</p>
+</blockquote>
+<blockquote>
+<p>第四步：汇总——公式的诞生<br>
+通过上面的分析，我们得出了结论：<br>
+为了让萝卜 i 到达最左极限位置，我们需要最小化它左边的萝卜数量。</p>
+</blockquote>
+<blockquote>
+<p>这个最小数量 = (从 B 组被拉过来的最小数量) + (从 A 组被锁在左边的最小数量)<br>
+最小数量 = ls[i+1] + rp[i]<br>
+因为位置下标是从 0 开始的，如果左边有 k 个萝卜，那么自己的位置就是 k。所以，萝卜 i 的最左极限位置 l 就是：<br>
+l = rp[i] + ls[i+1]</p>
+</blockquote>
+<blockquote>
+<p>最右极限 r 的分析完全对称：</p>
+</blockquote>
+<blockquote>
+<p>要让 i 最靠右，就要让它右边的萝卜数量最少。<br>
+右边的萝卜数量 = (A 组中被拉到右边的) + (B 组中被锁在右边的)。<br>
+A 组中，L 规则是“拉力”，会把 lp[i] 个萝卜拉到 i 的右边。<br>
+B 组中，R 规则是“锁”，会把 rs[i+1] 个萝卜锁在 i 的右边。<br>
+所以 i 右侧最少有 lp[i] + rs[i+1] 个萝卜。<br>
+总共有 n 个位置 (0 到 n-1)。从最右边的位置 n-1，减去右侧必须有的萝卜数量，就是 i 能到达的最右位置：<br>
+r = (n-1) - (lp[i] + rs[i+1])。这个证明仍然不够严谨，但希望可以给读者一些启发，我们在写题目的时候在考虑某个变量难以解决的时候，不妨换一个角度思考，正如我们考虑每一个萝卜，我们才发现萝卜其实是可以用一个活动范围的，最后才能累加贡献算出最后的答案，换成思考每个坑可以放那些萝卜，就有些无从下手了。<br>
+最后给出AC代码:</p>
+</blockquote>
+<pre lang="cpp#include" data-meta="&lt;bits/stdc++.h&gt;" class="notranslate"><code class="notranslate">using namespace std;
+//CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p&lt;&lt;1
+#define rc p&lt;&lt;1|1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x)&amp;(-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps=1e-5;
+const int N = 1e5 + 10,M=2*N,K=26;
+const ll MOD = 1e9 + 7,Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template&lt;typename T&gt; bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template&lt;typename T&gt; bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template&lt;typename T&gt; void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+struct Random { mt19937_64 rng; Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {} ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); } ll rand_ll(ll l, ll r) { return uniform_int_distribution&lt;ll&gt;(l, r)(rng); } int rand_int(int l, int r) { return uniform_int_distribution&lt;int&gt;(l, r)(rng); } double rand_db(double l, double r) { return uniform_real_distribution&lt;double&gt;(l, r)(rng); } bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); } template&lt;typename T&gt; void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); } };
+ll qmi(ll a, ll b, ll p) { ll res = 1 % p; a %= p; while (b) { if (b &amp; 1) res = res * a % p; a = a * a % p; b &gt;&gt;= 1; } return res; }
+/*
+  
+*/
+	   
+       
+void solve()
+{
+	ll n; cin&gt;&gt;n;
+	string s; cin&gt;&gt;s;
+	s=" "+s+" ";
+	vll lp(n+1,0),rp(n+1,0),ls(n+1,0),rs(n+1,0);
+	
+	rep(i,1,n-1){
+		// lp[i]=lp[i-1]+(s[i]=='L');
+		// rp[i]=rp[i-1]+(s[i]=='R'); 
+		if(s[i]=='L') lp[i]=lp[i-1]+1;
+		if(s[i]=='R') rp[i]=rp[i-1]+1;
+	}
+
+	dep(i,n-1,1){
+		// ls[i]=ls[i+1]+(s[i]=='L');
+		// rs[i]=rs[i+1]+(s[i]=='R');
+		if(s[i]=='L') ls[i]=ls[i+1]+1;
+		if(s[i]=='R') rs[i]=rs[i+1]+1;
+	}
+
+	vll ans(n+1,0);
+	rep(i,0,n-1){
+		ll l=0,r=n-1;
+		l+=(rp[i]+ls[i+1]);
+		r-=(lp[i]+rs[i+1]);
+		ans[l]++;
+		ans[r+1]--;
+	}
+
+	rep(i,0,n-1){
+    if (i) ans[i] += ans[i-1];
+    cout &lt;&lt; ans[i] &lt;&lt; (i == n-1 ? "" : " "); 
+}
+	cout&lt;&lt;endl;
+}
+
+
+int main()
+{
+	 IOS; 
+		
+	int _ = 1;
+	 cin&gt;&gt;_;//如果是多组数据
+	while (_--)
+	{
+		solve();
+	}
+	return 0;
+}
+</code></pre>
+<blockquote>
+<p>最后读者还可以思考一下为什么我在处理前缀和后缀数组的时候为什么用注释掉的会错误呢，什么情况会错误，什么时候不会错误呢。</p>
+</blockquote></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
