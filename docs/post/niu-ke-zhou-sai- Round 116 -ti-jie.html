@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="### 牛客周赛 Round 116
+[点这里进入比赛](https://ac.nowcoder.com/acm/contest/120553#question)
+
+### A-小红的区间
+
+<img width='940' height='757' alt='Image' src='https://github.com/user-attachments/assets/0a7c960c-0bf3-4cd0-98cd-f87c95de8901' />
+
+>A题不多说，弄清楚相交，包含，相离的定义通过条件判断就可以解决这个题目
+
+>AC代码:
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair<int, int> PII;
+typedef pair<ll, ll> PLL;
+typedef vector<int> vi;
+typedef vector<ll> vll;
+typedef vector<double> vd;
+typedef vector<PII> vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define out(x) cout << ((x) ? 'YES' : 'NO') << endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p << 1
+#define rc p << 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) & (-x))
+#define rep(i, x, n) for (ll i = x; i <= n; i++)
+#define dep(i, x, n) for (ll i = x; i >= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 1e5 + 10, M = 2 * N, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template <typename T>
+bool cmin(T &a, const T &b) { return b < a ? a = b, 1 : 0; }
+template <typename T>
+bool cmax(T &a, const T &b) { return b > a ? a = b, 1 : 0; }
+template <typename T>
+void sort_range(vector<T> &v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+struct Random
+{
+    mt19937_64 rng;
+    Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+    ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
+    ll rand_ll(ll l, ll r) { return uniform_int_distribution<ll>(l, r)(rng); }
+    int rand_int(int l, int r) { return uniform_int_distribution<int>(l, r)(rng); }
+    double rand_db(double l, double r) { return uniform_real_distribution<double>(l, r)(rng); }
+    bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
+    template <typename T>
+    void shuffle(vector<T> &v) { std::shuffle(v.begin(), v.end(), rng); }
+};
+ll qmi(ll a, ll b, ll p)
+{
+    ll res = 1 % p;
+    a %= p;
+    while (b)
+    {
+        if (b & 1)
+            res = res * a % p;
+        a = a * a % p;
+        b >>= 1;
+    }
+    return res;
+}
+/*
+
+*/
+
+void solve()
+{
+    ll a, b, c, d;
+    cin >> a >> b >> c >> d;
+    if (c < a && d > b)
+    {
+        cout << 'A' << endl;
+    }
+    else
+        cout << 'B' << endl;
+}
+
+int main()
+{
+    IOS;
+
+    int _ = 1;
+    // cin>>_;//如果是多组数据
+    while (_--)
+    {
+        solve();
+    }
+    return 0;
+}
+```
+
+### B-小红的区间判断
+
+<img width='945' height='953' alt='Image' src='https://github.com/user-attachments/assets/a382e77b-7512-4484-9b15-b1af61a2e25a' />
+
+>B题和A题一样在这里直接给出代码
+
+>AC代码:
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair<int, int> PII;
+typedef pair<ll, ll> PLL;
+typedef vector<int> vi;
+typedef vector<ll> vll;
+typedef vector<double> vd;
+typedef vector<PII> vPII;
+#define IOS                  \
+	ios::sync_with_stdio(0); \
+	cin.tie(0);              \
+	cout.tie(0);
+#define out(x) cout << ((x) ? 'YES' : 'NO') << endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p << 1
+#define rc p << 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) & (-x))
+#define rep(i, x, n) for (ll i = x; i <= n; i++)
+#define dep(i, x, n) for (ll i = x; i >= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 1e5 + 10, M = 2 * N, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template <typename T>
+bool cmin(T &a, const T &b) { return b < a ? a = b, 1 : 0; }
+template <typename T>
+bool cmax(T &a, const T &b) { return b > a ? a = b, 1 : 0; }
+template <typename T>
+void sort_range(vector<T> &v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+struct Random
+{
+	mt19937_64 rng;
+	Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+	ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
+	ll rand_ll(ll l, ll r) { return uniform_int_distribution<ll>(l, r)(rng); }
+	int rand_int(int l, int r) { return uniform_int_distribution<int>(l, r)(rng); }
+	double rand_db(double l, double r) { return uniform_real_distribution<double>(l, r)(rng); }
+	bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
+	template <typename T>
+	void shuffle(vector<T> &v) { std::shuffle(v.begin(), v.end(), rng); }
+};
+ll qmi(ll a, ll b, ll p)
+{
+	ll res = 1 % p;
+	a %= p;
+	while (b)
+	{
+		if (b & 1)
+			res = res * a % p;
+		a = a * a % p;
+		b >>= 1;
+	}
+	return res;
+}
+/*
+
+*/
+
+void solve()
+{
+	ll l1, r1, l2, r2;
+	cin >> l1 >> r1 >> l2 >> r2;
+	if ((l2 < l1 && r1 < r2) || (l1 < l2 && r2 < r1))
+	{
+		cout << 'A' << endl;
+	}
+	else if (r1 < l2 || l1 > r2)
+	{
+		cout << 'B' << endl;
+	}
+	else
+	{
+		cout << 'C' << endl;
+	}
+}
+
+int main()
+{
+	IOS;
+
+	int _ = 1;
+	cin >> _; // 如果是多组数据
+	while (_--)
+	{
+		solve();
+	}
+	return 0;
+}
+```
+### C-小红的区间查询
+
+<img width='954' height='913' alt='Image' src='https://github.com/user-attachments/assets/5724a7c1-4c61-4c1d-b4f8-b7076f289c53' />
+
+>朴素的思路:
+>已知题目给出n个区间，然后q次询问，问我们每次询问的这个数是在第几个区间内，我们首先一个最朴素的想法就是，我们知道每个区间的l,r，我们可以利用差分数组在两个区间之间打上他们是第几个区间的值，比如他们是第一个区间。">
+<meta property="og:title" content="牛客周赛 Round 116 题解">
+<meta property="og:description" content="### 牛客周赛 Round 116
+[点这里进入比赛](https://ac.nowcoder.com/acm/contest/120553#question)
+
+### A-小红的区间
+
+<img width='940' height='757' alt='Image' src='https://github.com/user-attachments/assets/0a7c960c-0bf3-4cd0-98cd-f87c95de8901' />
+
+>A题不多说，弄清楚相交，包含，相离的定义通过条件判断就可以解决这个题目
+
+>AC代码:
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair<int, int> PII;
+typedef pair<ll, ll> PLL;
+typedef vector<int> vi;
+typedef vector<ll> vll;
+typedef vector<double> vd;
+typedef vector<PII> vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define out(x) cout << ((x) ? 'YES' : 'NO') << endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p << 1
+#define rc p << 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) & (-x))
+#define rep(i, x, n) for (ll i = x; i <= n; i++)
+#define dep(i, x, n) for (ll i = x; i >= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 1e5 + 10, M = 2 * N, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template <typename T>
+bool cmin(T &a, const T &b) { return b < a ? a = b, 1 : 0; }
+template <typename T>
+bool cmax(T &a, const T &b) { return b > a ? a = b, 1 : 0; }
+template <typename T>
+void sort_range(vector<T> &v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+struct Random
+{
+    mt19937_64 rng;
+    Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+    ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
+    ll rand_ll(ll l, ll r) { return uniform_int_distribution<ll>(l, r)(rng); }
+    int rand_int(int l, int r) { return uniform_int_distribution<int>(l, r)(rng); }
+    double rand_db(double l, double r) { return uniform_real_distribution<double>(l, r)(rng); }
+    bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
+    template <typename T>
+    void shuffle(vector<T> &v) { std::shuffle(v.begin(), v.end(), rng); }
+};
+ll qmi(ll a, ll b, ll p)
+{
+    ll res = 1 % p;
+    a %= p;
+    while (b)
+    {
+        if (b & 1)
+            res = res * a % p;
+        a = a * a % p;
+        b >>= 1;
+    }
+    return res;
+}
+/*
+
+*/
+
+void solve()
+{
+    ll a, b, c, d;
+    cin >> a >> b >> c >> d;
+    if (c < a && d > b)
+    {
+        cout << 'A' << endl;
+    }
+    else
+        cout << 'B' << endl;
+}
+
+int main()
+{
+    IOS;
+
+    int _ = 1;
+    // cin>>_;//如果是多组数据
+    while (_--)
+    {
+        solve();
+    }
+    return 0;
+}
+```
+
+### B-小红的区间判断
+
+<img width='945' height='953' alt='Image' src='https://github.com/user-attachments/assets/a382e77b-7512-4484-9b15-b1af61a2e25a' />
+
+>B题和A题一样在这里直接给出代码
+
+>AC代码:
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair<int, int> PII;
+typedef pair<ll, ll> PLL;
+typedef vector<int> vi;
+typedef vector<ll> vll;
+typedef vector<double> vd;
+typedef vector<PII> vPII;
+#define IOS                  \
+	ios::sync_with_stdio(0); \
+	cin.tie(0);              \
+	cout.tie(0);
+#define out(x) cout << ((x) ? 'YES' : 'NO') << endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p << 1
+#define rc p << 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) & (-x))
+#define rep(i, x, n) for (ll i = x; i <= n; i++)
+#define dep(i, x, n) for (ll i = x; i >= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 1e5 + 10, M = 2 * N, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template <typename T>
+bool cmin(T &a, const T &b) { return b < a ? a = b, 1 : 0; }
+template <typename T>
+bool cmax(T &a, const T &b) { return b > a ? a = b, 1 : 0; }
+template <typename T>
+void sort_range(vector<T> &v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+struct Random
+{
+	mt19937_64 rng;
+	Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+	ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
+	ll rand_ll(ll l, ll r) { return uniform_int_distribution<ll>(l, r)(rng); }
+	int rand_int(int l, int r) { return uniform_int_distribution<int>(l, r)(rng); }
+	double rand_db(double l, double r) { return uniform_real_distribution<double>(l, r)(rng); }
+	bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
+	template <typename T>
+	void shuffle(vector<T> &v) { std::shuffle(v.begin(), v.end(), rng); }
+};
+ll qmi(ll a, ll b, ll p)
+{
+	ll res = 1 % p;
+	a %= p;
+	while (b)
+	{
+		if (b & 1)
+			res = res * a % p;
+		a = a * a % p;
+		b >>= 1;
+	}
+	return res;
+}
+/*
+
+*/
+
+void solve()
+{
+	ll l1, r1, l2, r2;
+	cin >> l1 >> r1 >> l2 >> r2;
+	if ((l2 < l1 && r1 < r2) || (l1 < l2 && r2 < r1))
+	{
+		cout << 'A' << endl;
+	}
+	else if (r1 < l2 || l1 > r2)
+	{
+		cout << 'B' << endl;
+	}
+	else
+	{
+		cout << 'C' << endl;
+	}
+}
+
+int main()
+{
+	IOS;
+
+	int _ = 1;
+	cin >> _; // 如果是多组数据
+	while (_--)
+	{
+		solve();
+	}
+	return 0;
+}
+```
+### C-小红的区间查询
+
+<img width='954' height='913' alt='Image' src='https://github.com/user-attachments/assets/5724a7c1-4c61-4c1d-b4f8-b7076f289c53' />
+
+>朴素的思路:
+>已知题目给出n个区间，然后q次询问，问我们每次询问的这个数是在第几个区间内，我们首先一个最朴素的想法就是，我们知道每个区间的l,r，我们可以利用差分数组在两个区间之间打上他们是第几个区间的值，比如他们是第一个区间。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://zhezhi198.github.io/post/niu-ke-zhou-sai-%20Round%20116%20-ti-jie.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>牛客周赛 Round 116 题解</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">牛客周赛 Round 116 题解</h1>
+<div class="title-right">
+    <a href="https://zhezhi198.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/zhezhi198/zhezhi198.github.io/issues/4" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><h3>牛客周赛 Round 116</h3>
+<p><a href="https://ac.nowcoder.com/acm/contest/120553#question" rel="nofollow">点这里进入比赛</a></p>
+<h3>A-小红的区间</h3>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0a7c960c-0bf3-4cd0-98cd-f87c95de8901"><img width="940" height="757" alt="Image" src="https://github.com/user-attachments/assets/0a7c960c-0bf3-4cd0-98cd-f87c95de8901" style="max-width: 100%; height: auto; max-height: 757px;"></a></p>
+<blockquote>
+<p>A题不多说，弄清楚相交，包含，相离的定义通过条件判断就可以解决这个题目</p>
+</blockquote>
+<blockquote>
+<p>AC代码:</p>
+</blockquote>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
+<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
+<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
+<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
+    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
+    cin.tie(<span class="pl-c1">0</span>);              \
+    cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
+#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
+#<span class="pl-k">define</span> <span class="pl-en">se</span> second
+#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
+#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
+#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
+#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
+#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
+<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
+<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
+<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
+<span class="pl-k">struct</span> <span class="pl-en">Random</span>
+{
+    mt19937_64 rng;
+    <span class="pl-en">Random</span>() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+    ull <span class="pl-en">rand_ull</span>(ull max_val = -<span class="pl-c1">1</span>) { <span class="pl-k">return</span> <span class="pl-c1">rng</span>() % (max_val + <span class="pl-c1">1</span>); }
+    ll <span class="pl-en">rand_ll</span>(ll l, ll r) { <span class="pl-k">return</span> uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
+    <span class="pl-k">int</span> <span class="pl-en">rand_int</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> uniform_int_distribution&lt;<span class="pl-k">int</span>&gt;(l, r)(rng); }
+    <span class="pl-k">double</span> <span class="pl-en">rand_db</span>(<span class="pl-k">double</span> l, <span class="pl-k">double</span> r) { <span class="pl-k">return</span> uniform_real_distribution&lt;<span class="pl-k">double</span>&gt;(l, r)(rng); }
+    <span class="pl-k">bool</span> <span class="pl-en">rand_bool</span>(<span class="pl-k">double</span> p = <span class="pl-c1">0.5</span>) { <span class="pl-k">return</span> <span class="pl-c1">bernoulli_distribution</span>(p)(rng); }
+    <span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+    <span class="pl-k">void</span> <span class="pl-en">shuffle</span>(vector&lt;T&gt; &amp;v) { <span class="pl-c1">std::shuffle</span>(v.<span class="pl-c1">begin</span>(), v.<span class="pl-c1">end</span>(), rng); }
+};
+ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
+{
+    ll res = <span class="pl-c1">1</span> % p;
+    a %= p;
+    <span class="pl-k">while</span> (b)
+    {
+        <span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>)
+            res = res * a % p;
+        a = a * a % p;
+        b &gt;&gt;= <span class="pl-c1">1</span>;
+    }
+    <span class="pl-k">return</span> res;
+}
+<span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c"></span>
+<span class="pl-c"><span class="pl-c">*/</span></span>
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    ll a, b, c, d;
+    cin &gt;&gt; a &gt;&gt; b &gt;&gt; c &gt;&gt; d;
+    <span class="pl-k">if</span> (c &lt; a &amp;&amp; d &gt; b)
+    {
+        cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>A<span class="pl-pds">"</span></span> &lt;&lt; endl;
+    }
+    <span class="pl-k">else</span>
+        cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>B<span class="pl-pds">"</span></span> &lt;&lt; endl;
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    IOS;
+
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    <span class="pl-c"><span class="pl-c">//</span> cin&gt;&gt;_;//如果是多组数据</span>
+    <span class="pl-k">while</span> (_--)
+    {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h3>B-小红的区间判断</h3>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a382e77b-7512-4484-9b15-b1af61a2e25a"><img width="945" height="953" alt="Image" src="https://github.com/user-attachments/assets/a382e77b-7512-4484-9b15-b1af61a2e25a" style="max-width: 100%; height: auto; max-height: 953px;"></a></p>
+<blockquote>
+<p>B题和A题一样在这里直接给出代码</p>
+</blockquote>
+<blockquote>
+<p>AC代码:</p>
+</blockquote>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
+<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
+<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
+<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
+	<span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
+	cin.tie(<span class="pl-c1">0</span>);              \
+	cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
+#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
+#<span class="pl-k">define</span> <span class="pl-en">se</span> second
+#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
+#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
+#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
+#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
+#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
+<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
+<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
+<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
+<span class="pl-k">struct</span> <span class="pl-en">Random</span>
+{
+	mt19937_64 rng;
+	<span class="pl-en">Random</span>() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+	ull <span class="pl-en">rand_ull</span>(ull max_val = -<span class="pl-c1">1</span>) { <span class="pl-k">return</span> <span class="pl-c1">rng</span>() % (max_val + <span class="pl-c1">1</span>); }
+	ll <span class="pl-en">rand_ll</span>(ll l, ll r) { <span class="pl-k">return</span> uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
+	<span class="pl-k">int</span> <span class="pl-en">rand_int</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> uniform_int_distribution&lt;<span class="pl-k">int</span>&gt;(l, r)(rng); }
+	<span class="pl-k">double</span> <span class="pl-en">rand_db</span>(<span class="pl-k">double</span> l, <span class="pl-k">double</span> r) { <span class="pl-k">return</span> uniform_real_distribution&lt;<span class="pl-k">double</span>&gt;(l, r)(rng); }
+	<span class="pl-k">bool</span> <span class="pl-en">rand_bool</span>(<span class="pl-k">double</span> p = <span class="pl-c1">0.5</span>) { <span class="pl-k">return</span> <span class="pl-c1">bernoulli_distribution</span>(p)(rng); }
+	<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+	<span class="pl-k">void</span> <span class="pl-en">shuffle</span>(vector&lt;T&gt; &amp;v) { <span class="pl-c1">std::shuffle</span>(v.<span class="pl-c1">begin</span>(), v.<span class="pl-c1">end</span>(), rng); }
+};
+ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
+{
+	ll res = <span class="pl-c1">1</span> % p;
+	a %= p;
+	<span class="pl-k">while</span> (b)
+	{
+		<span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>)
+			res = res * a % p;
+		a = a * a % p;
+		b &gt;&gt;= <span class="pl-c1">1</span>;
+	}
+	<span class="pl-k">return</span> res;
+}
+<span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c"></span>
+<span class="pl-c"><span class="pl-c">*/</span></span>
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+	ll l1, r1, l2, r2;
+	cin &gt;&gt; l1 &gt;&gt; r1 &gt;&gt; l2 &gt;&gt; r2;
+	<span class="pl-k">if</span> ((l2 &lt; l1 &amp;&amp; r1 &lt; r2) || (l1 &lt; l2 &amp;&amp; r2 &lt; r1))
+	{
+		cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>A<span class="pl-pds">"</span></span> &lt;&lt; endl;
+	}
+	<span class="pl-k">else</span> <span class="pl-k">if</span> (r1 &lt; l2 || l1 &gt; r2)
+	{
+		cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>B<span class="pl-pds">"</span></span> &lt;&lt; endl;
+	}
+	<span class="pl-k">else</span>
+	{
+		cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>C<span class="pl-pds">"</span></span> &lt;&lt; endl;
+	}
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+	IOS;
+
+	<span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+	cin &gt;&gt; _; <span class="pl-c"><span class="pl-c">//</span> 如果是多组数据</span>
+	<span class="pl-k">while</span> (_--)
+	{
+		<span class="pl-c1">solve</span>();
+	}
+	<span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h3>C-小红的区间查询</h3>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/5724a7c1-4c61-4c1d-b4f8-b7076f289c53"><img width="954" height="913" alt="Image" src="https://github.com/user-attachments/assets/5724a7c1-4c61-4c1d-b4f8-b7076f289c53" style="max-width: 100%; height: auto; max-height: 913px;"></a></p>
+<blockquote>
+<p>朴素的思路:<br>
+已知题目给出n个区间，然后q次询问，问我们每次询问的这个数是在第几个区间内，我们首先一个最朴素的想法就是，我们知道每个区间的l,r，我们可以利用差分数组在两个区间之间打上他们是第几个区间的值，比如他们是第一个区间。那么我们就在这个区间的两端赋值为1，使得[l,r]区间内的值都为1，其他的区间依次类推，最后没有赋值过的值肯定为0，那输出-1即可，有值的输出值即为题目要求的答案。为什么可以这样呢，因为题目保证了区间互不相交，所以每一段赋值都不会被其他的值覆盖掉，所以保证每个区间内的值都是单一的。这是最朴素的想法，但是1e9的数据范围让此方法不可行，所以我们必须想到优化的方法。<br>
+常见的优化方法就是二分，但是二分优化需要满足一定的单调性，我们发现将区间按照左端点排列，由于每个区间不会相互覆盖，我们就保证了区间始终是递增的，这样便具有了单调性，于是我们尝试有二分的方法完成这个题目，我们只需要创建结构体把区间的信息维护起来，然后用二分查找，合法的找到的就输出即可，找不到就输出-1.思路比较简单，二分注意细节即可。</p>
+</blockquote>
+<blockquote>
+<p>AC代码:</p>
+</blockquote>
+<pre lang="cpp#include" data-meta="&lt;bits/stdc++.h&gt;" class="notranslate"><code class="notranslate">using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p &lt;&lt; 1
+#define rc p &lt;&lt; 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) &amp; (-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 1e5 + 10, M = 2 * N, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template &lt;typename T&gt;
+bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+struct Random
+{
+    mt19937_64 rng;
+    Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+    ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
+    ll rand_ll(ll l, ll r) { return uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
+    int rand_int(int l, int r) { return uniform_int_distribution&lt;int&gt;(l, r)(rng); }
+    double rand_db(double l, double r) { return uniform_real_distribution&lt;double&gt;(l, r)(rng); }
+    bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
+    template &lt;typename T&gt;
+    void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); }
+};
+ll qmi(ll a, ll b, ll p)
+{
+    ll res = 1 % p;
+    a %= p;
+    while (b)
+    {
+        if (b &amp; 1)
+            res = res * a % p;
+        a = a * a % p;
+        b &gt;&gt;= 1;
+    }
+    return res;
+}
+/*
+
+*/
+
+struct node
+{
+    ll l, r, id;
+};
+bool cmp(node a, node b)
+{
+    return a.l &lt; b.l;
+}
+void solve()
+{
+    ll n, q;
+    cin &gt;&gt; n &gt;&gt; q;
+    vector&lt;node&gt; a;
+    rep(i, 1, n)
+    {
+        ll l, r;
+        cin &gt;&gt; l &gt;&gt; r;
+        a.push_back({l, r, i});
+    }
+    sort(a.begin(), a.end(), cmp);
+    while (q--)
+    {
+        ll x;
+        cin &gt;&gt; x;
+        ll lo = -1, hi = a.size();
+        while (lo + 1 &lt; hi)
+        {
+            ll mid = lo + (hi - lo) / 2;
+            if (a[mid].r &lt; x)
+                lo = mid;
+            else
+                hi = mid;
+        }
+        if (hi != a.size() &amp;&amp; a[hi].l &lt;= x &amp;&amp; x &lt;= a[hi].r)
+        {
+            cout &lt;&lt; a[hi].id &lt;&lt; endl;
+        }
+        else
+            cout &lt;&lt; -1 &lt;&lt; endl;
+    }
+}
+
+int main()
+{
+    IOS;
+
+    int _ = 1;
+    // cin&gt;&gt;_;//如果是多组数据
+    while (_--)
+    {
+        solve();
+    }
+    return 0;
+}
+</code></pre>
+<blockquote>
+<p>这是我写的二分，读者可以想想为什么在输出答案的时候我的if条件为什么还如此复杂呢，为什么是这样，可以思考思考。但也许也有更好的二分技巧，我以为这个if条件wa了一发! -_-.</p>
+</blockquote>
+<h3>小红的区间相交</h3>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/96969b25-0785-4bbc-83c2-e1cda2354be7"><img width="938" height="955" alt="Image" src="https://github.com/user-attachments/assets/96969b25-0785-4bbc-83c2-e1cda2354be7" style="max-width: 100%; height: auto; max-height: 955px;"></a></p>
+<blockquote>
+<p>题目意思很简单，问我们区间是否满足任意两个两两相交,我们想什么时候一定可以保证两两相交呢，那么就是按区间的左右端点从小到大排列后，第一个区间和最后一个区间依然满足相交的关系就说明其他的都满足这个关系，想到这个就非常简单了。这题有一个启发我们的地方，在某一个条件难以写出它的条件判断时，我们可以写出其他与他互斥的关系，在用else就可以简单的把这个条件表示出来了。<br>
+AC代码:</p>
+</blockquote>
+<pre lang="cpp#include" data-meta="&lt;bits/stdc++.h&gt;" class="notranslate"><code class="notranslate">using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p &lt;&lt; 1
+#define rc p &lt;&lt; 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) &amp; (-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 1e5 + 10, M = 2 * N, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template &lt;typename T&gt;
+bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+struct Random
+{
+    mt19937_64 rng;
+    Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+    ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
+    ll rand_ll(ll l, ll r) { return uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
+    int rand_int(int l, int r) { return uniform_int_distribution&lt;int&gt;(l, r)(rng); }
+    double rand_db(double l, double r) { return uniform_real_distribution&lt;double&gt;(l, r)(rng); }
+    bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
+    template &lt;typename T&gt;
+    void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); }
+};
+ll qmi(ll a, ll b, ll p)
+{
+    ll res = 1 % p;
+    a %= p;
+    while (b)
+    {
+        if (b &amp; 1)
+            res = res * a % p;
+        a = a * a % p;
+        b &gt;&gt;= 1;
+    }
+    return res;
+}
+/*
+
+*/
+
+void solve()
+{
+    ll n;
+    cin &gt;&gt; n;
+    vector&lt;PLL&gt; a(n);
+    for (int i = 0; i &lt; n; i++)
+        cin &gt;&gt; a[i].fi &gt;&gt; a[i].se;
+    sort(all(a));
+    auto check = [&amp;](auto &amp;p1, auto &amp;p2) -&gt; bool
+    {
+        ll l1 = p1.fi, r1 = p1.se;
+        ll l2 = p2.fi, r2 = p2.se;
+        if (l2 &lt; l1 &amp;&amp; r1 &lt; r2)
+            return false;
+        if (l1 &lt; l2 &amp;&amp; r2 &lt; r1)
+            return false;
+        if (r2 &lt; l1 || r1 &lt; l2)
+            return false;
+        return true;
+    };
+    if (check(a[0], a.back()))
+    {
+        cout &lt;&lt; "Yes" &lt;&lt; endl;
+    }
+    else
+        cout &lt;&lt; "No" &lt;&lt; endl;
+}
+
+int main()
+{
+    IOS;
+
+    int _ = 1;
+    cin &gt;&gt; _; // 如果是多组数据
+    while (_--)
+    {
+        solve();
+    }
+    return 0;
+}
+</code></pre></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://zhezhi198.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","zhezhi198/zhezhi198.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+
+
+</html>
