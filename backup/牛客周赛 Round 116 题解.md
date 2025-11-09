@@ -227,7 +227,8 @@ int main()
 > 常见的优化方法就是二分，但是二分优化需要满足一定的单调性，我们发现将区间按照左端点排列，由于每个区间不会相互覆盖，我们就保证了区间始终是递增的，这样便具有了单调性，于是我们尝试有二分的方法完成这个题目，我们只需要创建结构体把区间的信息维护起来，然后用二分查找，合法的找到的就输出即可，找不到就输出-1.思路比较简单，二分注意细节即可。
 
 >AC代码:
-```cpp#include <bits/stdc++.h>
+```cpp
+#include <bits/stdc++.h>
 using namespace std;
 // CJX__//
 typedef long long ll; // 不开long long 见祖宗
@@ -362,7 +363,8 @@ int main()
 
 >题目意思很简单，问我们区间是否满足任意两个两两相交,我们想什么时候一定可以保证两两相交呢，那么就是按区间的左右端点从小到大排列后，第一个区间和最后一个区间依然满足相交的关系就说明其他的都满足这个关系，想到这个就非常简单了。这题有一个启发我们的地方，在某一个条件难以写出它的条件判断时，我们可以写出其他与他互斥的关系，在用else就可以简单的把这个条件表示出来了。
 >AC代码:
-```cpp#include <bits/stdc++.h>
+```cpp
+#include <bits/stdc++.h>
 using namespace std;
 // CJX__//
 typedef long long ll; // 不开long long 见祖宗
@@ -526,7 +528,8 @@ int main()
 至此，我们不仅高效地计算出了成本，还给出了一套最省操作次数的施工方案！
 
 最后附上我的AC代码:
-```cpp#include <bits/stdc++.h>
+```cpp
+#include <bits/stdc++.h>
 using namespace std;
 // CJX__//
 typedef long long ll; // 不开long long 见祖宗
