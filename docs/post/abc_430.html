@@ -441,144 +441,144 @@ ll <span class="pl-en">qmi</span>(ll a, ll b, ll p) { ll res = <span class="pl-c
 }</pre></div>
 <p>然而朴素的模拟会TLE，于是我们想到我们曾写过的KMP算法，用于主串与模式串的匹配，正好符合题意。由于题目比较板，不会复习一下KMP算法即可AC，这里不对思路做多余的赘述了。<br>
 KMP解法如下:</p>
-<pre lang="cpp#include" data-meta="&lt;bits/stdc++.h&gt;" class="notranslate"><code class="notranslate">using namespace std;
-// CJX__//
-typedef long long ll; // 不开long long 见祖宗
-typedef unsigned long long ull;
-typedef __int128 i128;
-typedef pair&lt;int, int&gt; PII;
-typedef pair&lt;ll, ll&gt; PLL;
-typedef vector&lt;int&gt; vi;
-typedef vector&lt;ll&gt; vll;
-typedef vector&lt;double&gt; vd;
-typedef vector&lt;PII&gt; vPII;
-#define IOS                  \
-	ios::sync_with_stdio(0); \
-	cin.tie(0);              \
-	cout.tie(0);
-#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
-#define mod(x, P) (((x) % (P) + (P)) % (P))
-#define endl '\n'
-#define gcd __gcd
-#define lc p &lt;&lt; 1
-#define rc p &lt;&lt; 1 | 1
-#define INF 0x3f3f3f3f3f3f3f3f
-#define inf 0x3f3f3f3f
-#define fi first
-#define se second
-#define all(x) x.begin(), x.end()
-#define lowbit(x) ((x) &amp; (-x))
-#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
-#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
-#define mem(a, x) memset(a, x, sizeof a)
-const double eps = 1e-5;
-// N 的大小需要足够容纳 ' ' + B + '#' + A + A
-// |A| &lt;= 10^6, |B| &lt;= 10^6, |A+A| &lt;= 2*10^6
-// 总长度约为 1 + 10^6 + 1 + 2*10^6 = 3*10^6 + 2, 所以 N 开大一点
-const int N = 3e6 + 20;
-const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
-const ll base1 = 131, base2 = 13331;
-const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
-const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
-template &lt;typename T&gt;
-bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
-template &lt;typename T&gt;
-bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
-template &lt;typename T&gt;
-void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
-struct Random
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
+<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
+<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
+<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
+	<span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
+	cin.tie(<span class="pl-c1">0</span>);              \
+	cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
+#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
+#<span class="pl-k">define</span> <span class="pl-en">se</span> second
+#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
+#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
+#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
+#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
+#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
+<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
+<span class="pl-c"><span class="pl-c">//</span> N 的大小需要足够容纳 ' ' + B + '#' + A + A</span>
+<span class="pl-c"><span class="pl-c">//</span> |A| &lt;= 10^6, |B| &lt;= 10^6, |A+A| &lt;= 2*10^6</span>
+<span class="pl-c"><span class="pl-c">//</span> 总长度约为 1 + 10^6 + 1 + 2*10^6 = 3*10^6 + 2, 所以 N 开大一点</span>
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">3e6</span> + <span class="pl-c1">20</span>;
+<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
+<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
+<span class="pl-k">struct</span> <span class="pl-en">Random</span>
 {
 	mt19937_64 rng;
-	Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
-	ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
-	ll rand_ll(ll l, ll r) { return uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
-	int rand_int(int l, int r) { return uniform_int_distribution&lt;int&gt;(l, r)(rng); }
-	double rand_db(double l, double r) { return uniform_real_distribution&lt;double&gt;(l, r)(rng); }
-	bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
-	template &lt;typename T&gt;
-	void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); }
+	<span class="pl-en">Random</span>() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+	ull <span class="pl-en">rand_ull</span>(ull max_val = -<span class="pl-c1">1</span>) { <span class="pl-k">return</span> <span class="pl-c1">rng</span>() % (max_val + <span class="pl-c1">1</span>); }
+	ll <span class="pl-en">rand_ll</span>(ll l, ll r) { <span class="pl-k">return</span> uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
+	<span class="pl-k">int</span> <span class="pl-en">rand_int</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> uniform_int_distribution&lt;<span class="pl-k">int</span>&gt;(l, r)(rng); }
+	<span class="pl-k">double</span> <span class="pl-en">rand_db</span>(<span class="pl-k">double</span> l, <span class="pl-k">double</span> r) { <span class="pl-k">return</span> uniform_real_distribution&lt;<span class="pl-k">double</span>&gt;(l, r)(rng); }
+	<span class="pl-k">bool</span> <span class="pl-en">rand_bool</span>(<span class="pl-k">double</span> p = <span class="pl-c1">0.5</span>) { <span class="pl-k">return</span> <span class="pl-c1">bernoulli_distribution</span>(p)(rng); }
+	<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+	<span class="pl-k">void</span> <span class="pl-en">shuffle</span>(vector&lt;T&gt; &amp;v) { <span class="pl-c1">std::shuffle</span>(v.<span class="pl-c1">begin</span>(), v.<span class="pl-c1">end</span>(), rng); }
 };
-ll qmi(ll a, ll b, ll p)
+ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
 {
-	ll res = 1 % p;
+	ll res = <span class="pl-c1">1</span> % p;
 	a %= p;
-	while (b)
+	<span class="pl-k">while</span> (b)
 	{
-		if (b &amp; 1)
+		<span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>)
 			res = res * a % p;
 		a = a * a % p;
-		b &gt;&gt;= 1;
+		b &gt;&gt;= <span class="pl-c1">1</span>;
 	}
-	return res;
+	<span class="pl-k">return</span> res;
 }
 
-int pi[N];
+<span class="pl-k">int</span> pi[N];
 
-void solve()
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
 {
 	string a, b;
 	cin &gt;&gt; a &gt;&gt; b;
 
-	if (a.size() != b.size())
+	<span class="pl-k">if</span> (a.<span class="pl-c1">size</span>() != b.<span class="pl-c1">size</span>())
 	{
-		cout &lt;&lt; -1 &lt;&lt; endl;
-		return;
+		cout &lt;&lt; -<span class="pl-c1">1</span> &lt;&lt; endl;
+		<span class="pl-k">return</span>;
 	}
 
 	string t = a + a;
 	string p = b;
-	int m = p.size();
-	if (m == 0)
+	<span class="pl-k">int</span> m = p.<span class="pl-c1">size</span>();
+	<span class="pl-k">if</span> (m == <span class="pl-c1">0</span>)
 	{
-		cout &lt;&lt; 0 &lt;&lt; endl;
-		return;
+		cout &lt;&lt; <span class="pl-c1">0</span> &lt;&lt; endl;
+		<span class="pl-k">return</span>;
 	}
-	string s = " " + p + '#' + t;
-	int lens = s.size() - 1;
-	for (int i = 0; i &lt;= lens; i++)  pi[i] = 0;
+	string s = <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span> + p + <span class="pl-s"><span class="pl-pds">'</span>#<span class="pl-pds">'</span></span> + t;
+	<span class="pl-k">int</span> lens = s.<span class="pl-c1">size</span>() - <span class="pl-c1">1</span>;
+	<span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt;= lens; i++)  pi[i] = <span class="pl-c1">0</span>;
 	
-	for (int i = 2, j = 0; i &lt;= lens; i++)
+	<span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">2</span>, j = <span class="pl-c1">0</span>; i &lt;= lens; i++)
 	{
-		while (j &gt; 0 &amp;&amp; s[i] != s[j + 1])
+		<span class="pl-k">while</span> (j &gt; <span class="pl-c1">0</span> &amp;&amp; s[i] != s[j + <span class="pl-c1">1</span>])
 		{
 			j = pi[j];
 		}
-		if (s[i] == s[j + 1])
+		<span class="pl-k">if</span> (s[i] == s[j + <span class="pl-c1">1</span>])
 		{
 			j++;
 		}
 		pi[i] = j;
 
-		if (pi[i] == m)
+		<span class="pl-k">if</span> (pi[i] == m)
 		{
 
-			int pos = i - 2 * m - 1;
+			<span class="pl-k">int</span> pos = i - <span class="pl-c1">2</span> * m - <span class="pl-c1">1</span>;
 
-			if (pos &lt; m)
+			<span class="pl-k">if</span> (pos &lt; m)
 			{
 				cout &lt;&lt; pos &lt;&lt; endl;
-				return;
+				<span class="pl-k">return</span>;
 			}
 		}
 	}
 
-	cout &lt;&lt; -1 &lt;&lt; endl;
+	cout &lt;&lt; -<span class="pl-c1">1</span> &lt;&lt; endl;
 }
 
-int main()
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
 {
 	IOS;
 
-	int T = 1;
-	cin &gt;&gt; T; // 如果是多组数据
-	while (T--)
+	<span class="pl-k">int</span> T = <span class="pl-c1">1</span>;
+	cin &gt;&gt; T; <span class="pl-c"><span class="pl-c">//</span> 如果是多组数据</span>
+	<span class="pl-k">while</span> (T--)
 	{
-		solve();
+		<span class="pl-c1">solve</span>();
 	}
-	return 0;
+	<span class="pl-k">return</span> <span class="pl-c1">0</span>;
 }
-
-</code></pre>
+</pre></div>
 <p><a href="https://oi-wiki.org/string/kmp/" rel="nofollow">KMP算法介绍</a></p>
 <p>由于我的KMP板子在其他博客难以查到，后续有时间再单独写一篇自己KMP的算法专栏，考虑到当前只是想写题解，这个后续有时间再补。</p>
 <p>另外一种解法:</p>
@@ -849,100 +849,100 @@ B 组中，R 规则是“锁”，会把 rs[i+1] 个萝卜锁在 i 的右边。<
 r = (n-1) - (lp[i] + rs[i+1])。这个证明仍然不够严谨，但希望可以给读者一些启发，我们在写题目的时候在考虑某个变量难以解决的时候，不妨换一个角度思考，正如我们考虑每一个萝卜，我们才发现萝卜其实是可以用一个活动范围的，最后才能累加贡献算出最后的答案，换成思考每个坑可以放那些萝卜，就有些无从下手了。<br>
 最后给出AC代码:</p>
 </blockquote>
-<pre lang="cpp#include" data-meta="&lt;bits/stdc++.h&gt;" class="notranslate"><code class="notranslate">using namespace std;
-//CJX__//
-typedef long long ll; // 不开long long 见祖宗
-typedef unsigned long long ull;
-typedef __int128 i128;
-typedef pair&lt;int, int&gt; PII;
-typedef pair&lt;ll, ll&gt; PLL;
-typedef vector&lt;int&gt; vi;
-typedef vector&lt;ll&gt; vll;
-typedef vector&lt;double&gt; vd;
-typedef vector&lt;PII&gt; vPII;
-#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
-#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
-#define mod(x, P) (((x) % (P) + (P)) % (P))
-#define endl '\n'
-#define gcd __gcd
-#define lc p&lt;&lt;1
-#define rc p&lt;&lt;1|1
-#define INF 0x3f3f3f3f3f3f3f3f
-#define inf 0x3f3f3f3f
-#define fi first
-#define se second
-#define all(x) x.begin(), x.end()
-#define lowbit(x) ((x)&amp;(-x))
-#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
-#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
-#define mem(a, x) memset(a, x, sizeof a)
-const double eps=1e-5;
-const int N = 1e5 + 10,M=2*N,K=26;
-const ll MOD = 1e9 + 7,Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
-const ll base1 = 131, base2 = 13331;
-const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
-const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
-template&lt;typename T&gt; bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
-template&lt;typename T&gt; bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
-template&lt;typename T&gt; void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
-struct Random { mt19937_64 rng; Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {} ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); } ll rand_ll(ll l, ll r) { return uniform_int_distribution&lt;ll&gt;(l, r)(rng); } int rand_int(int l, int r) { return uniform_int_distribution&lt;int&gt;(l, r)(rng); } double rand_db(double l, double r) { return uniform_real_distribution&lt;double&gt;(l, r)(rng); } bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); } template&lt;typename T&gt; void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); } };
-ll qmi(ll a, ll b, ll p) { ll res = 1 % p; a %= p; while (b) { if (b &amp; 1) res = res * a % p; a = a * a % p; b &gt;&gt;= 1; } return res; }
-/*
-  
-*/
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span>CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
+<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
+<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
+<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span> <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); cin.tie(<span class="pl-c1">0</span>); cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
+#<span class="pl-k">define</span> <span class="pl-en">lc</span> p&lt;&lt;<span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">rc</span> p&lt;&lt;<span class="pl-c1">1</span>|<span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
+#<span class="pl-k">define</span> <span class="pl-en">se</span> second
+#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
+#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x)&amp;(-x))
+#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
+#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
+#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
+<span class="pl-k">const</span> <span class="pl-k">double</span> eps=<span class="pl-c1">1e-5</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>,M=<span class="pl-c1">2</span>*N,K=<span class="pl-c1">26</span>;
+<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>,Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
+<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
+<span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> T&gt; <span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> T&gt; <span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> T&gt; <span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
+<span class="pl-k">struct</span> <span class="pl-en">Random</span> { mt19937_64 rng; Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {} ull <span class="pl-en">rand_ull</span>(ull max_val = -<span class="pl-c1">1</span>) { <span class="pl-k">return</span> <span class="pl-c1">rng</span>() % (max_val + <span class="pl-c1">1</span>); } ll <span class="pl-en">rand_ll</span>(ll l, ll r) { <span class="pl-k">return</span> uniform_int_distribution&lt;ll&gt;(l, r)(rng); } <span class="pl-k">int</span> <span class="pl-en">rand_int</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> uniform_int_distribution&lt;<span class="pl-k">int</span>&gt;(l, r)(rng); } <span class="pl-k">double</span> <span class="pl-en">rand_db</span>(<span class="pl-k">double</span> l, <span class="pl-k">double</span> r) { <span class="pl-k">return</span> uniform_real_distribution&lt;<span class="pl-k">double</span>&gt;(l, r)(rng); } <span class="pl-k">bool</span> <span class="pl-en">rand_bool</span>(<span class="pl-k">double</span> p = <span class="pl-c1">0.5</span>) { <span class="pl-k">return</span> <span class="pl-c1">bernoulli_distribution</span>(p)(rng); } <span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> T&gt; <span class="pl-k">void</span> <span class="pl-en">shuffle</span>(vector&lt;T&gt; &amp;v) { <span class="pl-c1">std::shuffle</span>(v.<span class="pl-c1">begin</span>(), v.<span class="pl-c1">end</span>(), rng); } };
+ll <span class="pl-en">qmi</span>(ll a, ll b, ll p) { ll res = <span class="pl-c1">1</span> % p; a %= p; <span class="pl-k">while</span> (b) { <span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>) res = res * a % p; a = a * a % p; b &gt;&gt;= <span class="pl-c1">1</span>; } <span class="pl-k">return</span> res; }
+<span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c">  </span>
+<span class="pl-c"><span class="pl-c">*/</span></span>
 	   
        
-void solve()
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
 {
 	ll n; cin&gt;&gt;n;
 	string s; cin&gt;&gt;s;
-	s=" "+s+" ";
-	vll lp(n+1,0),rp(n+1,0),ls(n+1,0),rs(n+1,0);
+	s=<span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>+s+<span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>;
+	vll <span class="pl-smi">lp</span>(n+<span class="pl-c1">1</span>,<span class="pl-c1">0</span>),<span class="pl-c1">rp</span>(n+<span class="pl-c1">1</span>,<span class="pl-c1">0</span>),<span class="pl-c1">ls</span>(n+<span class="pl-c1">1</span>,<span class="pl-c1">0</span>),<span class="pl-c1">rs</span>(n+<span class="pl-c1">1</span>,<span class="pl-c1">0</span>);
 	
-	rep(i,1,n-1){
-		// lp[i]=lp[i-1]+(s[i]=='L');
-		// rp[i]=rp[i-1]+(s[i]=='R'); 
-		if(s[i]=='L') lp[i]=lp[i-1]+1;
-		if(s[i]=='R') rp[i]=rp[i-1]+1;
+	<span class="pl-c1">rep</span>(i,<span class="pl-c1">1</span>,n-<span class="pl-c1">1</span>){
+		<span class="pl-c"><span class="pl-c">//</span> lp[i]=lp[i-1]+(s[i]=='L');</span>
+		<span class="pl-c"><span class="pl-c">//</span> rp[i]=rp[i-1]+(s[i]=='R'); </span>
+		<span class="pl-k">if</span>(s[i]==<span class="pl-s"><span class="pl-pds">'</span>L<span class="pl-pds">'</span></span>) lp[i]=lp[i-<span class="pl-c1">1</span>]+<span class="pl-c1">1</span>;
+		<span class="pl-k">if</span>(s[i]==<span class="pl-s"><span class="pl-pds">'</span>R<span class="pl-pds">'</span></span>) rp[i]=rp[i-<span class="pl-c1">1</span>]+<span class="pl-c1">1</span>;
 	}
 
-	dep(i,n-1,1){
-		// ls[i]=ls[i+1]+(s[i]=='L');
-		// rs[i]=rs[i+1]+(s[i]=='R');
-		if(s[i]=='L') ls[i]=ls[i+1]+1;
-		if(s[i]=='R') rs[i]=rs[i+1]+1;
+	<span class="pl-c1">dep</span>(i,n-<span class="pl-c1">1</span>,<span class="pl-c1">1</span>){
+		<span class="pl-c"><span class="pl-c">//</span> ls[i]=ls[i+1]+(s[i]=='L');</span>
+		<span class="pl-c"><span class="pl-c">//</span> rs[i]=rs[i+1]+(s[i]=='R');</span>
+		<span class="pl-k">if</span>(s[i]==<span class="pl-s"><span class="pl-pds">'</span>L<span class="pl-pds">'</span></span>) ls[i]=ls[i+<span class="pl-c1">1</span>]+<span class="pl-c1">1</span>;
+		<span class="pl-k">if</span>(s[i]==<span class="pl-s"><span class="pl-pds">'</span>R<span class="pl-pds">'</span></span>) rs[i]=rs[i+<span class="pl-c1">1</span>]+<span class="pl-c1">1</span>;
 	}
 
-	vll ans(n+1,0);
-	rep(i,0,n-1){
-		ll l=0,r=n-1;
-		l+=(rp[i]+ls[i+1]);
-		r-=(lp[i]+rs[i+1]);
+	vll <span class="pl-smi">ans</span>(n+<span class="pl-c1">1</span>,<span class="pl-c1">0</span>);
+	<span class="pl-c1">rep</span>(i,<span class="pl-c1">0</span>,n-<span class="pl-c1">1</span>){
+		ll l=<span class="pl-c1">0</span>,r=n-<span class="pl-c1">1</span>;
+		l+=(rp[i]+ls[i+<span class="pl-c1">1</span>]);
+		r-=(lp[i]+rs[i+<span class="pl-c1">1</span>]);
 		ans[l]++;
-		ans[r+1]--;
+		ans[r+<span class="pl-c1">1</span>]--;
 	}
 
-	rep(i,0,n-1){
-    if (i) ans[i] += ans[i-1];
-    cout &lt;&lt; ans[i] &lt;&lt; (i == n-1 ? "" : " "); 
+	<span class="pl-c1">rep</span>(i,<span class="pl-c1">0</span>,n-<span class="pl-c1">1</span>){
+    <span class="pl-k">if</span> (i) ans[i] += ans[i-<span class="pl-c1">1</span>];
+    cout &lt;&lt; ans[i] &lt;&lt; (i == n-<span class="pl-c1">1</span> ? <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>); 
 }
 	cout&lt;&lt;endl;
 }
 
 
-int main()
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
 {
 	 IOS; 
 		
-	int _ = 1;
-	 cin&gt;&gt;_;//如果是多组数据
-	while (_--)
+	<span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+	 cin&gt;&gt;_;<span class="pl-c"><span class="pl-c">//</span>如果是多组数据</span>
+	<span class="pl-k">while</span> (_--)
 	{
-		solve();
+		<span class="pl-c1">solve</span>();
 	}
-	return 0;
-}
-</code></pre>
+	<span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
 <blockquote>
 <p>最后读者还可以思考一下为什么我在处理前缀和后缀数组的时候为什么用注释掉的会错误呢，什么情况会错误，什么时候不会错误呢。</p>
 </blockquote></div>
