@@ -627,12 +627,14 @@ const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
 const ll base1 = 131, base2 = 13331;
 const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
 const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+
 template &lt;typename T&gt;
 bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
 template &lt;typename T&gt;
 bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
 template &lt;typename T&gt;
 void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+
 struct Random
 {
     mt19937_64 rng;
@@ -645,6 +647,7 @@ struct Random
     template &lt;typename T&gt;
     void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); }
 };
+
 ll qmi(ll a, ll b, ll p)
 {
     ll res = 1 % p;
@@ -659,31 +662,17 @@ ll qmi(ll a, ll b, ll p)
     return res;
 }
 
-/*
- h1: 第一个哈希函数的前缀哈希值数组（使用unsigned long long，利用自然溢出）
-p1: 存储base1的幂次，用于快速计算子串哈希值
- h2: 第二个哈希函数的前缀哈希值数组（使用long long，手动取模）
- p2: 存储base2的幂次
-*/
-ull h1[N], p1[N];
+ull h1[N], p1[N]; 
 ll h2[N], p2[N];
 
-// 预处理函数
-void pre(int len) {
+void pre(int max_len) {
     p1[0] = 1;
     p2[0] = 1;
-    for (int i = 1; i &lt;= len; i++) {
+    for (int i = 1; i &lt;= max_len; ++i) {
         p1[i] = p1[i-1] * base1;
         p2[i] = mod(p2[i-1] * base2, Md7);
     }
 }
-
-/*
-获取子串哈希值
- 	l: 子串起始位置
-  	r: 子串结束位置
- 	len: 子串长度（r-l+1）
-*/
 
 PLL get_hash(int l, int r, int len) {
     ull v1 = h1[r] - h1[l-1] * p1[len];
@@ -693,7 +682,7 @@ PLL get_hash(int l, int r, int len) {
 
 void solve()
 {
-    string a, b; 
+    string a, b;
     cin &gt;&gt; a &gt;&gt; b;
 
     int n = a.size();
@@ -701,7 +690,6 @@ void solve()
         cout &lt;&lt; -1 &lt;&lt; endl;
         return;
     }
-    
     if (n == 0) {
         cout &lt;&lt; 0 &lt;&lt; endl;
         return;
@@ -716,16 +704,15 @@ void solve()
     }
 
     string s = a + a;
-    
     h1[0] = h2[0] = 0;// 计算s的前缀哈希
-    for (int i = 0; i &lt; s.size(); i++) {
+    for (int i = 0; i &lt; s.size(); ++i) {
         h1[i+1] = h1[i] * base1 + s[i];
         h2[i+1] = mod(h2[i] * base2 + s[i], Md7);
     }
+	// 查找匹配
+    for (int i = 0; i &lt; n; ++i) {
+        PLL hv = get_hash(i + 1, i + n, n);
 
-    // 查找匹配
-    for (int i = 0; i &lt; n; i++) {
-        PLL hv = get_hash(i+1, i+n, n);
         if (hv.fi == bh1 &amp;&amp; hv.se == bh2) {
             cout &lt;&lt; i &lt;&lt; endl;
             return;
@@ -738,7 +725,9 @@ void solve()
 int main()
 {
     IOS;
-    pre(2000000); 
+
+    pre(2000000);
+
     int T = 1;
     cin &gt;&gt; T;
     while (T--)
