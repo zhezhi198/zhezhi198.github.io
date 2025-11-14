@@ -1,5 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Tue, 11 Nov 2025 08:31:36 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>Codeforces Round 1062 (Div. 4) 题解</title><link>https://zhezhi198.github.io/post/Codeforces%20Round%201062%20%28Div.%204%29%20-ti-jie.html</link><description> ### Codeforces Round 1062
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Fri, 14 Nov 2025 10:40:02 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>ABC 431部分题解</title><link>https://zhezhi198.github.io/post/ABC%20431-bu-fen-ti-jie.html</link><description>[比赛入口](https://atcoder.jp/contests/abc431/tasks)
+&gt;A,B都写了，但是拿出来讲的意义不打就不太讨论，D题目感觉过于麻烦，我讲讲C,D,F三个题目吧,
+
+### C - Robot Factory
+
+&gt;题目面板如图所示:
+#### 问题陈述
+
+高桥可以将头部部件和身体部件组合成一个机器人。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/ABC%20431-bu-fen-ti-jie.html</guid><pubDate>Fri, 14 Nov 2025 10:39:37 +0000</pubDate></item><item><title>Codeforces Round 1062 (Div. 4) 题解</title><link>https://zhezhi198.github.io/post/Codeforces%20Round%201062%20%28Div.%204%29%20-ti-jie.html</link><description> ### Codeforces Round 1062
 [点这里进入比赛页面](https://codeforces.com/contest/2167)
 ## A Square?
 题意:
