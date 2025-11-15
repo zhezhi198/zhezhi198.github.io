@@ -1,5 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Fri, 14 Nov 2025 10:40:02 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>ABC 431部分题解</title><link>https://zhezhi198.github.io/post/ABC%20431-bu-fen-ti-jie.html</link><description>[比赛入口](https://atcoder.jp/contests/abc431/tasks)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Sat, 15 Nov 2025 02:54:00 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>牛客小白月赛部分（C-&gt;F）</title><link>https://zhezhi198.github.io/post/niu-ke-xiao-bai-yue-sai-bu-fen-%EF%BC%88C--F%EF%BC%89.html</link><description>### 牛客小白月赛123
+[点击进入比赛页面](https://ac.nowcoder.com/acm/contest/122725#question)
+
+&gt;以后就讲有点思路的题目吧，A,B,就不讲了！
+
+## C诗超绊
+
+&lt;img width='943' height='855' alt='Image' src='https://github.com/user-attachments/assets/f5fa928e-6ef6-41bd-b848-c9714b2e5839' /&gt;
+
+&gt;思路：我们要用至多  次区间加操作（每次加同一个固定正整数 ） 使序列严格递增。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/niu-ke-xiao-bai-yue-sai-bu-fen-%EF%BC%88C--F%EF%BC%89.html</guid><pubDate>Sat, 15 Nov 2025 02:53:30 +0000</pubDate></item><item><title>ABC 431部分题解</title><link>https://zhezhi198.github.io/post/ABC%20431-bu-fen-ti-jie.html</link><description>[比赛入口](https://atcoder.jp/contests/abc431/tasks)
 &gt;A,B都写了，但是拿出来讲的意义不打就不太讨论，D题目感觉过于麻烦，我讲讲C,D,F三个题目吧,
 
 ### C - Robot Factory
