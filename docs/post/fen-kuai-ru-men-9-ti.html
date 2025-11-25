@@ -1835,6 +1835,206 @@ ll <span class="pl-en">query</span>(ll l, ll r, ll c)
         <span class="pl-c1">solve</span>();
     }
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h2>数列分块入门 5</h2>
+<h1>P13980 数列分块入门 5</h1>
+<h2>题目背景</h2>
+<p>洛谷的数列分块入门系列的测试数据范围和原题有不同。</p>
+<h2>题目描述</h2>
+<p>给出一个长为 $n$ 的数列 $a_1 \ldots a_n$，以及 $n$ 个操作，操作涉及区间开方，区间求和。</p>
+<h2>输入格式</h2>
+<p>第一行输入一个数字 $n$。</p>
+<p>第二行输入 $n$ 个数字，第 $i$ 个数字为 $a_i$，以空格隔开。</p>
+<p>接下来输入 $n$ 行询问，每行输入三个数字 $\mathrm{opt}, l, r$，以空格隔开。</p>
+<p>若 $\mathrm{opt} = 0$，表示将位于 $[l, r]$ 的之间的数字都开方。对于区间中每个 $a_i(l\le i\le r),: a_i \leftarrow \left\lfloor \sqrt{a_i}\right\rfloor$</p>
+<p>若 $\mathrm{opt} = 1$，表示询问位于 $[l, r]$ 的所有数字的和。</p>
+<h2>输出格式</h2>
+<p>对于每次询问，输出一行一个数字表示答案。</p>
+<h2>输入输出样例 #1</h2>
+<h3>输入 #1</h3>
+<pre class="notranslate"><code class="notranslate">4
+1 2 2 3
+0 1 3
+1 1 4
+0 1 2
+1 1 2
+</code></pre>
+<h3>输出 #1</h3>
+<pre class="notranslate"><code class="notranslate">6
+2
+</code></pre>
+<h2>说明/提示</h2>
+<h3>子任务</h3>
+<p>子任务 1（40 分）：$1 \leq n \leq 50000, 0 \leq a_i,\mathrm{ans} \leq 2^{31}-1$。</p>
+<p>子任务 2（60 分）：$1 \leq n \leq 300000, 0 \leq a_i \leq 2^{31}-1$，$0\leq \mathrm{ans}\leq 2^{63}-1$。</p>
+<p>对于所有测试数据，满足 $1 \leq n \leq 300000, 0 \leq a_i \leq 2^{31}-1$，$0\leq \mathrm{ans} \leq 2^{63}-1$。$1 \leq l \leq r \leq n$。$\mathrm{opt} \in {0,1}, 1 \leq l \leq r\leq n$。每次操作后的 $a_i$ 满足 $0 \leq a_i \leq 2^{31}-1$。</p>
+<p>代码：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">3e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">550</span>;
+
+ll n, len;
+ll a[N], sum[M];  <span class="pl-c"><span class="pl-c">//</span> sum记录每个块的和</span>
+<span class="pl-k">bool</span> flag[M];     <span class="pl-c"><span class="pl-c">//</span> flag标记块是否全为0或1（开方后不再变化）</span>
+
+ll <span class="pl-en">get</span>(ll i) {
+    <span class="pl-k">return</span> (i - <span class="pl-c1">1</span>) / len + <span class="pl-c1">1</span>;
+}
+
+<span class="pl-k">void</span> <span class="pl-en">build</span>(ll block) {
+    ll st = (block - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>;
+    ll ed = <span class="pl-c1">min</span>(block * len, n);
+    sum[block] = <span class="pl-c1">0</span>;
+    flag[block] = <span class="pl-c1">true</span>;  
+    
+    <span class="pl-k">for</span> (ll i = st; i &lt;= ed; i++) {
+        sum[block] += a[i];
+        <span class="pl-k">if</span> (a[i] &gt; <span class="pl-c1">1</span>) {
+            flag[block] = <span class="pl-c1">false</span>;  
+        }
+    }
+}
+
+
+<span class="pl-k">void</span> <span class="pl-en">sqrt_range</span>(ll l, ll r) {
+    ll bl = <span class="pl-c1">get</span>(l), br = <span class="pl-c1">get</span>(r);
+    
+    <span class="pl-k">if</span> (bl == br) {
+        <span class="pl-k">if</span> (flag[bl]) <span class="pl-k">return</span>; 
+        
+        <span class="pl-k">for</span> (ll i = l; i &lt;= r; i++) {
+            ll old = a[i];
+            a[i] = (ll)<span class="pl-c1">sqrt</span>(a[i]);  
+            sum[bl] += (a[i] - old);
+        }
+        
+        flag[bl] = <span class="pl-c1">true</span>;
+        ll st = (bl - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>;
+        ll ed = <span class="pl-c1">min</span>(bl * len, n);
+        <span class="pl-k">for</span> (ll i = st; i &lt;= ed; i++) {
+            <span class="pl-k">if</span> (a[i] &gt; <span class="pl-c1">1</span>) {
+                flag[bl] = <span class="pl-c1">false</span>;
+                <span class="pl-k">break</span>;
+            }
+        }
+    } <span class="pl-k">else</span> {
+       
+        <span class="pl-k">if</span> (!flag[bl]) {
+            <span class="pl-k">for</span> (ll i = l; i &lt;= bl * len; i++) {
+                ll old = a[i];
+                a[i] = (ll)<span class="pl-c1">sqrt</span>(a[i]);
+                sum[bl] += (a[i] - old);
+            }
+           
+            flag[bl] = <span class="pl-c1">true</span>;
+            ll st = (bl - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>;
+            ll ed = bl * len;
+            <span class="pl-k">for</span> (ll i = st; i &lt;= ed; i++) {
+                <span class="pl-k">if</span> (a[i] &gt; <span class="pl-c1">1</span>) {
+                    flag[bl] = <span class="pl-c1">false</span>;
+                    <span class="pl-k">break</span>;
+                }
+            }
+        }
+        
+    
+        <span class="pl-k">if</span> (!flag[br]) {
+            <span class="pl-k">for</span> (ll i = (br - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>; i &lt;= r; i++) {
+                ll old = a[i];
+                a[i] = (ll)<span class="pl-c1">sqrt</span>(a[i]);
+                sum[br] += (a[i] - old);
+            }
+          
+            flag[br] = <span class="pl-c1">true</span>;
+            ll st = (br - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>;
+            ll ed = <span class="pl-c1">min</span>(br * len, n);
+            <span class="pl-k">for</span> (ll i = st; i &lt;= ed; i++) {
+                <span class="pl-k">if</span> (a[i] &gt; <span class="pl-c1">1</span>) {
+                    flag[br] = <span class="pl-c1">false</span>;
+                    <span class="pl-k">break</span>;
+                }
+            }
+        }
+        
+       
+        <span class="pl-k">for</span> (ll i = bl + <span class="pl-c1">1</span>; i &lt;= br - <span class="pl-c1">1</span>; i++) {
+            <span class="pl-k">if</span> (flag[i]) <span class="pl-k">continue</span>; 
+            
+            flag[i] = <span class="pl-c1">true</span>;  
+            ll st = (i - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>;
+            ll ed = <span class="pl-c1">min</span>(i * len, n);
+            
+            <span class="pl-k">for</span> (ll j = st; j &lt;= ed; j++) {
+                ll old = a[j];
+                a[j] = (ll)<span class="pl-c1">sqrt</span>(a[j]);
+                sum[i] += (a[j] - old);
+                <span class="pl-k">if</span> (a[j] &gt; <span class="pl-c1">1</span>) {
+                    flag[i] = <span class="pl-c1">false</span>;  
+                }
+            }
+        }
+    }
+}
+
+
+ll <span class="pl-en">query_sum</span>(ll l, ll r) {
+    ll bl = <span class="pl-c1">get</span>(l), br = <span class="pl-c1">get</span>(r);
+    ll tot = <span class="pl-c1">0</span>;
+    
+    <span class="pl-k">if</span> (bl == br) {
+        <span class="pl-k">for</span> (ll i = l; i &lt;= r; i++) {
+            tot += a[i];
+        }
+    } <span class="pl-k">else</span> {
+       
+        <span class="pl-k">for</span> (ll i = l; i &lt;= bl * len; i++) {
+            tot += a[i];
+        }
+        
+        <span class="pl-k">for</span> (ll i = (br - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>; i &lt;= r; i++) {
+            tot += a[i];
+        }
+       
+        <span class="pl-k">for</span> (ll i = bl + <span class="pl-c1">1</span>; i &lt;= br - <span class="pl-c1">1</span>; i++) {
+            tot += sum[i];
+        }
+    }
+    <span class="pl-k">return</span> tot;
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>() {
+    <span class="pl-c1">ios::sync_with_stdio</span>(<span class="pl-c1">false</span>);
+    cin.<span class="pl-c1">tie</span>(<span class="pl-c1">0</span>);
+    
+    cin &gt;&gt; n;
+    len = <span class="pl-c1">sqrt</span>(n);
+    ll blocks = <span class="pl-c1">get</span>(n);
+    
+    <span class="pl-k">for</span> (ll i = <span class="pl-c1">1</span>; i &lt;= n; i++) {
+        cin &gt;&gt; a[i];
+    }
+    
+
+    <span class="pl-k">for</span> (ll i = <span class="pl-c1">1</span>; i &lt;= blocks; i++) {
+        <span class="pl-c1">build</span>(i);
+    }
+    
+    <span class="pl-k">for</span> (ll i = <span class="pl-c1">1</span>; i &lt;= n; i++) {
+        ll op, l, r;
+        cin &gt;&gt; op &gt;&gt; l &gt;&gt; r ;
+        <span class="pl-k">if</span> (op == <span class="pl-c1">0</span>) {
+         
+            <span class="pl-c1">sqrt_range</span>(l, r);
+        } <span class="pl-k">else</span> {
+        
+            ll result = <span class="pl-c1">query_sum</span>(l, r);
+            cout &lt;&lt; result &lt;&lt; endl;
+        }
+    }
+    
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
 }</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
