@@ -1,9 +1,297 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Tue, 25 Nov 2025 07:35:28 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>分块入门9题</title><link>https://zhezhi198.github.io/post/fen-kuai-ru-men-9-ti.html</link><description>## 数列分块入门1
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Tue, 25 Nov 2025 08:49:04 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>分块入门9题</title><link>https://zhezhi198.github.io/post/fen-kuai-ru-men-9-ti.html</link><description>## 数列分块入门1
 
 &lt;img width='1263' height='1329' alt='Image' src='https://github.com/user-attachments/assets/ba9b3ade-2373-493e-a2a8-c0d527fd1700' /&gt;
 
-&gt;第一题是y总的板子，但是y总的分块就讲了这个基础题目，我觉得还是太浅了，后来讲的就是链表分块。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/fen-kuai-ru-men-9-ti.html</guid><pubDate>Tue, 25 Nov 2025 07:35:02 +0000</pubDate></item><item><title>牛客练习赛146 部分题解</title><link>https://zhezhi198.github.io/post/niu-ke-lian-xi-sai-146%20-bu-fen-ti-jie.html</link><description>### 牛客练习赛146
+&gt;第一题是y总的板子，但是y总的分块就讲了这个基础题目，我觉得还是太浅了，后来讲的就是链表分块，但是后来我去洛谷交了一个数据大一点点的题目，发现会卡常，还算不建议用y总的板子了
+
+代码：
+```cpp
+#include &lt;bits/stdc++.h&gt;
+using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define debug(...) cout &lt;&lt; '[debug] ' #__VA_ARGS__ ' = ' &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#define out(x) cout &lt;&lt; ((x) ? 'YES' : 'NO') &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p &lt;&lt; 1
+#define rc p &lt;&lt; 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) &amp; (-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 1e5 + 10, M = 350, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template &lt;typename T&gt;
+bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+template &lt;typename T&gt;
+struct BIT1
+{
+    int n;
+    vector&lt;T&gt; tr;
+    BIT1(int n) : n(n), tr(n + 1) {}
+    void add(int x, T v)
+    {
+        for (; x &lt;= n; x += x &amp; -x)
+            tr[x] += v;
+    }
+    T sum(int x)
+    {
+        T r = 0;
+        for (; x; x -= x &amp; -x)
+            r += tr[x];
+        return r;
+    }
+    T range(int l, int r) { return sum(r) - sum(l - 1); }
+};
+template &lt;typename T&gt;
+struct BIT2
+{
+    int n, m;
+    vector&lt;vector&lt;T&gt;&gt; t1, t2, t3, t4;
+    BIT2(int n_ = 0, int m_ = 0) { init(n_, m_); }
+    void init(int n_, int m_)
+    {
+        n = n_;
+        m = m_;
+        t1.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t2.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t3.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t4.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+    }
+    void _add(int x, int y, const T &amp;v)
+    {
+        for (int i = x; i &lt;= n; i += i &amp; -i)
+            for (int j = y; j &lt;= m; j += j &amp; -j)
+            {
+                t1[i][j] += v;
+                t2[i][j] += v * x;
+                t3[i][j] += v * y;
+                t4[i][j] += v * x * y;
+            }
+    }
+    void rangeAdd(int x1, int y1, int x2, int y2, const T &amp;v)
+    {
+        _add(x1, y1, v);
+        _add(x1, y2 + 1, -v);
+        _add(x2 + 1, y1, -v);
+        _add(x2 + 1, y2 + 1, v);
+    }
+    T prefixSum(int x, int y)
+    {
+        T r{};
+        for (int i = x; i &gt; 0; i -= i &amp; -i)
+            for (int j = y; j &gt; 0; j -= j &amp; -j)
+                r += t1[i][j] * (x + 1) * (y + 1) - t2[i][j] * (y + 1) - t3[i][j] * (x + 1) + t4[i][j];
+        return r;
+    }
+    T rangeSum(int x1, int y1, int x2, int y2)
+    {
+        if (x1 &gt; x2 || y1 &gt; y2)
+            return T{};
+        return prefixSum(x2, y2) - prefixSum(x1 - 1, y2) - prefixSum(x2, y1 - 1) + prefixSum(x1 - 1, y1 - 1);
+    }
+};
+struct Random
+{
+    mt19937_64 rng;
+    Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+    ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
+    ll rand_ll(ll l, ll r) { return uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
+    int rand_int(int l, int r) { return uniform_int_distribution&lt;int&gt;(l, r)(rng); }
+    double rand_db(double l, double r) { return uniform_real_distribution&lt;double&gt;(l, r)(rng); }
+    bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
+    template &lt;typename T&gt;
+    void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); }
+};
+ll qmi(ll a, ll b, ll p)
+{
+    ll res = 1 % p;
+    a %= p;
+    while (b)
+    {
+        if (b &amp; 1)
+            res = res * a % p;
+        a = a * a % p;
+        b &gt;&gt;= 1;
+    }
+    return res;
+}
+/*
+
+*/
+ll n, m, len;
+ll a[N], add[M], sum[M];
+ll get(ll i)
+{
+    return i / len;
+}
+
+void change(ll l, ll r, ll d)
+{
+    if (get(l) == get(r))
+    {
+        rep(i, l, r) a[i] += d, sum[get(i)] += d;
+    }
+    else
+    {
+        ll i = l, j = r;
+        while (get(i) == get(l))
+            a[i] += d, sum[get(i)] += d, i++;
+        while (get(j) == get(r))
+            a[j] += d, sum[get(j)] += d, j--;
+        rep(k, get(i), get(j))
+        {
+            sum[k] += len * d;
+            add[k] += d;
+        }
+    }
+}
+
+ll query(ll l, ll r)
+{
+    ll ret = 0;
+    if (get(l) == get(r))
+    {
+        rep(i, l, r) ret += a[i] + add[get(i)];
+    }
+    else
+    {
+        ll i = l, j = r;
+        while (get(i) == get(l))
+            ret += a[i] + add[get(i)], i++;
+        while (get(j) == get(r))
+            ret += a[j] + add[get(j)], j--;
+        rep(k, get(i), get(j))
+        {
+            ret += sum[k];
+        }
+    }
+    return ret;
+}
+
+void solve()
+{
+    cin &gt;&gt; n ;
+    m=n;
+    rep(i, 1, n) cin &gt;&gt; a[i];
+    len = sqrt(n);
+    rep(i, 1, n)
+    {
+        sum[get(i)] += a[i];
+    }
+    while (m--)
+    {
+        string op;
+        cin &gt;&gt; op;
+        if (op == '0')
+        {
+            ll l, r, d;
+            cin &gt;&gt; l &gt;&gt; r &gt;&gt; d;
+            change(l, r, d);
+        }
+        else
+        {
+            ll l, r,d;
+            cin &gt;&gt; l &gt;&gt; r&gt;&gt;d;
+            ll ans = query(r, r);
+            cout &lt;&lt; ans &lt;&lt; endl;
+        }
+    }
+}
+
+int main()
+{
+    IOS;
+
+    int _ = 1;
+    // cin&gt;&gt;_;//如果是多组数据
+    while (_--)
+    {
+        solve();
+    }
+    return 0;
+}
+```
+下面的是暂时不卡常的代码:
+```cpp
+#include &lt;bits/stdc++.h&gt;
+using namespace std;
+//CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define debug(...) cout &lt;&lt; '[debug] ' #__VA_ARGS__ ' = ' &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#define out(x) cout &lt;&lt; ((x) ? 'YES' : 'NO') &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p&lt;&lt;1
+#define rc p&lt;&lt;1|1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x)&amp;(-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps=1e-5;
+const int N = 3e5 + 10,M=550,K=26;
+const ll MOD = 1e9 + 7,Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template&lt;typename T&gt; bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template&lt;typename T&gt; bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template&lt;typename T&gt; void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+template&lt;typename T&gt; struct BIT1 { int n; vector&lt;T&gt; tr; BIT1(int n) : n(n), tr(n+1) {} void add(int x, T v) { for(;x&lt;=n;x+=x&amp;-x) tr[x]+=v; } T sum(int x) { T r=0; for(;x;x-=x&amp;-x) r+=tr[x]; return r; } T range(int l, int r) { return sum(r)-sum(l-1); } };
+template&lt;typename T&gt; struct BIT2 { int n,m; vector&lt;vector&lt;T&gt;&gt; t1,t2,t3,t4; BIT2(int n_=0,int m_=0) { init(n_,m_); } void init(int n_,int m_) { n=n_; m=m_; t1.assign(n+1,vector&lt;T&gt;(m+1,T{})); t2.assign(n+1,vector&lt;T&gt;(m+1,T{})); t3.assign(n+1,vector&lt;T&gt;(m+1,T{})); t4.assign(n+1,vector&lt;T&gt;(m+1,T{})); } void _add(int x,int y,const T&amp; v) { for(int i=x;i&lt;=n;i+=i&amp;-i) for(int j=y;j&lt;=m;j+=j&amp;-j) { t1[i][j]+=v; t2[i][j]+=v*x; t3[i][j]+=v*y; t4[i][j]+=v*x*y; } } void rangeAdd(int x1,int y1,int x2,int y2,const T&amp; v) { _add(x1,y1,v); _add(x1,y2+1,-v); _add(x2+1,y1,-v); _add(x2+1,y2+1,v); } T prefixSum(int x,int y) { T r{}; for(int i=x;i&gt;0;i-=i&amp;-i) for(int j=y;j&gt;0;j-=j&amp;-j) r+=t1[i][j]*(x+1)*(y+1)-t2[i][j]*(y+1)-t3[i][j]*(x+1)+t4[i][j]; return r; } T rangeSum(int x1,int y1,int x2,int y2) { if(x1&gt;x2||y1&gt;y2) return T{}; return prefixSum(x2,y2)-prefixSum(x1-1,y2)-prefixSum(x2,y1-1)+prefixSum(x1-1,y1-1); } };
+struct Random { mt19937_64 rng; Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {} ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); } ll rand_ll(ll l, ll r) { return uniform_int_distribution&lt;ll&gt;(l, r)(rng); } int rand_int(int l, int r) { return uniform_int_distribution&lt;int&gt;(l, r)(rng); } double rand_db(double l, double r) { return uniform_real_distribution&lt;double&gt;(l, r)(rng); } bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); } template&lt;typename T&gt; void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); } };
+ll qmi(ll a, ll b, ll p) { ll res = 1 % p; a %= p; while (b) { if (b &amp; 1) res = res * a % p; a = a * a % p; b &gt;&gt;= 1; } return res; }
+/*
+  
+*/
+ll n, len;
+ll a[N], add[M]; // 移除了不必要的sum数组
+
+ll get(ll i) {
+    return (i - 1) / len; // 通常块编号从0开始，或者用(i-1)/len +1从1开始，这里根据你的习惯调整。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/fen-kuai-ru-men-9-ti.html</guid><pubDate>Tue, 25 Nov 2025 07:35:02 +0000</pubDate></item><item><title>牛客练习赛146 部分题解</title><link>https://zhezhi198.github.io/post/niu-ke-lian-xi-sai-146%20-bu-fen-ti-jie.html</link><description>### 牛客练习赛146
 [比赛链接](https://ac.nowcoder.com/acm/contest/122727#question)
 &gt;想要写题解的题目：B,C,D,E..不够一下可能写不完慢慢更新
 
