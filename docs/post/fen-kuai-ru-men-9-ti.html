@@ -1304,7 +1304,7 @@ ll <span class="pl-en">query_less</span>(ll l, ll r, ll c)
 #<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
 #<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
 <span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
-<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">350</span>, K = <span class="pl-c1">26</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">550</span>, K = <span class="pl-c1">26</span>;
 <span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
 <span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
 <span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
@@ -1423,7 +1423,7 @@ ll <span class="pl-en">get</span>(ll i)
 <span class="pl-k">void</span> <span class="pl-en">build</span>(ll block)
 {
     ll st = (block - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>;
-    ll ed = block * len;
+    ll ed = <span class="pl-c1">min</span>(block * len, n);
     tmp[block].<span class="pl-c1">clear</span>();
     <span class="pl-c1">rep</span>(i, st, ed)
     {
@@ -1438,10 +1438,11 @@ ll <span class="pl-en">get</span>(ll i)
     <span class="pl-k">if</span> (bl == br)
     {
         <span class="pl-c1">rep</span>(i, l, r) a[i] += d;
+        <span class="pl-c1">build</span>(bl);
     }
     <span class="pl-k">else</span>
     {
-        <span class="pl-c1">rep</span>(i, l, (bl)*len) a[i] += d;
+        <span class="pl-c1">rep</span>(i, l, <span class="pl-c1">min</span>(bl * len, n)) a[i] += d;
         <span class="pl-c1">build</span>(bl);
         <span class="pl-c1">rep</span>(i, (br - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>, r) a[i] += d;
         <span class="pl-c1">build</span>(br);
@@ -1452,7 +1453,7 @@ ll <span class="pl-en">get</span>(ll i)
 ll <span class="pl-en">query</span>(ll l, ll r, ll c)
 {
     ll bl = <span class="pl-c1">get</span>(l), br = <span class="pl-c1">get</span>(r);
-    ll ans = -<span class="pl-c1">1</span>;
+    ll ans = -INF;
     <span class="pl-k">if</span> (bl == br)
     {
         <span class="pl-c1">rep</span>(i, l, r)
@@ -1460,11 +1461,13 @@ ll <span class="pl-en">query</span>(ll l, ll r, ll c)
             <span class="pl-k">if</span> (a[i] + add[bl] &lt; c)
                 <span class="pl-c1">cmax</span>(ans, a[i] + add[bl]);
         }
+        <span class="pl-k">if</span> (ans == -INF)
+            <span class="pl-k">return</span> -<span class="pl-c1">1</span>;
         <span class="pl-k">return</span> ans;
     }
     <span class="pl-k">else</span>
     {
-        <span class="pl-c1">rep</span>(i, l, (bl)*len)
+        <span class="pl-c1">rep</span>(i, l, <span class="pl-c1">min</span>(bl * len, n))
         {
             <span class="pl-k">if</span> (a[i] + add[bl] &lt; c)
                 <span class="pl-c1">cmax</span>(ans, a[i] + add[bl]);
@@ -1478,7 +1481,7 @@ ll <span class="pl-en">query</span>(ll l, ll r, ll c)
         {
             ll d = c - add[i];
             ll num = <span class="pl-c1">lower_bound</span>(<span class="pl-c1">all</span>(tmp[i]), d) - tmp[i].<span class="pl-c1">begin</span>();
-            <span class="pl-c"><span class="pl-c">//</span>  cmax(ans, tmp[i][num-1]);</span>
+
             <span class="pl-k">auto</span> it = <span class="pl-c1">lower_bound</span>(<span class="pl-c1">all</span>(tmp[i]), d);
             <span class="pl-k">if</span> (it != tmp[i].<span class="pl-c1">begin</span>())
             {
@@ -1490,6 +1493,8 @@ ll <span class="pl-en">query</span>(ll l, ll r, ll c)
                 }
             }
         }
+        <span class="pl-k">if</span> (ans == -INF)
+            <span class="pl-k">return</span> -<span class="pl-c1">1</span>;
         <span class="pl-k">return</span> ans;
     }
 }
