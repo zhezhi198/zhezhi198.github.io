@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content=">期末考察范围:暴力，贪心，分治，递归，dp，搜索，其他....
+暴力：编程 枚举
+贪心:编程
+分治/递归:编程，简答
+dp:编程 0/1背包简化
+搜索:简答，编程
+其他：问答
+ ## 注意:务必不要背模板，特别是不要背我的模板，务必要理解，可以每天晚上花上40分钟试一下，以下所有仅供思路和理解上的参考。">
+<meta property="og:title" content="期末算法复习">
+<meta property="og:description" content=">期末考察范围:暴力，贪心，分治，递归，dp，搜索，其他....
+暴力：编程 枚举
+贪心:编程
+分治/递归:编程，简答
+dp:编程 0/1背包简化
+搜索:简答，编程
+其他：问答
+ ## 注意:务必不要背模板，特别是不要背我的模板，务必要理解，可以每天晚上花上40分钟试一下，以下所有仅供思路和理解上的参考。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://zhezhi198.github.io/post/qi-mo-suan-fa-fu-xi.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>期末算法复习</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">期末算法复习</h1>
+<div class="title-right">
+    <a href="https://zhezhi198.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/zhezhi198/zhezhi198.github.io/issues/15" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><blockquote>
+<p>期末考察范围:暴力，贪心，分治，递归，dp，搜索，其他....<br>
+暴力：编程 枚举<br>
+贪心:编程<br>
+分治/递归:编程，简答<br>
+dp:编程 0/1背包简化<br>
+搜索:简答，编程<br>
+其他：问答</p>
+</blockquote>
+<h2>注意:务必不要背模板，特别是不要背我的模板，务必要理解，可以每天晚上花上40分钟试一下，以下所有仅供思路和理解上的参考。</h2>
+<blockquote>
+<p>DP：<br>
+先说说01背包:<br>
+<a href="https://www.acwing.com/problem/content/description/2/" rel="nofollow">01背包模板题</a><br>
+01背包是动态规划中最基础也是最重要的模型。本文记录从朴素的二维 DP 到空间优化后的一维 DP 的推导过程。</p>
+</blockquote>
+<h2>问题描述</h2>
+<p>给定 $N$ 个物品，第 $i$ 个物品的体积为 $v[i]$，价值为 $w[i]$。<br>
+有一个容量为 $M$ 的背包。每件物品<strong>只能选择一次</strong>，求在不超过背包容量的前提下，能装入的最大总价值。</p>
+<h2>1. 朴素解法 (二维 DP)</h2>
+<h3>状态定义</h3>
+<p>定义 $f[i][j]$ 表示：<strong>只看前 $i$ 个物品，在背包容量为 $j$ 的情况下，能获得的最大价值</strong>。</p>
+<h3>状态转移方程</h3>
+<p>对于第 $i$ 个物品，我们只有两个选择：</p>
+<ol>
+<li>
+<strong>不选</strong>：价值等于前 $i-1$ 个物品在容量 $j$ 下的价值。即 $f[i-1][j]$。</li>
+<li>
+<strong>选</strong>：前提是 $j \ge v[i]$。价值等于前 $i-1$ 个物品在容量 $j-v[i]$ 下的价值加上当前物品价值 $w[i]$。</li>
+</ol>
+<p>转移方程如下：<br>
+$$f[i][j] = \max(f[i-1][j], \ f[i-1][j-v[i]] + w[i])$$</p>
+<h3>核心代码</h3>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span> 朴素二维版本</span>
+cin &gt;&gt; n &gt;&gt; m;
+<span class="pl-en">rep</span>(i, <span class="pl-c1">1</span>, n) cin &gt;&gt; v[i] &gt;&gt; w[i];
+
+<span class="pl-en">rep</span>(i, <span class="pl-c1">1</span>, n) <span class="pl-c"><span class="pl-c">//</span> 枚举物品</span>
+{
+    <span class="pl-c1">rep</span>(j, <span class="pl-c1">0</span>, m) <span class="pl-c"><span class="pl-c">//</span> 枚举容积</span>
+    {
+        f[i][j] = f[i - <span class="pl-c1">1</span>][j]; <span class="pl-c"><span class="pl-c">//</span> 不选</span>
+        <span class="pl-k">if</span> (j &gt;= v[i])         <span class="pl-c"><span class="pl-c">//</span> 选（前提是装得下）</span>
+            f[i][j] = <span class="pl-c1">max</span>(f[i][j], f[i - <span class="pl-c1">1</span>][j - v[i]] + w[i]);
+    }
+}
+cout &lt;&lt; f[n][m] &lt;&lt; endl;</pre></div>
+<h2>空间优化：从二维到一维</h2>
+<h3>1. 滚动数组的思路</h3>
+<p>观察二维状态转移方程：</p>
+<p>$$
+f[i][j] = \max(f[i-1][j], \ f[i-1][j-v[i]] + w[i])
+$$</p>
+<p>我们发现，计算第 $i$ 层物品的状态时，只依赖于第 $i-1$ 层（上一层）的状态。更早的 $i-2$ 层数据其实已经没用了。<br>
+这就好比盖楼，盖第 10 层的时候，只需要基于第 9 层，跟第 1 层没关系。</p>
+<p>所以，我们可以把二维数组 $f[i][j]$ 压缩成一维数组 $f[j]$。<br>
+新方程：</p>
+<p>$$
+f[j] = \max(f[j], \ f[j-v[i]] + w[i])
+$$</p>
+<h3>2. 为什么必须倒序遍历？（核心）</h3>
+<p>将状态压缩为一维后，枚举背包容量 $j$ 的顺序变得至关重要。</p>
+<ul>
+<li>
+<p><strong>如果正序遍历 (<code class="notranslate">rep</code>)</strong>：<br>
+当我们计算 $f[j]$ 时，需要用到 $f[j-v[i]]$。<br>
+因为 $j-v[i] &amp;lt; j$，在从左往右遍历时，$f[j-v[i]]$ 已经被<strong>当前这层（第 $i$ 个物品）更新过了。<br>
+这就意味着：我们在通过“已经放入第 $i$ 个物品”的状态来更新 $f[j]$，导致一件物品被放入多次。这是完全背包</strong>的做法，不符合 01 背包“每种只有一件”的限制。</p>
+</li>
+<li>
+<p><strong>如果倒序遍历 (<code class="notranslate">dep</code>)</strong>：<br>
+当我们计算 $f[j]$ 时，由于是从右往左更新，$f[j-v[i]]$ 还没有被当前层访问到。<br>
+此时的 $f[j-v[i]]$ 存储的依然是**上一层（第 $i-1$ 个物品）**的状态。<br>
+这完美符合了 $f[i][j] = \max(f[i-1][j], \dots)$ 的定义。</p>
+</li>
+</ul>
+<h3>3. 优化后代码实现</h3>
+<p>利用宏定义 <code class="notranslate">dep</code> (for loop downto) 来实现倒序：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span> 空间优化核心代码</span>
+<span class="pl-c"><span class="pl-c">//</span> v[i]: 体积, w[i]: 价值, s: 背包总容量</span>
+vll <span class="pl-en">f</span>(s + <span class="pl-c1">1</span>, <span class="pl-c1">0</span>); 
+
+<span class="pl-en">rep</span>(i, <span class="pl-c1">1</span>, n) <span class="pl-c"><span class="pl-c">//</span> 第一层循环：枚举物品</span>
+{
+    <span class="pl-c"><span class="pl-c">//</span> 第二层循环：必须倒序！从背包容量 s 遍历到 v[i]</span>
+    <span class="pl-c1">dep</span>(j, s, v[i])
+    {
+        f[j] = <span class="pl-c1">max</span>(f[j], f[j - v[i]] + w[i]);
+    }
+}
+cout &lt;&lt; f[s] &lt;&lt; endl;</pre></div>
+<p>此外01背包有时候还有这样的问题:<br>
+1.不要求背包装满能够获得的最大价值。<br>
+2.背包恰好装满时能够获得的最大价值</p>
+<h2>进阶：背包恰好装满 vs 不必装满</h2>
+<p>在 01 背包的变种题目中，我们经常会遇到两种不同的问法：</p>
+<ol>
+<li><strong>不要求</strong>背包装满，求能获得的最大价值（标准 01 背包）。</li>
+<li><strong>要求</strong>背包<strong>恰好装满</strong>，求能获得的最大价值。若无法装满，则输出 0 或无解。</li>
+</ol>
+<p>例题参考：<a href="https://ac.nowcoder.com/acm/problem/226514" rel="nofollow">牛客网 - 01背包的一些特定的情况</a></p>
+<h3>初始化决定状态</h3>
+<p>这两种问法的区别，仅仅在于 <strong>DP 数组的初始化</strong>。</p>
+<h4>1. 不要求装满</h4>
+<p><strong>初始化：</strong> <code class="notranslate">f</code> 数组全部初始化为 <strong>0</strong>。<br>
+<strong>原理：</strong><br>
+如果背包不要求装满，那么“容量为 $j$ 的背包什么都不装”也是一种合法状态，其价值为 0。<br>
+所以在转移过程中，任何容量起步都是合法的。</p>
+<h4>2. 要求恰好装满</h4>
+<p><strong>初始化：</strong> <code class="notranslate">f[0] = 0</code>，其余 <code class="notranslate">f[1...m]</code> 全部初始化为 <strong>-INF</strong>（负无穷）。<br>
+<strong>原理：</strong></p>
+<ul>
+<li>
+<strong>合法起点</strong>：只有容量为 0 的背包，在什么都不装的情况下是“恰好装满”的（被 0 体积的东西填满），价值为 0。所以 <code class="notranslate">f[0] = 0</code>。</li>
+<li>
+<strong>非法起点</strong>：对于 $j &amp;gt; 0$，如果不装任何东西，是不可能“恰好装满”容量 $j$ 的。所以这些状态在初始时是非法的，用 <code class="notranslate">-INF</code> 标记。</li>
+<li>
+<strong>状态转移</strong>：在 DP 过程中，<code class="notranslate">max</code> 操作会保证我们就只能从合法状态（即从 <code class="notranslate">f[0]</code> 推导出来的路径）进行转移。如果一个状态无法由 <code class="notranslate">f[0]</code> 经过若干物品推导而来，它的值会依然是一个很小的负数。</li>
+</ul>
+<h3>代码实现</h3>
+<p>以下代码同时展示了这两种情况的处理。</p>
+<ul>
+<li><code class="notranslate">dp1</code>: 对应不要求装满。</li>
+<li><code class="notranslate">dp2</code>: 对应要求恰好装满。</li>
+</ul>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; 
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span> <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); cin.tie(<span class="pl-c1">0</span>); cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
+#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e3</span> + <span class="pl-c1">10</span>;
+ll n, m;
+ll v[N], w[N];
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n) cin &gt;&gt; v[i] &gt;&gt; w[i];
+    
+    <span class="pl-c"><span class="pl-c">//</span> dp1: 不要求装满，全部初始化为 0</span>
+    vll <span class="pl-smi">dp1</span>(m + <span class="pl-c1">1</span>, <span class="pl-c1">0</span>);
+    
+    <span class="pl-c"><span class="pl-c">//</span> dp2: 要求恰好装满，初始化为 -INF，只有 dp2[0] 为 0</span>
+    vll <span class="pl-smi">dp2</span>(m + <span class="pl-c1">1</span>, -INF);
+    dp2[<span class="pl-c1">0</span>] = <span class="pl-c1">0</span>;
+
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n)
+    {
+        <span class="pl-c1">dep</span>(j, m, v[i])
+        {
+            <span class="pl-c"><span class="pl-c">//</span> 方案 1 转移</span>
+            dp1[j] = <span class="pl-c1">max</span>(dp1[j], dp1[j - v[i]] + w[i]);
+            
+            <span class="pl-c"><span class="pl-c">//</span> 方案 2 转移 (逻辑完全一样)</span>
+            dp2[j] = <span class="pl-c1">max</span>(dp2[j], dp2[j - v[i]] + w[i]);
+        }
+    }
+
+    <span class="pl-c"><span class="pl-c">//</span> 输出方案 1</span>
+    cout &lt;&lt; dp1[m] &lt;&lt; endl;
+
+    <span class="pl-c"><span class="pl-c">//</span> 输出方案 2</span>
+    <span class="pl-c"><span class="pl-c">//</span> 注意：如果 dp2[m] 依然是负数（说明由 -INF 转移而来），则无解</span>
+    <span class="pl-k">if</span> (dp2[m] &lt; <span class="pl-c1">0</span>)
+    {
+        cout &lt;&lt; <span class="pl-c1">0</span> &lt;&lt; endl;
+    }
+    <span class="pl-k">else</span>
+    {
+        cout &lt;&lt; dp2[m] &lt;&lt; endl;
+    }
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    IOS;
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    <span class="pl-k">while</span> (_--)
+    {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<blockquote>
+<p>由于复习时间和考的范围有限其他的背包问题就先不写了,想清楚上面的问题至少对01背包问题有了一个深刻的认识。</p>
+</blockquote>
+<h2>然后我们再说说递归</h2>
+<blockquote>
+<p>经典的搜索任务:<br>
+1.子集枚举<br>
+2.排列枚举<br>
+3.组合枚举</p>
+</blockquote>
+<p>描述:前两个在解空间中可用解空间树描述，前一个称为子集树，共有2^n个叶节点，后一个称为排列树，叶节点共有n!个。</p>
+<p>我在luogu上找了一些典型的例题，除此之外有时间还可以针对的写写对应的题单。<br>
+我们以 Luogu P1706 全排列问题为例，深入理解DFS和回溯的思想。</p>
+<h2>题目描述</h2>
+<p><a href="https://www.luogu.com.cn/problem/P1706" rel="nofollow">P1706 全排列问题</a><br>
+按照字典序输出自然数 $1$ 到 $n$ 所有不重复的排列。</p>
+<h2>1. 算法核心：搜索树与回溯</h2>
+<h3>排列树（Permutation Tree）</h3>
+<p>我们可以把全排列的过程想象成“填空位”。<br>
+假设有 $n$ 个空盒子，我们需要把 $1 \dots n$ 这 $n$ 个数字填进去。</p>
+<ol>
+<li>
+<strong>第一层递归</strong>：站在第 1 个盒子前，我们有 $1 \dots n$ 种选择。</li>
+<li>
+<strong>第二层递归</strong>：站在第 2 个盒子前，我们不能选刚才已经用过的数字，只能选剩下的。</li>
+<li>
+<strong>终止条件</strong>：当我们走到第 $n+1$ 个盒子时，说明前 $n$ 个都已经填满，此时输出结果。</li>
+</ol>
+<h3>关键概念：状态数组 <code class="notranslate">st[]</code></h3>
+<p>在递归过程中，我们需要知道哪些数字由于被前面的盒子占用了而<strong>不能选</strong>。<br>
+因此引入一个 bool 数组 <code class="notranslate">st[i]</code>（state）：</p>
+<ul>
+<li>
+<code class="notranslate">st[i] == true</code>: 数字 $i$ 已经被使用了。</li>
+<li>
+<code class="notranslate">st[i] == false</code>: 数字 $i$ 目前可用。</li>
+</ul>
+<h3>核心步骤：回溯</h3>
+<p>这是新手最容易晕的地方。当我们填完一种排列（比如 <code class="notranslate">1 2 3</code>），需要退回到上一步（第 2 个盒子），把 <code class="notranslate">3</code> 拿出来，尝试填入其他数字。<br>
+拿出来”这个动作，就是回溯（恢复现场）。</p>
+<p>如果不把 <code class="notranslate">st[3]</code> 重新设为 <code class="notranslate">false</code>，程序会以为 <code class="notranslate">3</code> 还在盒子里，导致后续的排列无法再次使用 <code class="notranslate">3</code>。</p>
+<h2>2. 代码实现细节</h2>
+<p>我们在 <code class="notranslate">dfs(x)</code> 函数中维护三个逻辑：</p>
+<ol>
+<li>
+<strong>边界判断</strong>：如果 <code class="notranslate">x &gt; n</code>，说明已经填完了，打印并<strong>返回</strong>。</li>
+<li>
+<strong>枚举选择</strong>：从小到大尝试 $1 \dots n$ 每个数字。</li>
+<li>
+<strong>分支与回溯</strong>：
+<ul>
+<li>如果数字 <code class="notranslate">i</code> 没用过 $\rightarrow$ 标记 <code class="notranslate">st[i]=true</code> $\rightarrow$ 递归 <code class="notranslate">dfs(x+1)</code>。</li>
+<li>递归回来后 $\rightarrow$ <strong>恢复现场</strong> <code class="notranslate">st[i]=false</code>。</li>
+</ul>
+</li>
+</ol>
+<h2>3. 完整 AC 代码</h2>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span> <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); cin.tie(<span class="pl-c1">0</span>); cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+
+<span class="pl-k">int</span> n;
+<span class="pl-k">int</span> arr[<span class="pl-c1">15</span>];    <span class="pl-c"><span class="pl-c">//</span> 存储当前的排列结果</span>
+<span class="pl-k">bool</span> st[<span class="pl-c1">15</span>];    <span class="pl-c"><span class="pl-c">//</span> 状态数组，记录数字是否被使用</span>
+
+<span class="pl-c"><span class="pl-c">//</span> x 表示当前正在枚举第几个位置</span>
+<span class="pl-k">void</span> <span class="pl-en">dfs</span>(<span class="pl-k">int</span> x) {
+    <span class="pl-c"><span class="pl-c">//</span> 1. 截止条件：如果位置 x 超过了 n，说明 1~n 都填好了</span>
+    <span class="pl-k">if</span> (x &gt; n) {
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++) {
+            <span class="pl-c"><span class="pl-c">//</span> 题目要求保留 5 个场宽</span>
+            <span class="pl-c1">printf</span>(<span class="pl-s"><span class="pl-pds">"</span>%5d<span class="pl-pds">"</span></span>, arr[i]);
+        }
+        <span class="pl-c1">printf</span>(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\n</span><span class="pl-pds">"</span></span>);
+        <span class="pl-k">return</span>; <span class="pl-c"><span class="pl-c">//</span> 非常重要！必须返回，否则会越界继续执行</span>
+    }
+
+    <span class="pl-c"><span class="pl-c">//</span> 2. 枚举当前位置 x 可以填入的数字 (1 到 n)</span>
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++) {
+        <span class="pl-c"><span class="pl-c">//</span> 如果数字 i 没有被使用过</span>
+        <span class="pl-k">if</span> (!st[i]) {
+            
+            <span class="pl-c"><span class="pl-c">//</span> 2.1 修改状态（占位）</span>
+            arr[x] = i;      <span class="pl-c"><span class="pl-c">//</span> 把 i 填入第 x 个坑</span>
+            st[i] = <span class="pl-c1">true</span>;    <span class="pl-c"><span class="pl-c">//</span> 标记 i 已经被用过了</span>
+
+            <span class="pl-c"><span class="pl-c">//</span> 2.2 递归到下一层</span>
+            <span class="pl-c1">dfs</span>(x + <span class="pl-c1">1</span>);
+
+            <span class="pl-c"><span class="pl-c">//</span> 2.3 回溯（恢复现场）</span>
+            <span class="pl-c"><span class="pl-c">//</span> 这一步至关重要：从下一层回来后，要把 i 拿出来，</span>
+            <span class="pl-c"><span class="pl-c">//</span> 标记为未使用，这样循环到下一次或者回退时才能再次使用 i</span>
+            arr[x] = <span class="pl-c1">0</span>;      <span class="pl-c"><span class="pl-c">//</span> (可选) 实际上会被覆盖，不写也没事</span>
+            st[i] = <span class="pl-c1">false</span>;   <span class="pl-c"><span class="pl-c">//</span> 核心：解除标记</span>
+        }
+    }
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    cin &gt;&gt; n;
+    <span class="pl-c1">dfs</span>(<span class="pl-c1">1</span>); <span class="pl-c"><span class="pl-c">//</span> 从第 1 个位置开始搜索</span>
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>() {
+    <span class="pl-c"><span class="pl-c">//</span> 由于使用了 printf，混合 cin/cout 时最好不要关闭同步流，或者只用 C 风格 IO</span>
+    <span class="pl-c"><span class="pl-c">//</span> 这里为了题目要求的格式化输出，核心部分使用了 printf</span>
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    <span class="pl-k">while</span> (_--) {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h1>递归与搜索：从全排列到组合输出</h1>
+<p>在上一篇文章中，我们通过 <strong>[P1706 全排列]</strong> 学习了利用 <code class="notranslate">st[]</code> 标记数组来实现全排列的搜索。<br>
+今天我们来看看它的兄弟问题：<strong>[P1157 组合的输出]</strong>。</p>
+<h2>题目描述</h2>
+<p><a href="https://www.luogu.com.cn/problem/P1157" rel="nofollow">P1157 组合的输出</a></p>
+<p>从 $1 \sim n$ 这 $n$ 个自然数中，任取 $r$ 个数（$r \le n$），输出所有可能的组合。<br>
+要求：每个组合中的元素按<strong>从小到大</strong>的顺序排列，所有组合按<strong>字典序</strong>输出。</p>
+<p>例如 $n=5, r=3$，输出：<br>
+<code class="notranslate">1 2 3</code>, <code class="notranslate">1 2 4</code> ... <code class="notranslate">3 4 5</code></p>
+<h2>1. 组合 vs 排列：核心区别</h2>
+<p>在写代码之前，必须搞清楚“组合”和“排列”在搜索树上的区别：</p>
+<ul>
+<li>**全排列 **：顺序重要。<code class="notranslate">1 2 3</code> 和 <code class="notranslate">3 2 1</code> 是两个不同的方案。
+<ul>
+<li>
+<strong>策略</strong>：每次都从 $1$ 扫到 $n$，只要没用过（<code class="notranslate">!st[i]</code>）就能选。</li>
+</ul>
+</li>
+<li>**组合 **：顺序不重要。<code class="notranslate">1 2 3</code> 和 <code class="notranslate">3 2 1</code> 是同一个组合。
+<ul>
+<li>
+<strong>策略</strong>：为了不重复计算，我们人为规定**“必须按从小到大的顺序选”**。</li>
+<li>比如：选了 <code class="notranslate">2</code> 之后，下一个数只能选 <code class="notranslate">3, 4, 5...</code>，绝对不能回头选 <code class="notranslate">1</code>。</li>
+</ul>
+</li>
+</ul>
+<h3>关键参数：<code class="notranslate">start</code></h3>
+<p>为了实现“不回头”，我们在 DFS 函数中增加一个参数 <code class="notranslate">start</code>，表示<strong>当前这个空位，只能从 <code class="notranslate">start</code> 开始枚举</strong>。</p>
+<h2>2. 代码实现细节</h2>
+<h3>函数定义 <code class="notranslate">dfs(x, start)</code></h3>
+<ul>
+<li>
+<code class="notranslate">x</code>: 当前正在填第几个坑（一共要填 $r$ 个）。</li>
+<li>
+<code class="notranslate">start</code>: 当前这个坑，数字枚举的<strong>起始值</strong>。</li>
+</ul>
+<h3>递归逻辑</h3>
+<ol>
+<li>
+<strong>截止条件</strong>：<code class="notranslate">x &gt; r</code>，说明 $r$ 个坑填满了，输出并返回。</li>
+<li>
+<strong>枚举选择</strong>：循环 <code class="notranslate">i</code> 从 <code class="notranslate">start</code> 到 <code class="notranslate">n</code>。</li>
+<li>
+<strong>递归下一步</strong>：<code class="notranslate">dfs(x + 1, i + 1)</code>。
+<ul>
+<li>
+<strong>重点</strong>：下一个坑必须比当前选的 <code class="notranslate">i</code> 还要大，所以是 <code class="notranslate">i + 1</code>，而不是 <code class="notranslate">start + 1</code>。</li>
+</ul>
+</li>
+</ol>
+<h2>3. 完整 AC 代码</h2>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span> <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); cin.tie(<span class="pl-c1">0</span>); cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+
+<span class="pl-k">int</span> n, r; <span class="pl-c"><span class="pl-c">//</span> n选r</span>
+<span class="pl-k">int</span> arr[<span class="pl-c1">25</span>]; <span class="pl-c"><span class="pl-c">//</span> 存储当前的组合</span>
+
+<span class="pl-c"><span class="pl-c">//</span> x: 当前枚举到了第几个位置 (1..r)</span>
+<span class="pl-c"><span class="pl-c">//</span> start: 当前位置只能填 &gt;= start 的数字</span>
+<span class="pl-k">void</span> <span class="pl-en">dfs</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> start)
+{
+    <span class="pl-c"><span class="pl-c">//</span> 1. 截止条件：选够了 r 个数</span>
+    <span class="pl-k">if</span> (x &gt; r)
+    {
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= r; i++)
+        {
+            <span class="pl-c1">printf</span>(<span class="pl-s"><span class="pl-pds">"</span>%3d<span class="pl-pds">"</span></span>, arr[i]); <span class="pl-c"><span class="pl-c">//</span> 题目要求3个场宽</span>
+        }
+        cout &lt;&lt; endl;
+        <span class="pl-k">return</span>;
+    }
+
+    <span class="pl-c"><span class="pl-c">//</span> 2. 枚举当前位置能填的数</span>
+    <span class="pl-c"><span class="pl-c">//</span> 只能从 start 开始填，保证单调递增，从而保证是组合而不是排列</span>
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = start; i &lt;= n; i++)
+    {
+        arr[x] = i; <span class="pl-c"><span class="pl-c">//</span> 填入数字</span>
+        
+        <span class="pl-c"><span class="pl-c">//</span> 3. 递归下一层</span>
+        <span class="pl-c"><span class="pl-c">//</span> 下一个位置必须从 i+1 开始填</span>
+        <span class="pl-c"><span class="pl-c">//</span> 错误示范：dfs(x + 1, start + 1) -&gt; 会导致重复或非递增</span>
+        <span class="pl-c1">dfs</span>(x + <span class="pl-c1">1</span>, i + <span class="pl-c1">1</span>); 
+        
+        arr[x] = <span class="pl-c1">0</span>; <span class="pl-c"><span class="pl-c">//</span> 回溯（其实不写也行，会被覆盖）</span>
+    }
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    cin &gt;&gt; n &gt;&gt; r;
+    <span class="pl-c"><span class="pl-c">//</span> 从第 1 个位置开始填，数字最小从 1 开始</span>
+    <span class="pl-c1">dfs</span>(<span class="pl-c1">1</span>, <span class="pl-c1">1</span>);
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    <span class="pl-c"><span class="pl-c">//</span> IOS; </span>
+    <span class="pl-c"><span class="pl-c">//</span> 注意：混用 printf 和 cout 时建议不要关同步，或者统一用一种 IO</span>
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    <span class="pl-k">while</span> (_--)
+    {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h1>递归与搜索：指数型枚举（子集选择）</h1>
+<p>在之前的文章中，我们攻克了 <strong>[P1706 全排列]</strong>（$N!$）和 <strong>[P1157 组合输出]</strong>（$C_n^r$）。<br>
+今天我们来解决搜索算法中的第三块拼图：<strong>[B3622 枚举子集]</strong>。</p>
+<h2>题目描述</h2>
+<p><a href="https://www.luogu.com.cn/problem/B3622" rel="nofollow">B3622 枚举子集</a></p>
+<p>今有 $n$ 位同学，可以从中选出任意名同学参加合唱。请输出所有可能的选择方案。<br>
+每一名同学的状态用字符表示：</p>
+<ul>
+<li><code class="notranslate">Y</code>：参加</li>
+<li><code class="notranslate">N</code>：不参加</li>
+</ul>
+<p><strong>要求</strong>：以字典序输出答案。</p>
+<p>例如 $n=3$，输出：<br>
+<code class="notranslate">NNN</code>, <code class="notranslate">NNY</code>, <code class="notranslate">NYN</code> ... <code class="notranslate">YYY</code></p>
+<h2>1. 指数型枚举 vs 排列组合</h2>
+<p>在写代码之前，我们要搞清楚这道题和之前两道题在<strong>决策树</strong>上的本质区别：</p>
+<ul>
+<li>
+<strong>全排列/组合</strong>：是“填坑”模型。我们要考虑的是“当前这个坑填哪个数字”。</li>
+<li>
+<strong>指数型枚举 (子集)</strong>：是“开关”模型。
+<ul>
+<li>我们不需要去选数字，而是要遍历这 $n$ 位同学。</li>
+<li>
+<strong>策略</strong>：对于每一位同学，我们只有 <strong>2 种选择</strong>——<strong>选 (Y)</strong> 或者 <strong>不选 (N)</strong>。</li>
+<li>这种结构对应的是一棵<strong>二叉树</strong>，总方案数是 $2^n$。</li>
+</ul>
+</li>
+</ul>
+<h3>关键逻辑：字典序</h3>
+<p>题目要求字典序输出。在 ASCII 码中，<code class="notranslate">'N'</code> (78) 小于 <code class="notranslate">'Y'</code> (89)。<br>
+为了满足字典序，我们在递归决策时，必须严格遵守顺序：<br>
+<strong>先尝试 <code class="notranslate">N</code> (不选) $\to$ 再尝试 <code class="notranslate">Y</code> (选)</strong>。</p>
+<h2>2. 代码实现细节</h2>
+<h3>状态记录 <code class="notranslate">string ans</code></h3>
+<p>与全排列使用 <code class="notranslate">arr[]</code> 数组不同，这里我们用一个字符串 <code class="notranslate">string ans</code> 来模拟<strong>栈</strong>结构，记录当前路径上的选择。</p>
+<h3>递归逻辑 <code class="notranslate">dfs(x)</code></h3>
+<ul>
+<li>
+<code class="notranslate">x</code>：表示当前正在做第 <code class="notranslate">x</code> 位同学的决定。</li>
+<li>
+<strong>截止条件</strong>：<code class="notranslate">x &gt; n</code>，说明 $n$ 位同学的决定都做完了，输出 <code class="notranslate">ans</code> 并返回。</li>
+<li>
+<strong>枚举选择</strong>：
+<ol>
+<li>
+<code class="notranslate">ans += 'N'</code> (入栈) $\to$ <code class="notranslate">dfs(x+1)</code> $\to$ <code class="notranslate">ans.pop_back()</code> (回溯)</li>
+<li>
+<code class="notranslate">ans += 'Y'</code> (入栈) $\to$ <code class="notranslate">dfs(x+1)</code> $\to$ <code class="notranslate">ans.pop_back()</code> (回溯)</li>
+</ol>
+</li>
+</ul>
+<p>为了代码简洁，我们可以用一个字符数组 <code class="notranslate">op[2] = {'N', 'Y'}</code> 来循环枚举。</p>
+<h2>3. 完整 AC 代码</h2>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; 
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+
+<span class="pl-c"><span class="pl-c">//</span> 题目参数</span>
+ll n;  
+<span class="pl-c"><span class="pl-c">//</span> 字典序 N &lt; Y，所以 N 放前面(对应索引0)，Y 放后面(对应索引1)</span>
+<span class="pl-k">char</span> op[<span class="pl-c1">2</span>]={<span class="pl-s"><span class="pl-pds">'</span>N<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>Y<span class="pl-pds">'</span></span>};
+string ans; <span class="pl-c"><span class="pl-c">//</span> 记录当前的决策路径 (充当栈)</span>
+
+<span class="pl-c"><span class="pl-c">//</span> x 表示当前正在做第 x 个人的决定</span>
+<span class="pl-k">void</span> <span class="pl-en">dfs</span>(<span class="pl-k">int</span> x){
+    <span class="pl-c"><span class="pl-c">//</span> 1. 截止条件：已经做完 n 个人的决定了</span>
+    <span class="pl-k">if</span>(x &gt; n){
+        cout &lt;&lt; ans &lt;&lt; endl;
+        <span class="pl-k">return</span> ;
+    }
+
+    <span class="pl-c"><span class="pl-c">//</span> 2. 枚举当前人的两种状态：0(N) 和 1(Y)</span>
+    <span class="pl-k">for</span>(<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt;= <span class="pl-c1">1</span>; i++){
+        ans += op[i];    <span class="pl-c"><span class="pl-c">//</span> 1. 做出选择 (入栈)</span>
+        
+        <span class="pl-c1">dfs</span>(x + <span class="pl-c1">1</span>);      <span class="pl-c"><span class="pl-c">//</span> 2. 递归下一层 (处理下一个人)</span>
+        
+        ans.<span class="pl-c1">pop_back</span>();  <span class="pl-c"><span class="pl-c">//</span> 3. 回溯 (出栈，恢复现场)</span>
+    }
+}       
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    cin &gt;&gt; n;
+    <span class="pl-c1">dfs</span>(<span class="pl-c1">1</span>); <span class="pl-c"><span class="pl-c">//</span> 从第 1 个人开始</span>
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    <span class="pl-c1">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>);
+    cin.<span class="pl-c1">tie</span>(<span class="pl-c1">0</span>);
+    cout.<span class="pl-c1">tie</span>(<span class="pl-c1">0</span>);
+    
+    <span class="pl-k">int</span> t = <span class="pl-c1">1</span>;
+    <span class="pl-k">while</span> (t--)
+    {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<blockquote>
+<p>DFS剪枝的那些要具体问题具体分析，以上的题目都是最基础最经典的三种例题，DFS的路道阻且长，还希望多加练习。<br>
+<a href="https://www.luogu.com.cn/training/108#problems" rel="nofollow">给出暴力枚举的递归题单：</a></p>
+</blockquote>
+<p>分治的话晚些补充，先吃饭去了。其实分治方面的题目，之前能用分治写的基本没用分治写，分治方面其实还是很欠缺的。</p></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://zhezhi198.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","zhezhi198/zhezhi198.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</html>
