@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Tue, 06 Jan 2026 03:51:31 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>期末算法复习</title><link>https://zhezhi198.github.io/post/qi-mo-suan-fa-fu-xi.html</link><description>&gt;期末考察范围:暴力，贪心，分治，递归，dp，搜索，其他....
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Tue, 06 Jan 2026 07:16:56 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>期末算法复习</title><link>https://zhezhi198.github.io/post/qi-mo-suan-fa-fu-xi.html</link><description>&gt;期末考察范围:暴力，贪心，分治，递归，dp，搜索，其他....
 暴力：编程 枚举
 贪心:编程
 分治/递归:编程，简答
 dp:编程 0/1背包简化
 搜索:简答，编程
 其他：问答
- ## 注意:务必不要背模板，特别是不要背我的模板，务必要理解，可以每天晚上花上40分钟试一下，以下所有仅供思路和理解上的参考。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/qi-mo-suan-fa-fu-xi.html</guid><pubDate>Tue, 06 Jan 2026 03:51:01 +0000</pubDate></item><item><title>abc_437 部分题解</title><link>https://zhezhi198.github.io/post/abc_437%20-bu-fen-ti-jie.html</link><description>[比赛链接](https://atcoder.jp/contests/abc437/tasks)
+ ## 注意:务必不要背模板，务必要理解，可以每天晚上花上40分钟试一下，以下所有仅供思路和理解上的参考。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/qi-mo-suan-fa-fu-xi.html</guid><pubDate>Tue, 06 Jan 2026 03:51:01 +0000</pubDate></item><item><title>abc_437 部分题解</title><link>https://zhezhi198.github.io/post/abc_437%20-bu-fen-ti-jie.html</link><description>[比赛链接](https://atcoder.jp/contests/abc437/tasks)
 ##  C Reindeer and Sleigh 2
 
 #### 问题陈述
