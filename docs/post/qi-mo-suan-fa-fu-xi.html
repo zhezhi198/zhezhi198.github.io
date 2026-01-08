@@ -1166,7 +1166,133 @@ PLL <span class="pl-en">dfs</span>(<span class="pl-k">int</span> l, <span class=
 <li><strong>空间复杂度高</strong>：需要通过二维数组或高维数组存储所有子问题的解（状态表），占用大量内存。</li>
 <li><strong>时间复杂度相对较高</strong>：虽然比穷举法快，但相比贪心算法，DP 需要计算表格中的每一个状态，计算量仍然较大。</li>
 <li><strong>状态定义困难</strong>：对于某些复杂问题，很难找到合适的状态定义和状态转移方程。</li>
-</ol></div>
+</ol>
+<h2>分治的补充</h2>
+<h1>P1115 最大子段和 (分治策略与DP对比)</h1>
+<blockquote>
+<p><strong>题目链接</strong>：<a href="https://www.luogu.com.cn/problem/P1115" rel="nofollow">P1115 最大子段和 - 洛谷</a><br>
+<strong>标签</strong>：<code class="notranslate">分治</code> <code class="notranslate">动态规划</code> <code class="notranslate">线段树基础</code></p>
+</blockquote>
+<h2>题目描述</h2>
+<p>给出一个长度为 $n$ 的序列 $a$，选出其中连续且非空的一段使得这段和最大。</p>
+<h3>输入格式</h3>
+<ul>
+<li>第一行是一个整数，表示序列的长度 $n$。</li>
+<li>第二行有 $n$ 个整数，第 $i$ 个整数表示序列的第 $i$ 个数字 $a_i$。</li>
+</ul>
+<h3>输出格式</h3>
+<ul>
+<li>输出一行一个整数表示答案。</li>
+</ul>
+<h3>数据范围</h3>
+<ul>
+<li>$1 \leq n \leq 2 \times 10^5$</li>
+<li>$-10^4 \leq a_i \leq 10^4$</li>
+</ul>
+<hr>
+<h2>解题思路</h2>
+<p>这道题是经典的 <strong>最大子数组和 ** 问题。虽然在竞赛中通常使用 $O(n)$ 的动态规划解决，但作为</strong>分治算法**的练习题，它非常有价值。</p>
+<p>掌握本题的分治解法，是后续学习<strong>线段树维护区间最大子段和</strong>的前置基础。</p>
+<h3>方法一：动态规划</h3>
+<p>这是最直接且效率最高的解法。</p>
+<h4>核心逻辑</h4>
+<p>我们定义 <code class="notranslate">f[i]</code> 为 <strong>以第 $i$ 个元素结尾的最大子段和</strong>。<br>
+对于每个位置 $i$，我们面临两个选择：</p>
+<ol>
+<li><strong>接上之前的子段</strong>：如果 <code class="notranslate">f[i-1]</code> 是正数，那么加上 <code class="notranslate">a[i]</code> 肯定比 <code class="notranslate">a[i]</code> 单独成段要大。</li>
+<li><strong>自己另起炉灶</strong>：如果 <code class="notranslate">f[i-1]</code> 是负数，加上它只会拖累 <code class="notranslate">a[i]</code>，不如直接从 <code class="notranslate">a[i]</code> 开始。</li>
+</ol>
+<p>$$f[i] = \max(f[i-1] + a[i], \ a[i])$$</p>
+<p>最终答案是所有 <code class="notranslate">f[i]</code> 中的最大值。</p>
+<h4>代码实现 (DP)</h4>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">void</span> <span class="pl-en">solve</span>(){
+    ll n;
+    cin &gt;&gt; n;
+    vll <span class="pl-smi">a</span>(n + <span class="pl-c1">1</span>, <span class="pl-c1">0</span>), <span class="pl-c1">f</span>(n + <span class="pl-c1">1</span>, <span class="pl-c1">0</span>);
+    ll ans = -INF;
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n) cin &gt;&gt; a[i];
+    
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n)
+    {
+        f[i] = <span class="pl-c1">max</span>(f[i - <span class="pl-c1">1</span>] + a[i], a[i]);
+        <span class="pl-c1">cmax</span>(ans, f[i]);
+    }
+
+    cout &lt;&lt; ans &lt;&lt; endl;
+}</pre></div>
+<h3>方法二：分治法</h3>
+<p>分治法的核心是将一个大区间的问题拆解为若干个小区间的问题。对于区间 <code class="notranslate">[L, R]</code>，其最大子段和可能出现在以下三种情况：</p>
+<ol>
+<li><strong>完全在左半边</strong> <code class="notranslate">[L, mid]</code>：即不跨越中点，递归求解。</li>
+<li><strong>完全在右半边</strong> <code class="notranslate">[mid + 1, R]</code>：即不跨越中点，递归求解。</li>
+<li><strong>跨越中点</strong>：子段包含 <code class="notranslate">mid</code> 和 <code class="notranslate">mid + 1</code>。
+<ul>
+<li>这种情况无法递归求解，需要线性扫描。</li>
+<li>我们需要找出：以 <code class="notranslate">mid</code> 结尾的 <strong>最大后缀和</strong> (记为 <code class="notranslate">s1</code>) + 以 <code class="notranslate">mid + 1</code> 开头的 <strong>最大前缀和</strong> (记为 <code class="notranslate">s2</code>)。</li>
+<li>跨越中点的最大和即为 <code class="notranslate">s1 + s2</code>。</li>
+</ul>
+</li>
+</ol>
+<p>最终结果为：<strong>max(左边最大, 右边最大, 跨越中点最大)</strong></p>
+<h4>复杂度分析</h4>
+<ul>
+<li><strong>时间复杂度</strong>：<code class="notranslate">T(n) = 2T(n/2) + O(n)</code>。根据主定理，复杂度为 <code class="notranslate">O(n log n)</code>。</li>
+<li><strong>空间复杂度</strong>：<code class="notranslate">O(log n)</code> (递归栈深度)。</li>
+</ul>
+<h4>代码实现 (分治)</h4>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll;
+<span class="pl-k">const</span> ll INF = <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>;
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    ll n;
+    cin &gt;&gt; n;
+    vector&lt;ll&gt; <span class="pl-c1">a</span>(n + <span class="pl-c1">1</span>, <span class="pl-c1">0</span>);
+    <span class="pl-k">for</span> (ll i = <span class="pl-c1">1</span>; i &lt;= n; i++) cin &gt;&gt; a[i];
+
+    <span class="pl-c"><span class="pl-c">//</span> 分治核心函数</span>
+    function&lt;<span class="pl-c1">ll</span>(ll, ll)&gt; fz = [&amp;](ll l, ll r) -&gt; ll
+    {
+        <span class="pl-c"><span class="pl-c">//</span> 1. 递归基：区间长度为1，直接返回</span>
+        <span class="pl-k">if</span> (l == r) <span class="pl-k">return</span> a[l];
+
+        ll mid = l + r &gt;&gt; <span class="pl-c1">1</span>;
+
+        <span class="pl-c"><span class="pl-c">//</span> 2. 递归求左右两边的最大子段和</span>
+        ll lmax = <span class="pl-c1">fz</span>(l, mid);
+        ll rmax = <span class="pl-c1">fz</span>(mid + <span class="pl-c1">1</span>, r);
+
+        <span class="pl-c"><span class="pl-c">//</span> 3. 求跨越中点的最大子段和</span>
+        <span class="pl-c"><span class="pl-c">//</span> 左半部分：从 mid 向左扫描，找最大后缀和</span>
+        ll s1 = -INF, sum = <span class="pl-c1">0</span>;
+        <span class="pl-k">for</span> (ll i = mid; i &gt;= l; i--) {
+            sum += a[i];
+            s1 = <span class="pl-c1">max</span>(s1, sum);
+        }
+
+        <span class="pl-c"><span class="pl-c">//</span> 右半部分：从 mid+1 向右扫描，找最大前缀和</span>
+        ll s2 = -INF; sum = <span class="pl-c1">0</span>;
+        <span class="pl-k">for</span> (ll i = mid + <span class="pl-c1">1</span>; i &lt;= r; i++) {
+            sum += a[i];
+            s2 = <span class="pl-c1">max</span>(s2, sum);
+        }
+
+        <span class="pl-c"><span class="pl-c">//</span> 4. 返回三者最大值</span>
+        <span class="pl-k">return</span> <span class="pl-c1">max</span>({lmax, rmax, s1 + s2});
+    };
+
+    cout &lt;&lt; <span class="pl-c1">fz</span>(<span class="pl-c1">1</span>, n) &lt;&lt; endl;
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    <span class="pl-c1">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>);
+    cin.<span class="pl-c1">tie</span>(<span class="pl-c1">0</span>); cout.<span class="pl-c1">tie</span>(<span class="pl-c1">0</span>);
+    <span class="pl-c1">solve</span>();
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
