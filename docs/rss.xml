@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Wed, 07 Jan 2026 13:40:17 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>期末算法复习</title><link>https://zhezhi198.github.io/post/qi-mo-suan-fa-fu-xi.html</link><description>&gt;期末考察范围:暴力，贪心，分治，递归，dp，搜索，其他....
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Sat, 17 Jan 2026 03:04:44 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>Codeforces Round 1072(Div. 3)</title><link>https://zhezhi198.github.io/post/Codeforces%20Round%201072%28Div.%203%29.html</link><description># A. Social Experiment 
+
+## 题目大意
+
+现在有 $n$ 个人要参加一个大型社会实验。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/Codeforces%20Round%201072%28Div.%203%29.html</guid><pubDate>Sat, 17 Jan 2026 03:04:18 +0000</pubDate></item><item><title>期末算法复习</title><link>https://zhezhi198.github.io/post/qi-mo-suan-fa-fu-xi.html</link><description>&gt;期末考察范围:暴力，贪心，分治，递归，dp，搜索，其他....
 暴力：编程 枚举
 贪心:编程
 分治/递归:编程，简答
