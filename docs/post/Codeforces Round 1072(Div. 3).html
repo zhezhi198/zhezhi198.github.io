@@ -964,10 +964,10 @@ ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
 </ul>
 </li>
 </ol>
-<p><strong>推导步数公式</strong>：<br>
-假设一个数字 $x$，它的二进制表示中：</p>
+<h3>推导步数公式：</h3>
+<p>假设一个数字 $x$，它的二进制表示中：</p>
 <ul>
-<li>最高位是第 $i$ 位（即 $2^i \le x &amp;lt; 2^{i+1}$）。</li>
+<li>最高位是第 $i$ 位（即 2^i &lt;= x &lt; 2^{i+1}）。</li>
 <li>在第 $0$ 到 $i-1$ 位这 $i$ 个低位中，有 $j$ 个是 <code class="notranslate">1</code>。</li>
 </ul>
 <p>那么消除这个数字需要的总步数 $S$ 为：<br>
@@ -981,15 +981,15 @@ $j$ 是因为低位的每一个 <code class="notranslate">1</code> 都会额外�
 <h2>计数问题</h2>
 <p>题目要求的是：有多少个数字满足 <strong>需要步数 &gt; k</strong>。<br>
 由于 $n=2^d$，我们可以按最高位 $i$（从 $0$ 到 $d-1$）进行分类讨论。</p>
-<p>对于固定的最高位 $i$（即数字范围 $[2^i, 2^{i+1}-1]$），这部分数字共有 $2^i$ 个。<br>
-我们需要统计其中有多少个数字满足：<br>
-$$i + 1 + j &amp;gt; k \quad \Rightarrow \quad j &amp;gt; k - i - 1 \quad \Rightarrow \quad j \ge k - i$$<br>
-其中 $j$ 是低 $i$ 位中 <code class="notranslate">1</code> 的个数。</p>
+<p>对于固定的最高位 $i$（即数字范围 [2^i, 2^{i+1}-1]），这部分数字共有 $2^i$ 个。<br>
+我们需要统计其中有多少个数字满足：</p>
+<p>$$i + 1 + j \gt k \quad \Rightarrow \quad j \gt k - i - 1 \quad \Rightarrow \quad j \ge k - i$$</p>
+<p>其中 $j$ 是低 $i$ 位中 <code class="notranslate">1</code> 的个数。</p>
 <p>这是一个经典的组合数问题！在 $i$ 个位置中，选出 $j$ 个位置放 <code class="notranslate">1</code>，方案数就是 $C(i, j)$。<br>
 所以我们只需要遍历所有的 $i$，然后累加 $\sum C(i, j)$ 即可。</p>
 <p><strong>特殊边界</strong>：<br>
 数字 $n$ 本身是 $2^d$。它的低位没有 1，步数是 $d+1$。<br>
-如果 $d+1 &amp;gt; k$，那么 $n$ 也是一个计数对象，答案加 1。</p>
+如果 d + 1 &gt; k，那么 $n$ 也是一个计数对象，答案加 1。</p>
 <h2>代码实现</h2>
 <div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
 <span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
