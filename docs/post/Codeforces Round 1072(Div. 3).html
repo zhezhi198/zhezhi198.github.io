@@ -10,13 +10,15 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="# A. Social Experiment 
+<meta name="description" content="[比赛](https://codeforces.com/contest/2184)
+# A. Social Experiment 
 
 ## 题目大意
 
 现在有 $n$ 个人要参加一个大型社会实验。">
 <meta property="og:title" content="Codeforces Round 1072(Div. 3)">
-<meta property="og:description" content="# A. Social Experiment 
+<meta property="og:description" content="[比赛](https://codeforces.com/contest/2184)
+# A. Social Experiment 
 
 ## 题目大意
 
@@ -91,7 +93,8 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h1>A. Social Experiment</h1>
+<div class="markdown-body" id="postBody"><p><a href="https://codeforces.com/contest/2184" rel="nofollow">比赛</a></p>
+<h1>A. Social Experiment</h1>
 <h2>题目大意</h2>
 <p>现在有 $n$ 个人要参加一个大型社会实验。规则如下：</p>
 <ol>
@@ -934,16 +937,1055 @@ ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
 16 1
 </code></pre>
 <h3>Output</h3>
-<pre lang="text" class="notranslate"><code class="notranslate">7
-4 1
-4 2
-4 3
-4 4
-4 5
-16 5
-16 1
+<pre lang="text" class="notranslate"><code class="notranslate">3
+2
+0
+0
+0
+4
+15
+
 </code></pre>
-<p>先去做饭了，先写到这里</p></div>
+<h2>核心思路</h2>
+<p>首先，我们需要搞清楚把一个数字 $x$ 变成 0 到底需要多少步。<br>
+爱丽丝的策略其实是被<strong>强制</strong>的：</p>
+<ul>
+<li>如果是偶数，必须除以 2（消除末尾的 0）。</li>
+<li>如果是奇数，必须减 1（消除末尾的 1）。</li>
+</ul>
+<p>让我们观察操作对二进制位的影响：</p>
+<ol>
+<li><strong>除以 2</strong>：相当于二进制右移一位，<strong>步数 +1</strong>。</li>
+<li><strong>减 1</strong>：相当于把末尾的 <code class="notranslate">1</code> 变成 <code class="notranslate">0</code>。注意，这会让数字变回偶数，下一步必须除以 2。所以，消除一个 <code class="notranslate">1</code> 的代价其实是 <strong>步数 +2</strong>（一次减1，一次除2）。
+<ul>
+<li><em>特例</em>：到了最后一步（数字是 1）时，减 1 直接变 0，不需要再除以 2。</li>
+</ul>
+</li>
+</ol>
+<p><strong>推导步数公式</strong>：<br>
+假设一个数字 $x$，它的二进制表示中：</p>
+<ul>
+<li>最高位是第 $i$ 位（即 $2^i \le x &amp;lt; 2^{i+1}$）。</li>
+<li>在第 $0$ 到 $i-1$ 位这 $i$ 个低位中，有 $j$ 个是 <code class="notranslate">1</code>。</li>
+</ul>
+<p>那么消除这个数字需要的总步数 $S$ 为：<br>
+$$S = (i + 1) + j$$</p>
+<ul>
+<li>
+$(i + 1)$ 是因为所有位最终都要被移走（基础步数）。</li>
+<li>
+$j$ 是因为低位的每一个 <code class="notranslate">1</code> 都会额外增加一次“减1”的操作。</li>
+</ul>
+<h2>计数问题</h2>
+<p>题目要求的是：有多少个数字满足 <strong>需要步数 &gt; k</strong>。<br>
+由于 $n=2^d$，我们可以按最高位 $i$（从 $0$ 到 $d-1$）进行分类讨论。</p>
+<p>对于固定的最高位 $i$（即数字范围 $[2^i, 2^{i+1}-1]$），这部分数字共有 $2^i$ 个。<br>
+我们需要统计其中有多少个数字满足：<br>
+$$i + 1 + j &amp;gt; k \quad \Rightarrow \quad j &amp;gt; k - i - 1 \quad \Rightarrow \quad j \ge k - i$$<br>
+其中 $j$ 是低 $i$ 位中 <code class="notranslate">1</code> 的个数。</p>
+<p>这是一个经典的组合数问题！在 $i$ 个位置中，选出 $j$ 个位置放 <code class="notranslate">1</code>，方案数就是 $C(i, j)$。<br>
+所以我们只需要遍历所有的 $i$，然后累加 $\sum C(i, j)$ 即可。</p>
+<p><strong>特殊边界</strong>：<br>
+数字 $n$ 本身是 $2^d$。它的低位没有 1，步数是 $d+1$。<br>
+如果 $d+1 &amp;gt; k$，那么 $n$ 也是一个计数对象，答案加 1。</p>
+<h2>代码实现</h2>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll;
+#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span> <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); cin.tie(<span class="pl-c1">0</span>); cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+
+<span class="pl-c"><span class="pl-c">//</span> 组合数表</span>
+ll c[<span class="pl-c1">101</span>][<span class="pl-c1">101</span>];
+
+<span class="pl-c"><span class="pl-c">//</span> 预处理组合数</span>
+<span class="pl-k">void</span> <span class="pl-en">init</span>()
+{
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">0</span>, <span class="pl-c1">60</span>)
+    {
+        c[i][<span class="pl-c1">0</span>] = <span class="pl-c1">1</span>;
+        <span class="pl-c1">rep</span>(j, <span class="pl-c1">1</span>, i)
+        {
+            c[i][j] = c[i - <span class="pl-c1">1</span>][j - <span class="pl-c1">1</span>] + c[i - <span class="pl-c1">1</span>][j];
+        }
+    }
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    ll n, k;
+    cin &gt;&gt; n &gt;&gt; k;
+    
+    <span class="pl-c"><span class="pl-c">//</span> 计算 n 是 2 的多少次幂 (n = 2^d)</span>
+    ll s = n;
+    ll d = <span class="pl-c1">0</span>;
+    <span class="pl-k">while</span> (s &gt; <span class="pl-c1">1</span>)
+    {
+        s &gt;&gt;= <span class="pl-c1">1</span>;
+        d++;
+    }
+    
+    ll ans = <span class="pl-c1">0</span>;
+    
+    <span class="pl-c"><span class="pl-c">//</span> 枚举最高位 i (从 0 到 d-1)</span>
+    <span class="pl-c"><span class="pl-c">//</span> 对应的数字范围是 [2^i, 2^{i+1}-1]</span>
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">0</span>, d - <span class="pl-c1">1</span>)
+    {
+        <span class="pl-c"><span class="pl-c">//</span> 我们需要找步数 &gt; k 的数字</span>
+        <span class="pl-c"><span class="pl-c">//</span> 步数公式: steps = i + 1 + j (j是低位中1的个数)</span>
+        <span class="pl-c"><span class="pl-c">//</span> 条件: i + 1 + j &gt; k  =&gt;  j &gt;= k - i</span>
+        
+        <span class="pl-c"><span class="pl-c">//</span> mn 是 j 的下界</span>
+        <span class="pl-c"><span class="pl-c">//</span> 注意 k-i 可能为负，要取 max(0)</span>
+        ll mn = <span class="pl-c1">max</span>(k - i, <span class="pl-c1">ll</span>(<span class="pl-c1">0</span>)); 
+        
+        <span class="pl-c"><span class="pl-c">//</span> 累加所有满足条件的组合数</span>
+        <span class="pl-c1">rep</span>(j, mn, i)
+        {
+            ans += c[i][j];
+        }
+    }
+    
+    <span class="pl-c"><span class="pl-c">//</span> 特殊处理 n 本身 (2^d)</span>
+    <span class="pl-c"><span class="pl-c">//</span> 它的步数是 d + 1</span>
+    <span class="pl-k">if</span> (d + <span class="pl-c1">1</span> &gt; k)
+    {
+        ans++;
+    }
+    
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    IOS;
+    <span class="pl-c1">init</span>(); <span class="pl-c"><span class="pl-c">//</span> 别忘了初始化</span>
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    cin &gt;&gt; _; 
+    <span class="pl-k">while</span> (_--)
+    {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h2>思考:</h2>
+<h3>代码细节：为什么是 <code class="notranslate">while (s &gt; 1)</code>？</h3>
+<p>在计算 $n = 2^d$ 中的指数 $d$ 时，我们本质上是在计算 <strong>最高位的 1 在第几位</strong>（从第 0 位开始数）。</p>
+<ul>
+<li>
+<strong>目标</strong>：我们要让那个 <code class="notranslate">1</code> 只要移动到最右边（变成数值 1）就停止。</li>
+<li>如果写成 <code class="notranslate">while (s &gt; 0)</code>，当 <code class="notranslate">s</code> 变成 1 时循环还会继续执行一次，把 <code class="notranslate">1</code> 移出了边界变成了 <code class="notranslate">0</code>，导致统计出的 $d$ 多了 1。</li>
+</ul>
+<p><strong>举个栗子</strong>：<br>
+假设 $n = 4$ ($100_2$)，我们要求的是 $d=2$。</p>
+<ol>
+<li><code class="notranslate">100</code> -&gt; <code class="notranslate">010</code> (移 1 次)</li>
+<li><code class="notranslate">010</code> -&gt; <code class="notranslate">001</code> (移 2 次) -&gt; <strong>此时 s=1，应当停止！</strong></li>
+<li>如果继续移 -&gt; <code class="notranslate">000</code> (移 3 次) -&gt; <strong>这就错了</strong>。</li>
+</ol>
+<p>所以循环条件必须是 <code class="notranslate">s &gt; 1</code>，保证当 $s$ 减小到 1 时立刻终止。<br>
+然后关于组合数的不同求法我讲写一篇博客挂在这里，后会有期。</p>
+<h1>E. Exquisite Array</h1>
+<h2>题目大意</h2>
+<p>给你一个长度为 $n$ 的数组 $p$，里面的数字是 $1$ 到 $n$ 的乱序排列（也就是 $1 \sim n$ 每个数恰好出现一次）。</p>
+<p>我们需要定义什么是 <strong>“精美子数组”</strong>。<br>
+如果一个子数组（原数组中连续的一段）满足以下两个条件，它就是“$k$-精美”的：</p>
+<ol>
+<li>
+<strong>长度至少为 2</strong>（至少包含两个数）。</li>
+<li>
+<strong>相邻差值大</strong>：在这个子数组里，任意两个相邻的数字，它们的差的绝对值都必须 <strong>大于等于 $k$</strong>。</li>
+</ol>
+<p><strong>你的任务是：</strong><br>
+不用你去求某一个特定的 $k$，而是要你把 <strong>$k$ 从 $1$ 到 $n-1$</strong> 的所有情况都算一遍。<br>
+也就是说，你需要分别算出：</p>
+<ul>
+<li>当 $k=1$ 时，有多少个符合条件的子数组？</li>
+<li>当 $k=2$ 时，有多少个符合条件的子数组？</li>
+<li>...</li>
+<li>当 $k=n-1$ 时，有多少个符合条件的子数组？</li>
+</ul>
+<p>请按顺序输出这些数量。</p>
+<hr>
+<h2>Input</h2>
+<ul>
+<li>第一行包含一个整数 $t$ ($1 \le t \le 25000$)，表示测试数据的组数。</li>
+<li>接下来每个测试用例包含两行：
+<ul>
+<li>第一行是一个整数 $n$ ($2 \le n \le 10^5$)，表示数组的长度。</li>
+<li>第二行包含 $n$ 个整数 $p_1, p_2, \dots, p_n$，代表这个排列。</li>
+</ul>
+</li>
+<li>数据范围保证：所有测试用例的 $n$ 之和不超过 $2 \cdot 10^5$。</li>
+</ul>
+<h2>Output</h2>
+<ul>
+<li>对于每组测试数据，输出一行，包含 $n-1$ 个整数。</li>
+<li>第 $i$ 个整数表示当 $k=i$ 时，满足条件的子数组的数量。</li>
+</ul>
+<hr>
+<h2>Example</h2>
+<h3>Input</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">3
+5
+5 1 4 2 3
+3
+3 2 1
+4
+3 1 2 4
+</code></pre>
+<h3>Output</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">10 6 3 1 
+3 0 
+6 2 0 
+</code></pre>
+<p><strong>你的任务是：</strong><br>
+不用求某一个 $k$，而是要一口气算出当 $k=1, k=2, \dots, k=n-1$ 时，分别有多少个符合条件的子数组？</p>
+<hr>
+<h2>2. 核心思路：为什么要“倒着算”？</h2>
+<h3>暴力做法的局限</h3>
+<p>如果我们老老实实地对于每一个 $k$，都去遍历一遍数组找答案，时间复杂度会爆炸（大约是 $O(n^2)$），而这道题 $n$ 最大有 $10^5$，肯定会超时。</p>
+<h3>逆向思维 (Key Point!)</h3>
+<p>我们需要观察一个有趣的性质：<strong>$k$ 越大，条件越苛刻；</strong>$k$ 越小，条件越宽松。**</p>
+<ul>
+<li>如果两个数的差是 5，那么当 $k=5$ 时它符合条件。</li>
+<li>当 $k$ 降到 4, 3, 2, 1 时，它依然符合条件！</li>
+</ul>
+<p>这启发我们：<strong>与其从 $k=1$ 算到 $k=n-1$，不如反过来，从 $k=n-1$ 算到 $k=1$。</strong></p>
+<ul>
+<li>当 $k$ 很大时，几乎没有相邻数满足条件，答案很可能是 0。</li>
+<li>随着 $k$ 慢慢变小，会有越来越多的相邻位置“解锁”（差值 $\ge k$）。</li>
+<li>我们只需要把这些<strong>新解锁的位置</strong>连起来，算出贡献即可。不需要每次都重头数。</li>
+</ul>
+<hr>
+<h2>3. 算法设计：并查集连连看</h2>
+<p>我们可以把数组看成 $n$ 个点，相邻的两个数之间有一条“边”。<br>
+边的“权重”就是这两个数的差值。</p>
+<ol>
+<li>
+<strong>预处理</strong>：算出所有相邻位置的差值，比如 <code class="notranslate">pair(差值, 位置下标)</code>。</li>
+<li>
+<strong>排序</strong>：把这些边按差值<strong>从大到小</strong>排序。</li>
+<li>
+<strong>开始遍历</strong>：从 $k = n-1$ 开始往下数。</li>
+<li>
+<strong>激活边</strong>：把所有差值 $\ge k$ 的边“激活”。</li>
+<li>
+<strong>连通块维护 (并查集)</strong>：
+<ul>
+<li>如果一条边被激活了，它就形成了一个连通的小段。</li>
+<li>如果这条边的左边也激活了，就把它们<strong>合并</strong>成一大段。</li>
+<li>如果这条边的右边也激活了，也<strong>合并</strong>起来。</li>
+</ul>
+</li>
+</ol>
+<h3>数学小课堂：怎么算子数组个数？</h3>
+<p>假设我们现在有一条连通的“长链”，它由 $L$ 条边组成（连接了 $L+1$ 个数字）。<br>
+那么它包含的合法子数组数量是：<br>
+$$\text{Count} = 1 + 2 + \dots + L = \frac{L \times (L+1)}{2}$$</p>
+<p>我们在合并并查集时，只需要：</p>
+<ol>
+<li><strong>减去</strong> 左边那段旧的贡献。</li>
+<li><strong>减去</strong> 右边那段旧的贡献。</li>
+<li><strong>加上</strong> 合并后新长段的贡献。</li>
+</ol>
+<hr>
+<h2>4. 图解演示</h2>
+<p>假设数组是：<code class="notranslate">3 1 2 4</code> ($n=4$)。<br>
+相邻差值分别是：</p>
+<ul>
+<li>下标1: <code class="notranslate">|3-1|=2</code></li>
+<li>下标2: <code class="notranslate">|1-2|=1</code></li>
+<li>下标3: <code class="notranslate">|2-4|=2</code></li>
+</ul>
+<p>排序后的边任务队列：<code class="notranslate">(差2, Pos1), (差2, Pos3), (差1, Pos2)</code>。</p>
+<h4>第一轮：k=3</h4>
+<p>没有任何边的差值 $\ge 3$。</p>
+<ul>
+<li>当前连通块：无。</li>
+<li><strong>答案 res[3] = 0</strong>。</li>
+</ul>
+<h4>第二轮：k=2</h4>
+<p>任务队列里有两条边满足 $\ge 2$：Pos1 和 Pos3。</p>
+<ol>
+<li>
+<strong>激活 Pos1</strong> (<code class="notranslate">3-1</code>)：
+<ul>
+<li>它是一个独立的长度为 1 的边。</li>
+<li>贡献 $\frac{1 \times 2}{2} = 1$。</li>
+<li>目前总分 <code class="notranslate">now = 1</code>。</li>
+</ul>
+</li>
+<li>
+<strong>激活 Pos3</strong> (<code class="notranslate">2-4</code>)：
+<ul>
+<li>它也是独立的（Pos2还没激活，连不上）。</li>
+<li>贡献 $+1$。</li>
+<li>目前总分 <code class="notranslate">now = 2</code>。</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><strong>答案 res[2] = 2</strong>。</li>
+</ul>
+<h4>第三轮：k=1</h4>
+<p>任务队列里有 Pos2 (<code class="notranslate">1-2</code>) 满足 $\ge 1$。</p>
+<ol>
+<li>
+<strong>激活 Pos2</strong>：
+<ul>
+<li>先把自己算作长度 1，<code class="notranslate">now += 1</code> (目前 now=3)。</li>
+<li>
+<strong>向左看</strong>：Pos1 已经是激活状态 -&gt; <strong>合并！</strong>
+<ul>
+<li>减去 Pos1 的旧贡献 (1)，减去 Pos2 的旧贡献 (1)。</li>
+<li>合并后长度变成 2。加上新贡献 $\frac{2 \times 3}{2} = 3$。</li>
+<li>目前 now = 3 - 1 - 1 + 3 = 4。</li>
+</ul>
+</li>
+<li>
+<strong>向右看</strong>：Pos3 也是激活状态 -&gt; <strong>合并！</strong>
+<ul>
+<li>减去左边大块(Pos1+Pos2)的旧贡献 (3)，减去 Pos3 的旧贡献 (1)。</li>
+<li>合并后长度变成 3。加上新贡献 $\frac{3 \times 4}{2} = 6$。</li>
+<li>目前 now = 4 - 3 - 1 + 6 = 6。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li><strong>答案 res[1] = 6</strong>。</li>
+</ul>
+<hr>
+<h2>5. AC 代码详解</h2>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span> <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); cin.tie(<span class="pl-c1">0</span>); cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
+#<span class="pl-k">define</span> <span class="pl-en">se</span> second
+#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
+#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
+#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>;
+ll p[N], sz[N]; <span class="pl-c"><span class="pl-c">//</span> p是并查集父节点，sz是连通块的“边数”</span>
+<span class="pl-k">bool</span> st[N];     <span class="pl-c"><span class="pl-c">//</span> st[i] 标记第 i 条边是否已经激活</span>
+ll n;
+ll <span class="pl-en">find</span>(<span class="pl-k">int</span> x) {
+    <span class="pl-k">if</span> (p[x] != x)
+        p[x] = <span class="pl-c1">find</span>(p[x]);
+    <span class="pl-k">return</span> p[x];
+}
+
+<span class="pl-c"><span class="pl-c">//</span> 计算公式：长度为 x 的边，能贡献多少个子数组</span>
+<span class="pl-c"><span class="pl-c">//</span> 等差数列求和: 1 + 2 + ... + x</span>
+ll <span class="pl-en">calc</span>(ll x) {
+    <span class="pl-k">return</span> (x * (x + <span class="pl-c1">1</span>)) / <span class="pl-c1">2</span>;
+}
+
+<span class="pl-k">void</span> <span class="pl-en">init</span>() {
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">0</span>, n) {
+        p[i] = i;
+        sz[i] = <span class="pl-c1">1</span>; <span class="pl-c"><span class="pl-c">//</span> 初始时，每个连通块只有它自己这一条边，长度为1</span>
+        st[i] = <span class="pl-c1">false</span>;
+    }
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    cin &gt;&gt; n;
+    <span class="pl-c1">init</span>();
+    vector&lt;ll&gt; <span class="pl-c1">a</span>(n + <span class="pl-c1">1</span>, <span class="pl-c1">0</span>);
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n) cin &gt;&gt; a[i];
+    
+    <span class="pl-c"><span class="pl-c">//</span> 1. 预处理：计算所有相邻差值</span>
+    vector&lt;PLL&gt; q;
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n - <span class="pl-c1">1</span>) {
+        <span class="pl-c"><span class="pl-c">//</span> 存储 {差值, 边的下标}</span>
+        <span class="pl-c"><span class="pl-c">//</span> 下标 i 代表连接 a[i] 和 a[i+1] 的边</span>
+        q.<span class="pl-c1">push_back</span>({<span class="pl-c1">abs</span>(a[i + <span class="pl-c1">1</span>] - a[i]), i});
+    }
+    
+    <span class="pl-c"><span class="pl-c">//</span> 2. 排序：按差值从大到小排</span>
+    <span class="pl-c"><span class="pl-c">//</span> 这样我们就可以从最大的 k 开始处理</span>
+    <span class="pl-c1">sort</span>(<span class="pl-c1">all</span>(q), [&amp;](PLL x, PLL y) { <span class="pl-k">return</span> x.<span class="pl-smi">fi</span> &gt; y.<span class="pl-smi">fi</span>; });
+
+    ll now = <span class="pl-c1">0</span>; <span class="pl-c"><span class="pl-c">//</span> 全局变量：当前 k 下所有合法子数组的总数</span>
+    vector&lt;ll&gt; <span class="pl-c1">res</span>(n);
+    ll j = <span class="pl-c1">0</span>; <span class="pl-c"><span class="pl-c">//</span> q 的指针</span>
+
+    <span class="pl-c"><span class="pl-c">//</span> 3. 倒序枚举 k</span>
+    <span class="pl-c1">dep</span>(k, n - <span class="pl-c1">1</span>, <span class="pl-c1">1</span>) {
+        <span class="pl-c"><span class="pl-c">//</span> 把所有 差值 &gt;= k 的边加入进来</span>
+        <span class="pl-k">while</span> (j &lt; n - <span class="pl-c1">1</span> &amp;&amp; q[j].<span class="pl-smi">fi</span> &gt;= k) {
+            ll x = q[j].<span class="pl-smi">se</span>; <span class="pl-c"><span class="pl-c">//</span> 当前边的位置</span>
+            st[x] = <span class="pl-c1">true</span>;   <span class="pl-c"><span class="pl-c">//</span> 标记为激活</span>
+            
+            <span class="pl-c"><span class="pl-c">//</span> 刚加入一条边，先把它当做独立的连通块</span>
+            <span class="pl-c"><span class="pl-c">//</span> 长度为1，贡献是 calc(1) = 1</span>
+            now += <span class="pl-c1">calc</span>(<span class="pl-c1">1</span>);
+
+            <span class="pl-c"><span class="pl-c">//</span> 定义合并函数：合并 u 和 v 所在的集合</span>
+            <span class="pl-k">auto</span> merge = [&amp;](<span class="pl-k">int</span> u, <span class="pl-k">int</span> v) -&gt; <span class="pl-k">void</span> {
+                <span class="pl-k">int</span> ru = <span class="pl-c1">find</span>(u);
+                <span class="pl-k">int</span> rv = <span class="pl-c1">find</span>(v);
+                <span class="pl-k">if</span> (ru != rv) {
+                    <span class="pl-c"><span class="pl-c">//</span> 核心逻辑：减去两个旧的，加上一个新的</span>
+                    now -= <span class="pl-c1">calc</span>(sz[ru]);
+                    now -= <span class="pl-c1">calc</span>(sz[rv]);
+                    
+                    p[rv] = ru;       <span class="pl-c"><span class="pl-c">//</span> 并查集挂载</span>
+                    sz[ru] += sz[rv]; <span class="pl-c"><span class="pl-c">//</span> 长度累加</span>
+                    
+                    now += <span class="pl-c1">calc</span>(sz[ru]); <span class="pl-c"><span class="pl-c">//</span> 加上合并后大块的贡献</span>
+                }
+            };
+
+            <span class="pl-c"><span class="pl-c">//</span> 检查左边的边 (x-1) 是否激活，如果激活就合并</span>
+            <span class="pl-k">if</span> (x &gt; <span class="pl-c1">1</span> &amp;&amp; st[x - <span class="pl-c1">1</span>]) {
+                <span class="pl-c1">merge</span>(x - <span class="pl-c1">1</span>, x);
+            }
+            <span class="pl-c"><span class="pl-c">//</span> 检查右边的边 (x+1) 是否激活，如果激活就合并</span>
+            <span class="pl-k">if</span> (x &lt; n - <span class="pl-c1">1</span> &amp;&amp; st[x + <span class="pl-c1">1</span>]) {
+                <span class="pl-c1">merge</span>(x, x + <span class="pl-c1">1</span>);
+            }
+            j++;
+        }
+        <span class="pl-c"><span class="pl-c">//</span> 记录当前 k 的答案</span>
+        res[k] = now;
+    }
+
+    <span class="pl-c"><span class="pl-c">//</span> 4. 输出结果</span>
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n - <span class="pl-c1">1</span>) {
+        cout &lt;&lt; res[i] &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>;
+    }
+    cout &lt;&lt; endl;
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>() {
+    IOS;
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    cin &gt;&gt; _; 
+    <span class="pl-k">while</span> (_--) {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h1>F. Cherry Tree</h1>
+<h2>题目大意</h2>
+<p>给你一棵有 $n$ 个节点的树，树的根节点是 <strong>1</strong> 号节点。<br>
+这棵树的每一个<strong>叶子节点</strong>（没有子节点的节点）上都长着一颗樱桃。</p>
+<p>你的目标是：<strong>收集所有的樱桃</strong>。</p>
+<p>为了收集樱桃，你可以执行多次“摇树”操作。规则如下：</p>
+<ol>
+<li>
+<p><strong>摇晃规则</strong>：你可以选择树上的任意一个节点 $v$ 进行摇晃。</p>
+<ul>
+<li>一旦摇晃了节点 $v$，以 $v$ 为根的<strong>整个子树</strong>里所有的叶子上的樱桃都会掉下来。</li>
+<li>如果 $v$ 本身就是叶子，那它上面的樱桃就掉下来。</li>
+</ul>
+</li>
+<li>
+<p><strong>安全规则（不能重复）</strong>：</p>
+<ul>
+<li>如果某个叶子上的樱桃已经掉下来了，你就不能再次让它掉下来（也就是说，不能通过摇晃另一个祖先节点再次覆盖这个叶子）。</li>
+<li>否则树会断掉（任务失败）。</li>
+<li>
+<strong>简单说就是</strong>：你选出的这组节点，它们管辖的叶子区域不能有重叠，并且必须刚好覆盖所有叶子。</li>
+</ul>
+</li>
+<li>
+<p><strong>神秘传说（核心限制）</strong>：</p>
+<ul>
+<li>你一共摇晃的节点总数量，必须是 <strong>3 的倍数</strong>。</li>
+</ul>
+</li>
+</ol>
+<p><strong>问</strong>：能不能找到一种摇树方案，既能收集完所有樱桃，又不弄断树，且摇晃的节点数还能被 3 整除？</p>
+<hr>
+<h2>Input</h2>
+<ul>
+<li>第一行包含一个整数 $t$ ($1 \le t \le 10^4$)，表示测试数据的组数。</li>
+<li>对于每组测试数据：
+<ul>
+<li>第一行包含一个整数 $n$ ($2 \le n \le 2 \cdot 10^5$)，表示节点的数量。</li>
+<li>接下来 $n-1$ 行，每行包含两个整数 $u$ 和 $v$，表示节点 $u$ 和 $v$ 之间有一条边（保证是一棵树）。</li>
+</ul>
+</li>
+</ul>
+<h2>Output</h2>
+<ul>
+<li>对于每组数据，如果能满足条件，输出 <code class="notranslate">YES</code>。</li>
+<li>否则，输出 <code class="notranslate">NO</code>。</li>
+<li>（输出不区分大小写，<code class="notranslate">Yes</code>, <code class="notranslate">yes</code>, <code class="notranslate">YES</code> 都可以）。</li>
+</ul>
+<hr>
+<h2>Example</h2>
+<h3>Input</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">3
+4
+1 2
+1 3
+1 4
+3
+1 2
+1 3
+9
+1 2
+3 1
+2 4
+5 2
+5 6
+3 7
+8 3
+8 9
+</code></pre>
+<h3>Output</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">YES
+NO
+YES
+</code></pre>
+<h2>1. 题目大意</h2>
+<p>我们要在一棵树上收集所有叶子节点的樱桃。<br>
+规则有点特别：</p>
+<ol>
+<li><strong>摇树</strong>：你可以摇任意一个节点。一摇，这个节点下面所有子树里的樱桃全都会掉下来。</li>
+<li><strong>不能重复</strong>：每个叶子的樱桃只能掉一次。如果你摇了根节点，就不能再摇下面的子节点了；反之，如果你分别摇了下面的子节点，就不能再摇上面的根节点。
+<ul>
+<li><em>潜台词：我们要么直接搞定当前节点，要么让子节点们自己搞定，把子树覆盖满。</em></li>
+</ul>
+</li>
+<li><strong>3的倍数</strong>：最终你一共摇了多少次节点？这个总次数必须是 <strong>3 的倍数</strong>。</li>
+</ol>
+<p>问：能不能做到？</p>
+<hr>
+<h2>2. 核心思路：树形 DP</h2>
+<h3>为什么要用 DP？</h3>
+<p>对于任意一个节点 $u$，想要搞定以它为根的子树，有两种策略：</p>
+<ol>
+<li>
+<strong>直接摇 $u$</strong>：
+<ul>
+<li>不管是啥结构，我直接摇 $u$，咔嚓一下，下面所有叶子都搞定了。</li>
+<li>
+<strong>代价</strong>：操作次数 = 1。</li>
+</ul>
+</li>
+<li>
+<strong>不摇 $u$，让儿子们自己摇</strong>：
+<ul>
+<li>我如果不摇 $u$，那 $u$ 的每一个子节点 $v$ 就必须自己负责搞定它们自己的子树。</li>
+<li>
+<strong>代价</strong>：操作次数 = 所有子节点操作次数之和。</li>
+</ul>
+</li>
+</ol>
+<p>这就出现了分歧！</p>
+<ul>
+<li>如果不摇 $u$，子节点 $v_1$ 可能花了 2 次， $v_2$ 可能花了 4 次，合起来就是 6 次。</li>
+<li>如果我们关心的是总次数能否被 3 整除，那我们不需要记录具体的次数（比如 100 次还是 200 次），只需要记录 <strong>模 3 后的余数</strong>。</li>
+</ul>
+<h3>状态定义</h3>
+<p>我们需要定义 <code class="notranslate">f[u][r]</code>，其中 $r$ 是 $0, 1, 2$。</p>
+<ul>
+<li>
+<code class="notranslate">f[u][0] = true</code>：表示以 $u$ 为根的子树，可以通过 $3k$ 次操作搞定。</li>
+<li>
+<code class="notranslate">f[u][1] = true</code>：表示以 $u$ 为根的子树，可以通过 $3k+1$ 次操作搞定。</li>
+<li>
+<code class="notranslate">f[u][2] = true</code>：表示以 $u$ 为根的子树，可以通过 $3k+2$ 次操作搞定。</li>
+</ul>
+<p>最终答案就是看根节点 <code class="notranslate">f[1][0]</code> 是不是 <code class="notranslate">true</code>。</p>
+<hr>
+<h2>3. 状态转移逻辑 (背包思想)</h2>
+<p>假设节点 $u$ 有很多子节点 $v_1, v_2, \dots$。<br>
+如果我们选择**“不摇 u”<strong>策略，那总次数就是所有子节点次数相加：<br>
+$$\text{Total} = \text{Cost}(v_1) + \text{Cost}(v_2) + \dots$$<br>
+在模 3 意义下，这就是一个</strong>分组背包<strong>或者简单的</strong>余数累加**问题。</p>
+<ul>
+<li>初始化：刚开始只有一种情况，余数是 0（什么都不做）。</li>
+<li>来了一个子节点 $v$，它可能贡献余数 0, 1, 或 2。</li>
+<li>我们用临时数组 <code class="notranslate">nxt</code> 更新当前的余数集合。
+<ul>
+<li>比如之前能凑出余数 1，现在 $v$ 能凑出余数 2，那 $1+2=3 \to 0$，我们就凑出了余数 0。</li>
+</ul>
+</li>
+</ul>
+<p><strong>特殊情况：直接摇 u</strong><br>
+除了累加子节点，我们还有一种选择：直接摇 $u$。<br>
+这就简单粗暴了，不管子节点怎么弄，直接把 $u$ 视为 1 次操作。<br>
+所以，对于任何节点 $u$，<code class="notranslate">f[u][1]</code> 总是可以为 <code class="notranslate">true</code>（只要它里面包含叶子，或者它自己是叶子）。</p>
+<ul>
+<li><em>注：代码里需要注意叶子节点的判定，不过题目逻辑上直接置 <code class="notranslate">f[u][1]=true</code> 是通用的，因为摇自己总是花费 1。</em></li>
+</ul>
+<hr>
+<h2>4. 图解转移过程</h2>
+<p>假设节点 u 有两个子节点 A 和 B。</p>
+<ul>
+<li><strong>子节点 A</strong> 能提供的余数集合：<code class="notranslate">{1}</code> (代表 A 只能花 1 次)</li>
+<li><strong>子节点 B</strong> 能提供的余数集合：<code class="notranslate">{1, 2}</code> (代表 B 能花 1 次或 2 次)</li>
+</ul>
+<p><strong>初始状态</strong>：<code class="notranslate">st = {0}</code> (一开始还没有合并任何子节点，余数为 0)</p>
+<p><strong>第一步：合并 A</strong></p>
+<ul>
+<li>当前累加状态是 <code class="notranslate">{0}</code>。</li>
+<li>子节点 A 提供余数 <code class="notranslate">1</code>。</li>
+<li>进行组合：0 + 1 = 1。</li>
+<li><strong>合并后状态</strong>：<code class="notranslate">{1}</code>。</li>
+</ul>
+<p><strong>第二步：合并 B</strong></p>
+<ul>
+<li>当前累加状态是 <code class="notranslate">{1}</code>。</li>
+<li>子节点 B 提供余数 <code class="notranslate">1</code> 和 <code class="notranslate">2</code>。</li>
+<li>组合情形 1：1 (来自当前) + 1 (来自 B) = 2。</li>
+<li>组合情形 2：1 (来自当前) + 2 (来自 B) = 3，对 3 取模后变成 0。</li>
+<li><strong>合并后状态</strong>：<code class="notranslate">{0, 2}</code> (这是“不摇 u，只靠子节点”能凑出的余数)。</li>
+</ul>
+<p><strong>第三步：考虑摇 u 自己 (必须考虑的策略)</strong></p>
+<ul>
+<li>除了上面靠子节点凑出来的 <code class="notranslate">{0, 2}</code>，我们永远可以选择<strong>直接摇 u</strong>。</li>
+<li>摇 u 的花费固定是 1。</li>
+<li>所以我们将 <code class="notranslate">1</code> 也加入最终的可能集合中。</li>
+<li><strong>最终 u 的状态集合</strong>：<code class="notranslate">{0, 1, 2}</code> (即 u 节点可以向上层汇报：我也能凑出 0、1 或 2)。</li>
+</ul>
+<hr>
+<h2>5. AC 代码详解</h2>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+
+<span class="pl-c"><span class="pl-c">//</span> 常用宏定义</span>
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span> <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); cin.tie(<span class="pl-c1">0</span>); cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (<span class="pl-k">int</span> i = x; i &lt;= n; i++)
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2e5</span> + <span class="pl-c1">10</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> M = <span class="pl-c1">2</span> * N;
+
+<span class="pl-c"><span class="pl-c">//</span> 邻接表存图</span>
+<span class="pl-k">int</span> h[N], e[M], ne[M], idx;
+<span class="pl-c"><span class="pl-c">//</span> DP 数组：f[u][0/1/2]</span>
+<span class="pl-k">bool</span> f[N][<span class="pl-c1">3</span>]; 
+<span class="pl-k">int</span> n;
+
+<span class="pl-k">void</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> a, <span class="pl-k">int</span> b) {
+    e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+}
+
+<span class="pl-k">void</span> <span class="pl-en">init</span>() {
+    idx = <span class="pl-c1">0</span>;
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">0</span>, n) {
+        h[i] = -<span class="pl-c1">1</span>;
+        f[i][<span class="pl-c1">0</span>] = f[i][<span class="pl-c1">1</span>] = f[i][<span class="pl-c1">2</span>] = <span class="pl-c1">false</span>;
+    }
+}
+
+<span class="pl-c"><span class="pl-c">//</span> 核心 DFS 函数</span>
+<span class="pl-k">void</span> <span class="pl-en">dfs</span>(<span class="pl-k">int</span> u, <span class="pl-k">int</span> pa) {
+    <span class="pl-c"><span class="pl-c">//</span> st 数组用来存“累加子节点”产生的余数集合</span>
+    <span class="pl-c"><span class="pl-c">//</span> 初始状态是 {0} (也就是 true, false, false)</span>
+    <span class="pl-k">bool</span> st[<span class="pl-c1">3</span>] = {<span class="pl-c1">true</span>, <span class="pl-c1">false</span>, <span class="pl-c1">false</span>};
+    <span class="pl-k">bool</span> is_leaf = <span class="pl-c1">true</span>; <span class="pl-c"><span class="pl-c">//</span> 标记是否是叶子</span>
+
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = h[u]; ~i; i = ne[i]) {
+        <span class="pl-k">int</span> j = e[i];
+        <span class="pl-k">if</span> (j == pa) <span class="pl-k">continue</span>; <span class="pl-c"><span class="pl-c">//</span> 别倒着搜回去了</span>
+        
+        is_leaf = <span class="pl-c1">false</span>;
+        <span class="pl-c1">dfs</span>(j, u); <span class="pl-c"><span class="pl-c">//</span> 先递归搞定子节点</span>
+        
+        <span class="pl-c"><span class="pl-c">//</span> --- 核心转移逻辑：合并子节点 j 的结果 ---</span>
+        <span class="pl-k">bool</span> nxt[<span class="pl-c1">3</span>] = {<span class="pl-c1">false</span>, <span class="pl-c1">false</span>, <span class="pl-c1">false</span>}; <span class="pl-c"><span class="pl-c">//</span> 临时数组存合并后的新状态</span>
+        
+        <span class="pl-c"><span class="pl-c">//</span> 枚举之前已经凑出的余数 r1</span>
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> r1 = <span class="pl-c1">0</span>; r1 &lt; <span class="pl-c1">3</span>; r1++) {
+            <span class="pl-k">if</span> (st[r1]) { <span class="pl-c"><span class="pl-c">//</span> 如果 r1 存在</span>
+                <span class="pl-c"><span class="pl-c">//</span> 枚举子节点 j 能提供的余数 r2</span>
+                <span class="pl-k">for</span> (<span class="pl-k">int</span> r2 = <span class="pl-c1">0</span>; r2 &lt; <span class="pl-c1">3</span>; r2++) {
+                    <span class="pl-k">if</span> (f[j][r2]) { <span class="pl-c"><span class="pl-c">//</span> 如果 j 能凑出 r2</span>
+                        <span class="pl-c"><span class="pl-c">//</span> 组合出了新余数 (r1 + r2) % 3</span>
+                        nxt[(r1 + r2) % <span class="pl-c1">3</span>] = <span class="pl-c1">true</span>;
+                    }
+                }
+            }
+        }
+        <span class="pl-c"><span class="pl-c">//</span> 更新 st 状态</span>
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> k = <span class="pl-c1">0</span>; k &lt; <span class="pl-c1">3</span>; k++) st[k] = nxt[k];
+    }
+
+    <span class="pl-c"><span class="pl-c">//</span> 策略 1：直接摇 u 自己</span>
+    <span class="pl-c"><span class="pl-c">//</span> 代价总是 1。无论是不是叶子，摇 u 总是合法的操作，花费 1。</span>
+    f[u][<span class="pl-c1">1</span>] = <span class="pl-c1">true</span>;
+
+    <span class="pl-c"><span class="pl-c">//</span> 策略 2：不摇 u，让子节点凑</span>
+    <span class="pl-c"><span class="pl-c">//</span> 只有当 u 不是叶子时，这个策略才有效</span>
+    <span class="pl-c"><span class="pl-c">//</span> (如果是叶子，没子节点凑，必须摇自己，也就是上面那行)</span>
+    <span class="pl-k">if</span> (!is_leaf) {
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> k = <span class="pl-c1">0</span>; k &lt; <span class="pl-c1">3</span>; k++) {
+            <span class="pl-k">if</span> (st[k]) {
+                f[u][k] = <span class="pl-c1">true</span>;
+            }
+        }
+    }
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    cin &gt;&gt; n;
+    <span class="pl-c1">init</span>();
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n - <span class="pl-c1">1</span>) {
+        <span class="pl-k">int</span> u, v;
+        cin &gt;&gt; u &gt;&gt; v;
+        <span class="pl-c1">add</span>(u, v);
+        <span class="pl-c1">add</span>(v, u);
+    }
+    
+    <span class="pl-c1">dfs</span>(<span class="pl-c1">1</span>, <span class="pl-c1">0</span>);
+    
+    <span class="pl-c"><span class="pl-c">//</span> 只要根节点能凑出余数 0，就是 YES</span>
+    <span class="pl-k">if</span> (f[<span class="pl-c1">1</span>][<span class="pl-c1">0</span>]) {
+        <span class="pl-c1">out</span>(<span class="pl-c1">1</span>);
+    } <span class="pl-k">else</span> {
+        <span class="pl-c1">out</span>(<span class="pl-c1">0</span>);
+    }
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>() {
+    IOS;
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    cin &gt;&gt; _; 
+    <span class="pl-k">while</span> (_--) {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h1>G. Nastiness of Segments</h1>
+<h2>题目大意</h2>
+<p>安德烈（Andrey）有一排积木，编号从 <strong>1</strong> 到 <strong>n</strong>，每个积木上都写着一个数字 <strong>a[i]</strong>。</p>
+<p>这道题定义了一个核心概念叫 **“讨厌的数” **，记作 <strong>d</strong>。<br>
+对于一个查询区间 <code class="notranslate">[l, r]</code>，如果一个非负整数 <code class="notranslate">d</code> ($0 \le d \le r-l$) 满足以下条件，它就是“讨厌的”：</p>
+<ul>
+<li>从起点 <strong>l</strong> 开始，往后取 <strong>d</strong> 个位置（即区间 <code class="notranslate">[l, l+d]</code>）。</li>
+<li>这一小段里的 <strong>最小值</strong> 恰好等于 <strong>d</strong>。</li>
+</ul>
+<p>用公式表示就是：<br>
+<code class="notranslate">min(a[l], a[l+1], ..., a[l+d]) = d</code></p>
+<p>你的任务是处理 <strong>q</strong> 次操作，操作分为两种：</p>
+<ol>
+<li><strong>修改操作</strong>：把第 <code class="notranslate">i</code> 个积木上的数字改成 <code class="notranslate">x</code>。</li>
+<li><strong>查询操作</strong>：给定一个区间 <code class="notranslate">[l, r]</code>，请你算出这个区间里一共有多少个合法的“讨厌的数” <code class="notranslate">d</code>。</li>
+</ol>
+<hr>
+<h2>Input</h2>
+<ul>
+<li>第一行包含一个整数 <strong>t</strong> ($1 \le t \le 10^4$)，表示测试数据的组数。</li>
+<li>每个测试用例的第一行包含两个整数 <strong>n</strong> 和 <strong>q</strong> ($1 \le n, q \le 2 \cdot 10^5$)，分别表示积木数量和操作次数。</li>
+<li>下一行包含 <strong>n</strong> 个整数 $a_1, a_2, \dots, a_n$，表示积木上初始的数字。</li>
+<li>接下来 <strong>q</strong> 行描述操作：
+<ul>
+<li>
+<code class="notranslate">1 i x</code>：<strong>修改操作</strong>。把位置 <code class="notranslate">i</code> 的数改成 <code class="notranslate">x</code>。</li>
+<li>
+<code class="notranslate">2 l r</code>：<strong>查询操作</strong>。查询区间 <code class="notranslate">[l, r]</code> 的“讨厌程度”（即满足条件的 <code class="notranslate">d</code> 的个数）。</li>
+</ul>
+</li>
+</ul>
+<p>数据范围保证所有测试用例的 <strong>n</strong> 和 <strong>q</strong> 之和都不超过 $2 \cdot 10^5$。</p>
+<h2>Output</h2>
+<ul>
+<li>对于每一个类型为 2 的查询操作，输出一行一个整数，表示该区间内“讨厌的数”的个数。</li>
+</ul>
+<hr>
+<h2>Example</h2>
+<h3>Input</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">1
+5 5
+1 2 3 4 5
+2 1 5
+1 1 5
+1 2 5
+1 3 1
+2 1 5
+</code></pre>
+<h3>Output</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">1
+0
+</code></pre>
+<blockquote>
+<p>思路：线段树+二分<br>
+代码：</p>
+</blockquote>
+<pre class="notranslate"><code class="notranslate">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define debug(...) cout &lt;&lt; "[debug] " #__VA_ARGS__ " = " &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p &lt;&lt; 1
+#define rc p &lt;&lt; 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) &amp; (-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 2e5 + 10, M = 2 * N, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template &lt;typename T&gt;
+bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+template &lt;typename T&gt;
+struct BIT1
+{
+    int n;
+    vector&lt;T&gt; tr;
+    BIT1(int n) : n(n), tr(n + 1) {}
+    void add(int x, T v)
+    {
+        for (; x &lt;= n; x += x &amp; -x)
+            tr[x] += v;
+    }
+    T sum(int x)
+    {
+        T r = 0;
+        for (; x; x -= x &amp; -x)
+            r += tr[x];
+        return r;
+    }
+    T range(int l, int r) { return sum(r) - sum(l - 1); }
+};
+template &lt;typename T&gt;
+struct BIT2
+{
+    int n, m;
+    vector&lt;vector&lt;T&gt;&gt; t1, t2, t3, t4;
+    BIT2(int n_ = 0, int m_ = 0) { init(n_, m_); }
+    void init(int n_, int m_)
+    {
+        n = n_;
+        m = m_;
+        t1.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t2.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t3.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t4.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+    }
+    void _add(int x, int y, const T &amp;v)
+    {
+        for (int i = x; i &lt;= n; i += i &amp; -i)
+            for (int j = y; j &lt;= m; j += j &amp; -j)
+            {
+                t1[i][j] += v;
+                t2[i][j] += v * x;
+                t3[i][j] += v * y;
+                t4[i][j] += v * x * y;
+            }
+    }
+    void rangeAdd(int x1, int y1, int x2, int y2, const T &amp;v)
+    {
+        _add(x1, y1, v);
+        _add(x1, y2 + 1, -v);
+        _add(x2 + 1, y1, -v);
+        _add(x2 + 1, y2 + 1, v);
+    }
+    T prefixSum(int x, int y)
+    {
+        T r{};
+        for (int i = x; i &gt; 0; i -= i &amp; -i)
+            for (int j = y; j &gt; 0; j -= j &amp; -j)
+                r += t1[i][j] * (x + 1) * (y + 1) - t2[i][j] * (y + 1) - t3[i][j] * (x + 1) + t4[i][j];
+        return r;
+    }
+    T rangeSum(int x1, int y1, int x2, int y2)
+    {
+        if (x1 &gt; x2 || y1 &gt; y2)
+            return T{};
+        return prefixSum(x2, y2) - prefixSum(x1 - 1, y2) - prefixSum(x2, y1 - 1) + prefixSum(x1 - 1, y1 - 1);
+    }
+};
+struct Random
+{
+    mt19937_64 rng;
+    Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+    ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
+    ll rand_ll(ll l, ll r) { return uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
+    int rand_int(int l, int r) { return uniform_int_distribution&lt;int&gt;(l, r)(rng); }
+    double rand_db(double l, double r) { return uniform_real_distribution&lt;double&gt;(l, r)(rng); }
+    bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
+    template &lt;typename T&gt;
+    void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); }
+};
+ll qmi(ll a, ll b, ll p)
+{
+    ll res = 1 % p;
+    a %= p;
+    while (b)
+    {
+        if (b &amp; 1)
+            res = res * a % p;
+        a = a * a % p;
+        b &gt;&gt;= 1;
+    }
+    return res;
+}
+/*
+
+*/
+int n, q;
+int a[N];
+
+struct Node
+{
+    int l, r;
+    int mn;
+} t[N * 4];
+
+void pushup(int p)
+{
+
+    t[p].mn = min(t[lc].mn, t[rc].mn);
+}
+
+void build(int p, int l, int r)
+{
+    t[p].l = l;
+    t[p].r = r;
+    if (l == r)
+    {
+        t[p].mn = a[l];
+        return;
+    }
+
+    int mid = (l + r) &gt;&gt; 1;
+    build(lc, l, mid);
+    build(rc, mid + 1, r);
+    pushup(p);
+}
+
+void modify(int p, int x, int v)
+{
+    if (t[p].l == t[p].r)
+    {
+        t[p].mn = v;
+        return;
+    }
+    int mid = (t[p].l + t[p].r) &gt;&gt; 1;
+    if (x &lt;= mid)
+        modify(lc, x, v);
+    else
+        modify(rc, x, v);
+    pushup(p);
+}
+
+int query(int p, int l, int r)
+{
+    if (l &lt;= t[p].l &amp;&amp; t[p].r &lt;= r)
+    {
+        return t[p].mn;
+    }
+    int mid = (t[p].l + t[p].r) &gt;&gt; 1;
+    int res = INF;
+    if (l &lt;= mid)
+        res = min(res, query(lc, l, r));
+    if (r &gt; mid)
+        res = min(res, query(rc, l, r));
+    return res;
+}
+
+void solve()
+{
+    cin &gt;&gt; n &gt;&gt; q;
+    rep(i, 1, n) cin &gt;&gt; a[i];
+
+    build(1, 1, n);
+
+    while (q--)
+    {
+        int op;
+        cin &gt;&gt; op;
+        if (op == 1)
+        {
+            int i, x;
+            cin &gt;&gt; i &gt;&gt; x;
+            modify(1, i, x);
+        }
+        else
+        {
+            int l, r;
+            cin &gt;&gt; l &gt;&gt; r;
+
+            int L = -1, R = r - l + 1;
+            bool ck = false;
+
+            while (L + 1 &lt; R)
+            {
+                int d = L + (R - L) / 2;
+
+                int mn = query(1, l, l + d);
+
+                if (mn == d)
+                {
+                    ck = true;
+                    break;
+                }
+                else if (mn &gt; d)
+                {
+
+                    L = d;
+                }
+                else
+                {
+
+                    R = d;
+                }
+            }
+
+            if (ck)
+                cout &lt;&lt; 1 &lt;&lt; endl;
+            else
+                cout &lt;&lt; 0 &lt;&lt; endl;
+        }
+    }
+}
+int main()
+{
+    IOS;
+
+    int _ = 1;
+    cin &gt;&gt; _; // 如果是多组数据
+    while (_--)
+    {
+        solve();
+    }
+    return 0;
+}
+</code></pre></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
