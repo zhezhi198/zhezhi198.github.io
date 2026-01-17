@@ -393,18 +393,18 @@ $m$：瓦迪姆离开的时间（总时长）。</li>
 <strong>规律（循环节）</strong>：
 <ul>
 <li>
-<strong>初始状态（第0轮）</strong>：上方有 <strong>$s$</strong>。</li>
+<strong>初始状态（第0轮）</strong>：上方有 $s$。</li>
 <li>
-<strong>第1次翻转后（奇数轮）</strong>：刚才漏下去的 <strong>$k$</strong> 变成了上方，开始漏。</li>
+<strong>第1次翻转后（奇数轮）</strong>：刚才漏下去的 $k$ 变成了上方，开始漏。</li>
 <li>
-<strong>第2次翻转后（偶数轮）</strong>：下方原本剩下的加上刚才接住的，又变回了 <strong>$s$</strong>。</li>
+<strong>第2次翻转后（偶数轮）</strong>：下方原本剩下的加上刚才接住的，又变回了 $s$。</li>
 <li>
 <strong>结论</strong>：
 <ul>
 <li>
-<strong>偶数次</strong>翻转后，该阶段以 <strong>$s$</strong> 开局。</li>
+<strong>偶数次</strong>翻转后，该阶段以 $s$ 开局。</li>
 <li>
-<strong>奇数次</strong>翻转后，该阶段以 <strong>$k$</strong> 开局。</li>
+<strong>奇数次</strong>翻转后，该阶段以 $k$ 开局。</li>
 </ul>
 </li>
 </ul>
@@ -416,8 +416,10 @@ $m$：瓦迪姆离开的时间（总时长）。</li>
 <li>算出最后一次翻转后过了多久：<code class="notranslate">res = m % k</code>。</li>
 <li>判断 <code class="notranslate">cnt</code> 的奇偶性：
 <ul>
-<li>**奇数 **：初始量是 $k$。答案是 <strong>$k - res$</strong> （因为 $s&amp;gt;k$，所以 $k$ 分钟内沙子肯定够漏，只需直接相减）。</li>
-<li>**偶数 **：初始量是 $s$。答案是 <strong>$s - res$</strong> （同理，因为 $k &amp;lt; s$，肯定够漏）。</li>
+<li>
+<strong>奇数</strong>：初始量是 $k$。答案是 <strong>$k - res$</strong> （因为 $s &amp;gt; k$，所以 $k$ 分钟内沙子肯定够漏，只需直接相减）。</li>
+<li>
+<strong>偶数</strong>：初始量是 $s$。答案是 <strong>$s - res$</strong> （同理，因为 $k &amp;lt; s$，肯定够漏）。</li>
 </ul>
 </li>
 </ol>
