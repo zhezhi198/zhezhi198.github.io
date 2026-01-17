@@ -108,7 +108,7 @@ $$</p>
 </ul>
 <h3>2. 核心原理 (Why)</h3>
 <p>基于组合数的递推性质 <code class="notranslate">C(n, k) = C(n-1, k) + C(n-1, k-1)</code>。<br>
-这就好比动态规划，我们可以预处理出一个二维数组（杨辉三角），之后查询只需要 <code class="notranslate">O(1)</code> [cite: 161-162]。因为只涉及加法，所以不用担心除法求逆元的问题。</p>
+这就好比动态规划，我们可以预处理出一个二维数组（杨辉三角），之后查询只需要 <code class="notranslate">O(1)</code> 。因为只涉及加法，所以不用担心除法求逆元的问题。</p>
 <h3>3. 代码实现</h3>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2010</span>;
 <span class="pl-k">const</span> <span class="pl-k">int</span> MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>;
@@ -381,7 +381,11 @@ console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 
 <script>
 document.getElementById("pathHome").setAttribute("d",IconList["home"]);
 document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
-
+cmButton=document.getElementById("cmButton");
+    span=document.createElement("span");
+    span.setAttribute("class","Counter");
+    span.innerHTML="1";
+    cmButton.appendChild(span);
 
 
 function openComments(){
