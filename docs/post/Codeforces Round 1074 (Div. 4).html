@@ -1159,22 +1159,22 @@ int main()
 </ol>
 <p><strong>作弊机制</strong>：每头牛最多可以作弊 $k$ 次。作弊时，即使它输了，也会被判为获胜，技能值同样变为 $x+y$，原本的赢家离开队伍。</p>
 <p><strong>问题</strong>：对于每头奶牛 $i$，如果将它从原位置移出并插入到某个位置 $x$（其他牛相对顺序不变），使得它能利用最多 $k$ 次作弊成为最终唯一的赢家。求这样的“好位置” $x$ 有多少个？</p>
-<h2>解题思路</h2>
 <h3>1. 胜利条件的转化</h3>
 <p>一头牛要赢得最终胜利，无论它怎么赢（靠实力还是作弊），每次胜利后它的技能值都会变成“对手技能值 + 自己当前技能值”。<br>
 这意味着，如果一头牛赢到了最后，它的最终技能值一定是<strong>所有参赛牛的技能值之和</strong>。<br>
 或者更准确地说，如果奶牛 <code class="notranslate">i</code> 在某个位置 <code class="notranslate">x</code>，它前面所有牛的技能和记为 <code class="notranslate">pre</code>。</p>
 <ul>
-<li>如果 <code class="notranslate">a[i] &gt; pre</code>，它可以凭实力赢下前面的所有牛，技能值变为 <code class="notranslate">a[i] + pre</code>。</li>
-<li>如果 <code class="notranslate">a[i] &lt;= pre</code>，它必须消耗一次作弊机会才能赢下这一轮（相当于赢下这“一堆”牛），技能值也变为 <code class="notranslate">a[i] + pre</code>。</li>
+<li>如果 <code class="notranslate">a_i &gt; pre</code>，它可以凭实力赢下前面的所有牛，技能值变为 <code class="notranslate">a_i + pre</code>。</li>
+<li>如果 <code class="notranslate">a_i &lt;= pre</code>，它必须消耗一次作弊机会才能赢下这一轮（相当于赢下这“一堆”牛），技能值也变为 <code class="notranslate">a_i + pre</code>。</li>
 </ul>
 <h3>2. 核心观察：关键对手</h3>
 <p>并非每一头牛都需要我们单独判断输赢。<br>
 对于奶牛 <code class="notranslate">i</code> 来说，只有那些<strong>初始技能值特别大</strong>的牛才是威胁。<br>
-具体的威胁判定标准是：如果某头牛 <code class="notranslate">j</code> 的技能值 <code class="notranslate">a[j] &gt;</code> (它前面所有牛的技能和)，那么这头牛 <code class="notranslate">j</code> 就是一个**“强者”**。<br>
+具体的威胁判定标准是：如果某头牛 <code class="notranslate">j</code> 的技能值 <code class="notranslate">a_j &gt;</code> (它前面所有牛的技能和)，那么这头牛 <code class="notranslate">j</code> 就是一个**“强者”**。<br>
 我们把这些“强者”记录在列表 <code class="notranslate">q</code> 中。对于其他普通牛，它们技能值较小，会被前面的累积和吞噬，不会成为阻碍。</p>
 <h3>3. 计算“好位置”</h3>
-<p>对于每头奶牛 <code class="notranslate">i</code>，我们想知道它插在哪个位置能赢。位置可以分为两类：</p>
+<p>对于每头奶牛 <code class="notranslate">i</code>，我们想知道它插在哪个位置能赢。<br>
+位置可以分为两类：</p>
 <ol>
 <li><strong>位置 <code class="notranslate">x &lt;=</code> 某个临界点</strong>：在这个位置，奶牛 <code class="notranslate">i</code> 可以先吃掉前面的所有牛（可能需要作弊），然后带着累积的巨大技能值去挑战后面的牛。</li>
 <li><strong>位置 <code class="notranslate">x &gt;</code> 临界点</strong>：在这个位置，前面的某些“强者”已经成长得太大了，奶牛 <code class="notranslate">i</code> 即使作弊也可能不够用。</li>
@@ -1189,21 +1189,20 @@ int main()
 这转化为：奶牛 <code class="notranslate">i</code> 在成长过程中，遇到列表 <code class="notranslate">q</code> 中的那些“强者”时，是否还有足够的作弊次数 <code class="notranslate">k</code>。</p>
 <ul>
 <li>遍历所有“强者” <code class="notranslate">(j, val)</code>。</li>
-<li>如果 <code class="notranslate">j</code> 在 <code class="notranslate">i</code> 的前面且 <code class="notranslate">a[i]</code> 打不过 <code class="notranslate">j</code>（需要作弊），消耗 <code class="notranslate">k</code>。</li>
+<li>如果 <code class="notranslate">j</code> 在 <code class="notranslate">i</code> 的前面且 <code class="notranslate">a_i</code> 打不过 <code class="notranslate">j</code>（需要作弊），消耗 <code class="notranslate">k</code>。</li>
 <li>如果 <code class="notranslate">j</code> 在 <code class="notranslate">i</code> 的后面且成长后的 <code class="notranslate">i</code> 打不过 <code class="notranslate">j</code>，消耗 <code class="notranslate">k</code>。</li>
 <li>如果 <code class="notranslate">k &lt; 0</code>，说明这个位置不可行。</li>
 <li>只有满足条件的区间长度才会计入答案。</li>
 </ul>
-<h2>复杂度分析</h2>
+<h3>复杂度分析</h3>
 <ul>
 <li><strong>预处理</strong>：计算前缀和并筛选“强者”列表 <code class="notranslate">q</code>，时间复杂度 <code class="notranslate">O(n)</code>。</li>
 <li><strong>查询</strong>：对于每头牛，二分查找临界点 <code class="notranslate">O(log n)</code>，然后遍历 <code class="notranslate">q</code> 列表进行检查。
 <ul>
-<li>虽然看起来是 <code class="notranslate">O(n * |q|)</code>，但由于技能值呈指数级增长，“强者”的数量 <code class="notranslate">|q|</code> 非常少（最多 <code class="notranslate">O(log(Sum))</code>，约为 60 个）。</li>
+<li>虽然看起来是 <code class="notranslate">O(n * |q|)</code>，但由于技能值呈指数级增长，“强者”的数量 <code class="notranslate">|q|</code> 非常少（最多 <code class="notranslate">O(log(sum(a_i)))</code>，约为 60 个）。</li>
 </ul>
 </li>
-<li><strong>总复杂度</strong>：<code class="notranslate">O(n * log(TotalSum))</code>。<br>
-在 <code class="notranslate">2 * 10^5</code> 范围内非常快。</li>
+<li><strong>总复杂度</strong>：<code class="notranslate">O(n * log(TotalSum))</code>，在 <code class="notranslate">2 * 10^5</code> 范围内非常快。</li>
 </ul>
 <h2>AC 代码</h2>
 <div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
