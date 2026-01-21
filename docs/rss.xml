@@ -1,5 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Sat, 17 Jan 2026 09:50:26 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>算法篇【组合数的不同求法与选择】</title><link>https://zhezhi198.github.io/post/suan-fa-pian-%E3%80%90-zu-he-shu-de-bu-tong-qiu-fa-yu-xuan-ze-%E3%80%91.html</link><description>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Wed, 21 Jan 2026 13:59:18 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>Codeforces Round 1074 (Div. 4)</title><link>https://zhezhi198.github.io/post/Codeforces%20Round%201074%20%28Div.%204%29.html</link><description>[进入比赛](https://codeforces.com/contest/2185)
+# A. 完美的根 
+
+**时间限制：** 1 秒  
+**内存限制：** 256 MB  
+**输入：** 标准输入  
+**输出：** 标准输出  
+
+## 题目描述
+
+如果存在一个整数 $y$ 使得 $\sqrt{y} = x$，则正整数 $x$ 被称为一个**完全根**。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/Codeforces%20Round%201074%20%28Div.%204%29.html</guid><pubDate>Wed, 21 Jan 2026 13:58:49 +0000</pubDate></item><item><title>算法篇【组合数的不同求法与选择】</title><link>https://zhezhi198.github.io/post/suan-fa-pian-%E3%80%90-zu-he-shu-de-bu-tong-qiu-fa-yu-xuan-ze-%E3%80%91.html</link><description>
 
 在算法竞赛和日常编程中，组合数学是一个绕不开的话题。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/suan-fa-pian-%E3%80%90-zu-he-shu-de-bu-tong-qiu-fa-yu-xuan-ze-%E3%80%91.html</guid><pubDate>Sat, 17 Jan 2026 09:50:00 +0000</pubDate></item><item><title>Codeforces Round 1072(Div. 3)</title><link>https://zhezhi198.github.io/post/Codeforces%20Round%201072%28Div.%203%29.html</link><description>[比赛](https://codeforces.com/contest/2184)
 # A. Social Experiment 
