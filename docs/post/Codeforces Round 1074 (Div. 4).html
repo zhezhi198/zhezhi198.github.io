@@ -971,11 +971,11 @@ int main()
 <strong>基准答案</strong>：<code class="notranslate">ans = S * L * (n - 1)</code>。</p>
 <p>接下来我们只需要计算操作对基准答案的<strong>增量（或减量）</strong>。</p>
 <h3>2. 移除元素的影响 (减法贡献)</h3>
-<p>当我们从 $a_i$ 中移除元素 $x$ 时，只有当 $x &amp;lt; \text{MEX}(a_i)$ 且 $x$ 在 $a_i$ 中<strong>只出现了一次</strong>时，$a_i$ 的 MEX 才会减小。</p>
+<p>当我们从 <code class="notranslate">a[i]</code> 中移除元素 <code class="notranslate">x</code> 时，只有当 <code class="notranslate">x &lt; MEX(a[i])</code> 且 <code class="notranslate">x</code> 在 <code class="notranslate">a[i]</code> 中<strong>只出现了一次</strong>时，<code class="notranslate">a[i]</code> 的 MEX 才会减小。</p>
 <ul>
-<li>减小的量：$\text{MEX}(a_i)$ 会变成 $x$。所以减少了 $\text{MEX}(a_i) - x$。</li>
-<li>这种情况发生了 $n-1$ 次（因为有 $n-1$ 个目标数组 $a_k$）。</li>
-<li>更新：<code class="notranslate">ans -= (MEX(a_i) - x) * (n - 1)</code>。</li>
+<li>减小的量：<code class="notranslate">MEX(a[i])</code> 会变成 <code class="notranslate">x</code>。所以减少了 <code class="notranslate">MEX(a[i]) - x</code>。</li>
+<li>这种情况发生了 <code class="notranslate">n - 1</code> 次（因为有 <code class="notranslate">n - 1</code> 个目标数组 <code class="notranslate">a[k]</code>）。</li>
+<li>更新：<code class="notranslate">ans -= (MEX(a[i]) - x) * (n - 1)</code>。</li>
 </ul>
 <h3>3. 添加元素的影响 (加法贡献)</h3>
 <p>当我们把元素 $x$ 添加到 $a_k$ 中时，只有当 $x == \text{MEX}(a_k)$ 时，$a_k$ 的 MEX 才会增加。</p>
@@ -1200,16 +1200,14 @@ int main()
 </ul>
 <h2>复杂度分析</h2>
 <ul>
-<li>
-<strong>预处理</strong>：计算前缀和并筛选“强者”列表 <code class="notranslate">q</code>，时间复杂度 $O(n)$。</li>
-<li>
-<strong>查询</strong>：对于每头牛，二分查找临界点 $O(\log n)$，然后遍历 <code class="notranslate">q</code> 列表进行检查。
+<li><strong>预处理</strong>：计算前缀和并筛选“强者”列表 <code class="notranslate">q</code>，时间复杂度 <code class="notranslate">O(n)</code>。</li>
+<li><strong>查询</strong>：对于每头牛，二分查找临界点 <code class="notranslate">O(log n)</code>，然后遍历 <code class="notranslate">q</code> 列表进行检查。
 <ul>
-<li>虽然看起来是 $O(n \cdot |q|)$，但由于技能值呈指数级增长，“强者”的数量 $|q|$ 非常少（最多 $O(\log (\sum a_i))$，约为 60 个）。</li>
+<li>虽然看起来是 <code class="notranslate">O(n * |q|)</code>，但由于技能值呈指数级增长，“强者”的数量 <code class="notranslate">|q|</code> 非常少（最多 <code class="notranslate">O(log(Sum))</code>，约为 60 个）。</li>
 </ul>
 </li>
-<li>
-<strong>总复杂度</strong>：$O(n \log (\text{TotalSum}))$，在 $2 \cdot 10^5$ 范围内非常快。</li>
+<li><strong>总复杂度</strong>：<code class="notranslate">O(n * log(TotalSum))</code>。<br>
+在 <code class="notranslate">2 * 10^5</code> 范围内非常快。</li>
 </ul>
 <h2>AC 代码</h2>
 <div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
