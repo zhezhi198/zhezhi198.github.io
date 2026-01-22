@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="[AtCoder Beginner Contest 441](https://atcoder.jp/contests/abc441)
+ABC的比赛向来不写AB的，从C开始写。">
+<meta property="og:title" content="AtCoder Beginner Contest 441">
+<meta property="og:description" content="[AtCoder Beginner Contest 441](https://atcoder.jp/contests/abc441)
+ABC的比赛向来不写AB的，从C开始写。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://zhezhi198.github.io/post/AtCoder%20Beginner%20Contest%20441.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>AtCoder Beginner Contest 441</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">AtCoder Beginner Contest 441</h1>
+<div class="title-right">
+    <a href="https://zhezhi198.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/zhezhi198/zhezhi198.github.io/issues/19" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><p><a href="https://atcoder.jp/contests/abc441" rel="nofollow">AtCoder Beginner Contest 441</a><br>
+ABC的比赛向来不写AB的，从C开始写。</p>
+<h2>C-Sake or Water</h2>
+<h3>问题陈述</h3>
+<p>有几个杯子，每个杯子里装着无色透明的液体。</p>
+<p>具体来说，第 $i$ ($1 \leq i \leq N$) 个杯子含有 $A_i$ ml 的液体。</p>
+<p>众所周知，这些杯子中 <strong>恰好有 $K$ 个</strong> 装的是清酒（米酒），其余的都是水。</p>
+<p>然而，不知道哪些杯子里装的是清酒。</p>
+<p>高桥可以选择一些（一个或多个）杯子，喝掉里面所有的液体。</p>
+<p>找到他需要选择的 <strong>最小杯数</strong>，以确保他喝至少 $X$ ml 的清酒，而不管哪个杯子里装的是清酒。</p>
+<p>如果无法选择，则打印 $-1$。</p>
+<h3>约束</h3>
+<ul>
+<li>$1 \leq K \leq N \leq 3 \times 10^5$</li>
+<li>$1 \leq A_i \leq 10^9$</li>
+<li>$1 \leq X \leq 3 \times 10^{14}$</li>
+<li>所有输入值均为整数。</li>
+</ul>
+<h3>输入</h3>
+<p>输入来自标准输入，格式如下：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">N K X
+A_1 A_2 ... A_N
+</code></pre>
+<p>###输出</p>
+<pre class="notranslate"><code class="notranslate">
+
+打印最少杯数高桥需要选择满足条件。如果无法选择，则打印 -1 。
+</code></pre>
+<p>思路:问最少杯数，那么是不是要考虑最坏的情况，我们知道n个杯子里面只有k个杯子里面是酒，那最坏的情况是最大的n-k杯子里面全是水，最后那k个杯子里面装的才是酒，我们需要在[n-k+1,n]（前提是已经从大到小排过序）寻早答案即可。</p>
+<p>代码:</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
+<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
+<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
+<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
+    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
+    cin.tie(<span class="pl-c1">0</span>);              \
+    cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
+#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
+#<span class="pl-k">define</span> <span class="pl-en">se</span> second
+#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
+#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
+#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
+#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
+#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
+<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
+<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
+<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
+
+<span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c"></span>
+<span class="pl-c"><span class="pl-c">*/</span></span>
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    ll n, k, x;
+    cin &gt;&gt; n &gt;&gt; k &gt;&gt; x; <span class="pl-c"><span class="pl-c">//</span> 总杯数/酒杯数/目标</span>
+    vll <span class="pl-smi">a</span>(n + <span class="pl-c1">1</span>, <span class="pl-c1">0</span>), <span class="pl-c1">pre</span>(n + <span class="pl-c1">2</span>, <span class="pl-c1">0</span>);
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n) cin &gt;&gt; a[i];
+    <span class="pl-c1">sort</span>(a.<span class="pl-c1">begin</span>() + <span class="pl-c1">1</span>, a.<span class="pl-c1">end</span>(), greater&lt;ll&gt;());
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n)
+    {
+        <span class="pl-k">pre</span>[i] = <span class="pl-k">pre</span>[i - <span class="pl-c1">1</span>] + a[i];
+    }
+    <span class="pl-k">auto</span> ck = [&amp;](ll t) -&gt; <span class="pl-k">bool</span> { <span class="pl-c"><span class="pl-c">//</span> t&gt;(n-k)</span>
+        ll wt = n - k;
+        <span class="pl-k">if</span> (t &lt;= wt)
+            <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+        ll sum = <span class="pl-c1">0</span>;
+
+        <span class="pl-k">return</span> <span class="pl-k">pre</span>[t] - <span class="pl-k">pre</span>[wt] &gt;= x;
+    };
+    ll l = n - k, r = n + <span class="pl-c1">1</span>;
+    <span class="pl-k">while</span> (l + <span class="pl-c1">1</span> &lt; r)
+    {
+        ll mid = l + (r - l) / <span class="pl-c1">2</span>;
+        <span class="pl-k">if</span> (<span class="pl-c1">ck</span>(mid))
+            r = mid;
+        <span class="pl-k">else</span>
+            l = mid;
+    }
+    <span class="pl-k">if</span> (r == n + <span class="pl-c1">1</span>)
+        cout &lt;&lt; -<span class="pl-c1">1</span> &lt;&lt; endl;
+    <span class="pl-k">else</span>
+        cout &lt;&lt; r &lt;&lt; endl;
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    IOS;
+
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    <span class="pl-c"><span class="pl-c">//</span> cin&gt;&gt;_;//如果是多组数据</span>
+    <span class="pl-k">while</span> (_--)
+    {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h2>D - Paid Walk</h2>
+<h3>问题陈述</h3>
+<p>有一个有向图（不一定简单），有 $N$ 个顶点和 $M$ 条边，其中顶点编号为 $1, 2, \ldots, N$。</p>
+<p>第 $i$ 条 ($1\leq i\leq M$) 边从顶点 $U_i$ 到顶点 $V_i$，代价为 $C_i$。此外，每个顶点的出度最多为 $4$。</p>
+<p>找出满足以下条件的所有顶点 $v$ ($1\leq v\leq N$)：</p>
+<blockquote>
+<p>从顶点 $1$ 到顶点 $v$ 存在一条同时满足以下两个条件的路径：</p>
+<ul>
+<li>它遍历 $L$ 条边。如果同一条边被遍历多次，每次遍历都会被计数。</li>
+<li>遍历边的代价总和至少为 $S$，最多为 $T$。（如果同一条边被遍历多次，每次的代价都会加到总和中。）</li>
+</ul>
+</blockquote>
+<p><strong>什么是出度？</strong><br>
+顶点 $u$ 的出度是指从顶点 $u$ 出发的边的个数。即使多条边指向同一个顶点，它们也会被单独计数。</p>
+<h3>约束</h3>
+<ul>
+<li>$1 \leq N \leq 2\times 10^5$</li>
+<li>$1 \leq M \leq 2\times 10^5$</li>
+<li>$1 \leq L \leq 10$</li>
+<li>$1 \leq S \leq T \leq 10^9$</li>
+<li>$1 \leq U_i, V_i \leq N$</li>
+<li>$1 \leq C_i \leq 10^8$</li>
+<li>每个顶点的出度最多为 $4$。</li>
+<li>所有输入值均为整数。</li>
+</ul>
+<h3>输入</h3>
+<p>输入来自标准输入，格式如下：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">N M L S T
+U_1 V_1 C_1
+U_2 V_2 C_2
+...
+U_M V_M C_M
+</code></pre>
+<h1># #输出</h1>
+<p>以升序打印满足条件的顶点，以空格分隔。</p>
+<p>如果没有满足条件的顶点，则打印空行。<br>
+思路：按照条件递归就行了。<br>
+代码：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
+<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
+<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
+<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
+    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
+    cin.tie(<span class="pl-c1">0</span>);              \
+    cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
+#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
+#<span class="pl-k">define</span> <span class="pl-en">se</span> second
+#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
+#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
+#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
+#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
+#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
+<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
+<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
+<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
+<span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c"></span>
+<span class="pl-c"><span class="pl-c">*/</span></span>
+ll n, m, step, s, t;
+<span class="pl-k">int</span> h[N], e[N], ne[N], idx, w[N];
+<span class="pl-k">bool</span> ans[N];
+<span class="pl-k">void</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> a, <span class="pl-k">int</span> b, <span class="pl-k">int</span> c)
+{
+    e[idx] = b, w[idx] = c, ne[idx] = h[a], h[a] = idx++;
+}
+<span class="pl-k">void</span> <span class="pl-en">dfs</span>(<span class="pl-k">int</span> u, <span class="pl-k">int</span> d, <span class="pl-k">int</span> pay)
+{ <span class="pl-c"><span class="pl-c">//</span> [节点，步数，花费]</span>
+
+    <span class="pl-k">if</span> (pay &gt; t)
+        <span class="pl-k">return</span>;
+
+    <span class="pl-k">if</span> (d == step)
+    {
+
+        <span class="pl-k">if</span> (pay &gt;= s &amp;&amp; pay &lt;= t)
+        {
+            ans[u] = <span class="pl-c1">true</span>;
+        }
+        <span class="pl-k">return</span>;
+    }
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = h[u]; ~i; i = ne[i])
+    {
+        <span class="pl-k">int</span> j = e[i];
+
+        <span class="pl-c1">dfs</span>(j, d + <span class="pl-c1">1</span>, pay + w[i]);
+    }
+}
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    <span class="pl-c1">mem</span>(h, -<span class="pl-c1">1</span>);
+    <span class="pl-c1">mem</span>(ans,<span class="pl-c1">0</span>);
+    cin &gt;&gt; n &gt;&gt; m &gt;&gt; step &gt;&gt; s &gt;&gt; t;
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, m)
+    {
+        ll u, v, c;
+        cin &gt;&gt; u &gt;&gt; v &gt;&gt; c;
+        <span class="pl-c1">add</span>(u, v, c);
+    }
+    <span class="pl-c1">dfs</span>(<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">0</span>);
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n)
+    {
+        <span class="pl-k">if</span> (ans[i])
+        {
+            cout &lt;&lt; i &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>;
+        }
+    }
+    cout &lt;&lt; endl;
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    IOS;
+
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    <span class="pl-c"><span class="pl-c">//</span> cin&gt;&gt;_;//如果是多组数据</span>
+    <span class="pl-k">while</span> (_--)
+    {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h2>E - A &gt; B substring</h2>
+<h4>问题陈述</h4>
+<p>给你一个长度为 $N$ 的字符串 $S$ ，它由三种字符组成：A"、"B "和 "C"。</p>
+<p>在 $S$ 中有 $\dfrac{N(N+1)}2$ 个非空连续子串。求其中包含的<code class="notranslate">A</code>多于<code class="notranslate">B</code>的数量。</p>
+<p>请注意，如果两个子串取自 $S$ 中的不同位置，即使它们是相等的字符串，也要分别计算。</p>
+<p>什么是子串？</p>
+<p>$S$ 的<strong>子串</strong>是删除 $S$ 开头的零个或多个字符和结尾的零个或多个字符后得到的字符串。<br>
+例如，<code class="notranslate">AB</code>是<code class="notranslate">ABC</code>的子串，但<code class="notranslate">AC</code>不是<code class="notranslate">ABC</code>的子串。</p>
+<h4>限制因素</h4>
+<ul>
+<li>$1\le N\le5\times10 ^ 5$</li>
+<li>
+$S$ 是长度为 $N$ 的字符串，由 <code class="notranslate">A</code>、<code class="notranslate">B</code> 和 <code class="notranslate">C</code> 组成。</li>
+<li>
+$N$ 是一个整数。</li>
+</ul>
+<h4>输入</h4>
+<p>输入内容由标准输入法提供，格式如下</p>
+<pre lang="text" class="notranslate"><code class="notranslate"> N
+ S
+</code></pre>
+<h4>输出</h4>
+<p>打印 $S$ 中 A 比 B 多的连续子串的个数。</p>
+<h2>2. 为什么不能用双指针 ？</h2>
+<p>看到“连续子串”和“计数”，很多人的第一反应是使用<strong>双指针（滑动窗口）</strong>。<br>
+通常双指针适用于具有<strong>单调性</strong>的问题：</p>
+<blockquote>
+<p>如果区间 $[L, R]$ 满足条件，那么 $[L, R+1]$ 也满足（或反之）。</p>
+</blockquote>
+<p><strong>但在本题中，单调性并不存在。</strong></p>
+<h3>反例分析</h3>
+<p>假设字符串为 <code class="notranslate">A B A</code>：</p>
+<ol>
+<li><code class="notranslate">[1, 1] = "A"</code> (A=1, B=0)。满足条件。</li>
+<li><code class="notranslate">[1, 2] = "AB"</code> (A=1, B=1)。<strong>不</strong>满足条件。</li>
+<li><code class="notranslate">[1, 3] = "ABA"</code> (A=2, B=1)。<strong>又</strong>满足条件。</li>
+</ol>
+<p>当我们右移右指针 $R$ 时，子串的状态在“满足”和“不满足”之间反复横跳，无法确定何时该移动左指针 $L$。因此，标准的双指针无法直接解决此问题。</p>
+<hr>
+<h2>3. 核心思路：前缀和转化</h2>
+<p>既然无法通过滑动窗口维护，我们需要将问题转化为数学表达式。</p>
+<h3>第一步：数值映射</h3>
+<p>我们需要比较 A 和 B 的数量。至于 C，它只占位置，不影响 A 和 B 的差值。<br>
+我们可以定义一个权值数组：</p>
+<ul>
+<li>遇到 <code class="notranslate">A</code>：权值为 $+1$
+</li>
+<li>遇到 <code class="notranslate">B</code>：权值为 $-1$
+</li>
+<li>遇到 <code class="notranslate">C</code>：权值为 $0$
+</li>
+</ul>
+<h3>第二步：前缀和推导</h3>
+<p>令 $P_i$ 表示字符串前 $i$ 个字符的权值之和（即前缀和），且规定 $P_0 = 0$。<br>
+那么，对于任意子串 $S[l \dots r]$ (其中 $1 \le l \le r \le N$)，其中 A 的数量减去 B 的数量可以表示为：</p>
+<p>$$
+
+(\text{Count}_A - \text{Count}_B) = P_r - P_{l-1}
+
+$$</p>
+<p>题目要求 A 的数量 <strong>大于</strong> B 的数量，即要求：</p>
+<p>$$
+P_r - P_{l-1} &gt; 0
+$$</p>
+<p>移项得：</p>
+<p>$$
+P_{l-1} &lt; P_r
+$$</p>
+<h3>第三步：问题转化</h3>
+<p>现在的任务变成了：<br>
+<strong>对于每一个右端点 $r$ (从 $1$ 到 $N$)，我们要找到有多少个左端点 $l$ ($1 \le l \le r$)，满足 $P_{l-1} &amp;lt; P_r$。</strong></p>
+<p>也就是统计在 $r$ 之前，有多少个前缀和的值 <strong>严格小于</strong> 当前的前缀和 $P_r$。</p>
+<hr>
+<h2>4. 数据结构优化</h2>
+<p>这就变成了一个经典的<strong>动态统计问题</strong>（类似于求逆序对的变种）。<br>
+我们可以从左到右遍历 $i$ (从 $0$ 到 $N$)：</p>
+<ol>
+<li>计算当前的前缀和 <code class="notranslate">now</code>。</li>
+<li>查询在之前出现过的前缀和中，有多少个小于 <code class="notranslate">now</code>。</li>
+<li>将当前的 <code class="notranslate">now</code> 加入到数据结构中，供后续查询使用。</li>
+</ol>
+<p>由于前缀和的值域范围是 $[-N, N]$，我们可以使用 **树状数组 ** 来维护频率。</p>
+<p><strong>注意点：</strong><br>
+树状数组的下标必须是正整数。当前缀和可能为负数时，我们需要加上一个偏移量 <code class="notranslate">offset</code>（例如 $N+1$），将值域平移到 $[1, 2N+1]$。</p>
+<hr>
+<h2>5. 代码实现</h2>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
+<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
+<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
+<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
+    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
+    cin.tie(<span class="pl-c1">0</span>);              \
+    cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
+#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
+#<span class="pl-k">define</span> <span class="pl-en">se</span> second
+#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
+#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
+#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
+#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
+#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
+<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
+<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
+<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">struct</span> <span class="pl-en">BIT1</span>
+{
+    <span class="pl-k">int</span> n;
+    vector&lt;T&gt; tr;
+    <span class="pl-en">BIT1</span>(<span class="pl-k">int</span> n) : n(n), tr(n + <span class="pl-c1">1</span>) {}
+    <span class="pl-k">void</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> x, T v)
+    {
+        <span class="pl-k">for</span> (; x &lt;= n; x += x &amp; -x)
+            tr[x] += v;
+    }
+    T <span class="pl-en">sum</span>(<span class="pl-k">int</span> x)
+    {
+        T r = <span class="pl-c1">0</span>;
+        <span class="pl-k">for</span> (; x; x -= x &amp; -x)
+            r += tr[x];
+        <span class="pl-k">return</span> r;
+    }
+    T <span class="pl-en">range</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> <span class="pl-c1">sum</span>(r) - <span class="pl-c1">sum</span>(l - <span class="pl-c1">1</span>); }
+};
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">struct</span> <span class="pl-en">BIT2</span>
+{
+    <span class="pl-k">int</span> n, m;
+    vector&lt;vector&lt;T&gt;&gt; t1, t2, t3, t4;
+    <span class="pl-en">BIT2</span>(<span class="pl-k">int</span> n_ = <span class="pl-c1">0</span>, <span class="pl-k">int</span> m_ = <span class="pl-c1">0</span>) { <span class="pl-c1">init</span>(n_, m_); }
+    <span class="pl-k">void</span> <span class="pl-en">init</span>(<span class="pl-k">int</span> n_, <span class="pl-k">int</span> m_)
+    {
+        n = n_;
+        m = m_;
+        t1.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
+        t2.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
+        t3.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
+        t4.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
+    }
+    <span class="pl-k">void</span> <span class="pl-en">_add</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> y, <span class="pl-k">const</span> T &amp;v)
+    {
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = x; i &lt;= n; i += i &amp; -i)
+            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = y; j &lt;= m; j += j &amp; -j)
+            {
+                t1[i][j] += v;
+                t2[i][j] += v * x;
+                t3[i][j] += v * y;
+                t4[i][j] += v * x * y;
+            }
+    }
+    <span class="pl-k">void</span> <span class="pl-en">rangeAdd</span>(<span class="pl-k">int</span> x1, <span class="pl-k">int</span> y1, <span class="pl-k">int</span> x2, <span class="pl-k">int</span> y2, <span class="pl-k">const</span> T &amp;v)
+    {
+        <span class="pl-c1">_add</span>(x1, y1, v);
+        <span class="pl-c1">_add</span>(x1, y2 + <span class="pl-c1">1</span>, -v);
+        <span class="pl-c1">_add</span>(x2 + <span class="pl-c1">1</span>, y1, -v);
+        <span class="pl-c1">_add</span>(x2 + <span class="pl-c1">1</span>, y2 + <span class="pl-c1">1</span>, v);
+    }
+    T <span class="pl-en">prefixSum</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> y)
+    {
+        T r{};
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = x; i &gt; <span class="pl-c1">0</span>; i -= i &amp; -i)
+            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = y; j &gt; <span class="pl-c1">0</span>; j -= j &amp; -j)
+                r += t1[i][j] * (x + <span class="pl-c1">1</span>) * (y + <span class="pl-c1">1</span>) - t2[i][j] * (y + <span class="pl-c1">1</span>) - t3[i][j] * (x + <span class="pl-c1">1</span>) + t4[i][j];
+        <span class="pl-k">return</span> r;
+    }
+    T <span class="pl-en">rangeSum</span>(<span class="pl-k">int</span> x1, <span class="pl-k">int</span> y1, <span class="pl-k">int</span> x2, <span class="pl-k">int</span> y2)
+    {
+        <span class="pl-k">if</span> (x1 &gt; x2 || y1 &gt; y2)
+            <span class="pl-k">return</span> T{};
+        <span class="pl-k">return</span> <span class="pl-c1">prefixSum</span>(x2, y2) - <span class="pl-c1">prefixSum</span>(x1 - <span class="pl-c1">1</span>, y2) - <span class="pl-c1">prefixSum</span>(x2, y1 - <span class="pl-c1">1</span>) + <span class="pl-c1">prefixSum</span>(x1 - <span class="pl-c1">1</span>, y1 - <span class="pl-c1">1</span>);
+    }
+};
+<span class="pl-k">struct</span> <span class="pl-en">Random</span>
+{
+    mt19937_64 rng;
+    <span class="pl-en">Random</span>() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+    ull <span class="pl-en">rand_ull</span>(ull max_val = -<span class="pl-c1">1</span>) { <span class="pl-k">return</span> <span class="pl-c1">rng</span>() % (max_val + <span class="pl-c1">1</span>); }
+    ll <span class="pl-en">rand_ll</span>(ll l, ll r) { <span class="pl-k">return</span> uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
+    <span class="pl-k">int</span> <span class="pl-en">rand_int</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> uniform_int_distribution&lt;<span class="pl-k">int</span>&gt;(l, r)(rng); }
+    <span class="pl-k">double</span> <span class="pl-en">rand_db</span>(<span class="pl-k">double</span> l, <span class="pl-k">double</span> r) { <span class="pl-k">return</span> uniform_real_distribution&lt;<span class="pl-k">double</span>&gt;(l, r)(rng); }
+    <span class="pl-k">bool</span> <span class="pl-en">rand_bool</span>(<span class="pl-k">double</span> p = <span class="pl-c1">0.5</span>) { <span class="pl-k">return</span> <span class="pl-c1">bernoulli_distribution</span>(p)(rng); }
+    <span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+    <span class="pl-k">void</span> <span class="pl-en">shuffle</span>(vector&lt;T&gt; &amp;v) { <span class="pl-c1">std::shuffle</span>(v.<span class="pl-c1">begin</span>(), v.<span class="pl-c1">end</span>(), rng); }
+};
+ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
+{
+    ll res = <span class="pl-c1">1</span> % p;
+    a %= p;
+    <span class="pl-k">while</span> (b)
+    {
+        <span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>)
+            res = res * a % p;
+        a = a * a % p;
+        b &gt;&gt;= <span class="pl-c1">1</span>;
+    }
+    <span class="pl-k">return</span> res;
+}
+<span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c"></span>
+<span class="pl-c"><span class="pl-c">*/</span></span>
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    ll n;
+    cin &gt;&gt; n;
+    string s;
+    cin &gt;&gt; s;
+    s = <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span> + s; <span class="pl-c"><span class="pl-c">//</span> 1-based indexing</span>
+    
+    <span class="pl-c"><span class="pl-c">//</span> now: 当前的前缀和</span>
+    <span class="pl-c"><span class="pl-c">//</span> ans: 最终答案</span>
+    <span class="pl-c"><span class="pl-c">//</span> d: 偏移量，防止下标为负 (因为前缀和可能低至 -N)</span>
+    ll now = <span class="pl-c1">0</span>, ans = <span class="pl-c1">0</span>, d = n + <span class="pl-c1">1</span>;
+    
+    <span class="pl-c"><span class="pl-c">//</span> 初始化树状数组，大小需要覆盖 [-N, N] 的范围</span>
+    <span class="pl-c"><span class="pl-c">//</span> 偏移后范围是 [1, 2N+1]</span>
+    BIT1&lt;<span class="pl-k">int</span>&gt; <span class="pl-c1">tr</span>(<span class="pl-c1">2</span> * n + <span class="pl-c1">5</span>);
+    
+    <span class="pl-c"><span class="pl-c">//</span> 极其重要：</span>
+    <span class="pl-c"><span class="pl-c">//</span> 先把 P_0 = 0 加入树状数组。</span>
+    <span class="pl-c"><span class="pl-c">//</span> 代表左端点 l=1 时，我们需要比较的是 P_r 和 P_0。</span>
+    tr.<span class="pl-c1">add</span>(<span class="pl-c1">0</span> + d, <span class="pl-c1">1</span>);
+    
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n)
+    {
+        <span class="pl-c"><span class="pl-c">//</span> 1. 更新当前前缀和</span>
+        <span class="pl-k">if</span> (s[i] == <span class="pl-s"><span class="pl-pds">'</span>A<span class="pl-pds">'</span></span>)
+            now++;
+        <span class="pl-k">else</span> <span class="pl-k">if</span> (s[i] == <span class="pl-s"><span class="pl-pds">'</span>B<span class="pl-pds">'</span></span>)
+            now--;
+        <span class="pl-c"><span class="pl-c">//</span> 如果是 'C'，now 不变</span>
+        
+        <span class="pl-c"><span class="pl-c">//</span> 2. 查询：有多少个之前的 P_{l-1} 满足 P_{l-1} &lt; now</span>
+        <span class="pl-c"><span class="pl-c">//</span> 在树状数组中，即查询 sum(now + d - 1)</span>
+        ans += tr.<span class="pl-c1">sum</span>(now + d - <span class="pl-c1">1</span>);
+        
+        <span class="pl-c"><span class="pl-c">//</span> 3. 更新：将当前的 P_i 加入树状数组</span>
+        tr.<span class="pl-c1">add</span>(now + d, <span class="pl-c1">1</span>);
+    }
+    
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    IOS;
+
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    <span class="pl-c"><span class="pl-c">//</span> cin&gt;&gt;_;//如果是多组数据</span>
+    <span class="pl-k">while</span> (_--)
+    {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h3>F - Must Buy</h3>
+<h4>问题陈述</h4>
+<p>一家商店出售 $N$ 件商品，编号为 $1$ , $2$ , $\ldots$ , $N$ .<br>
+第 $i$ 项 $(1\leq i\leq N)$ 的价格为 $P _ i$ 日元，价值为 $V _ i$ 。该商店每种商品只有一种存货。</p>
+<p>高桥选择一些商品，使总价最多为 $M$ 日元。<br>
+在这里，可以保证 $M$ 至少是任何一件商品的价格。也就是说，对于任意 $1\leq i\leq N$ ，都存在一种选择方法，使得总价最多为 $M$ 日元，并且包含 $i$ 项。</p>
+<p>对于每个 $1\leq i\leq N$ ，确定物品 $i$ 属于以下三个类别中的哪一类：</p>
+<ul>
+<li>A 类：为了使所选物品的总价值最大（同时使总价不超过 $M$ 日元），必须选择该物品。</li>
+<li>B 类：为了使所选物品的总价值最大化（同时使总价不超过 $M$ 日元），可以选择或不选择该物品。</li>
+<li>C 类：为了使所选物品的总价值最大化（同时使总价不超过 $M$ 日元），绝不能选择该物品。</li>
+</ul>
+<h4>限制因素</h4>
+<ul>
+<li>$1\leq N\leq 1000$</li>
+<li>$1\leq M\leq 5\times 10^4$</li>
+<li>$1\leq P _ i\leq M$</li>
+<li>$1\leq V _ i\leq 10^9$</li>
+<li>所有输入值均为整数。</li>
+</ul>
+<h3>输入</h3>
+<p>输入内容由标准输入法提供，格式如下：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">N M
+P_1 V_1
+P_2 V_2
+...
+P_N V_N
+</code></pre>
+<h4>输出</h4>
+<p>打印由 <code class="notranslate">A</code>、<code class="notranslate">B</code> 和 <code class="notranslate">C</code> 组成的长度为 $N$ 的字符串。<br>
+如果项目 $i$ $(1\leq i\leq N)$ 属于类别 $X$ （其中 $X$ 是 A、B 或 C），那么输出字符串的 $i$ -th 字符应该是 $X$ 。</p>
+<hr>
+<h2>2. 核心思路分析</h2>
+<h3>判定条件转化</h3>
+<p>令：</p>
+<ul>
+<li>
+$V_{with}(i)$：强制<strong>选择</strong>第 $i$ 个物品时，能获得的最大总价值。</li>
+<li>
+$V_{without}(i)$：强制<strong>不选</strong>第 $i$ 个物品时，能获得的最大总价值。</li>
+</ul>
+<p>那么分类逻辑如下：</p>
+<ol>
+<li>
+<p><strong>C 类</strong>：即使我们强制选了它，也达不到全局最优。<br>
+$$V_{with}(i) &amp;lt; V_{max}$$</p>
+</li>
+<li>
+<p><strong>A 类</strong>：如果我们不选它，就无法达到全局最优。<br>
+$$V_{without}(i) &amp;lt; V_{max}$$<br>
+<em>(注意：如果 $V_{with}(i) &lt; V_{max}$ 已经在第一步判定过了，所以走到这里隐含了 $V_{with}(i) == V_{max}$)</em></p>
+</li>
+<li>
+<p><strong>B 类</strong>：选它或不选它，都有办法达到全局最优。<br>
+$$V_{with}(i) == V_{max} \quad \text{且} \quad V_{without}(i) == V_{max}$$</p>
+</li>
+</ol>
+<hr>
+<h3>性能瓶颈</h3>
+<p>如果我们对每个物品都重新跑一次 $O(NM)$ 的背包 DP：</p>
+<ul>
+<li>计算 $N$ 个物品的情况，总复杂度会变成 $O(N^2 M)$。</li>
+<li>代入数据： $1000 \times 1000 \times 50000 = 5 \times 10^{10}$，这显然会超时（TLE）。</li>
+</ul>
+<p>我们需要一种方法，在 $O(NM)$ 的时间内预处理，然后用 $O(M)$ 的时间回答每个物品的查询。</p>
+<h2>3. 优化解法：前后缀 DP</h2>
+<p>这是一个处理“<strong>挖掉中间某一项</strong>”问题的标准技巧。</p>
+<h3>定义状态</h3>
+<ul>
+<li>
+<strong>前缀 DP (<code class="notranslate">pre[i][j]</code>)</strong>：只考虑前 $i$ 个物品（$1 \dots i$），恰好（或最多）花费 $j$ 元能获得的最大价值。</li>
+<li>
+<strong>后缀 DP (<code class="notranslate">suf[i][j]</code>)</strong>：只考虑后 $i$ 个物品（$i \dots N$），恰好（或最多）花费 $j$ 元能获得的最大价值。</li>
+</ul>
+<h3>状态转移</h3>
+<p>这两个数组都可以通过标准的 0/1 背包算法在 $O(NM)$ 内求出。</p>
+<ul>
+<li>
+<code class="notranslate">pre</code> 数组从 $1$ 推到 $N$。</li>
+<li>
+<code class="notranslate">suf</code> 数组从 $N$ 推到 $1$。</li>
+</ul>
+<h3>拼接答案</h3>
+<p>当我们考虑第 $i$ 个物品时：</p>
+<ol>
+<li>
+<p><strong>排除 $i$ 的情况 ($V_{without}(i)$)</strong>：<br>
+我们需要组合“前 $i-1$ 个物品”和“后 $i+1$ 个物品”。<br>
+我们可以枚举在前一部分花费 $j$ 元，那么后一部分最多只能花费 $M-j$ 元。<br>
+$$V_{without}(i) = \max_{0 \le j \le M} { \text{pre}[i-1][j] + \text{suf}[i+1][M-j] }$$</p>
+</li>
+<li>
+<p><strong>强制选 $i$ 的情况 ($V_{with}(i)$)</strong>：<br>
+首先花费 $P_i$ 买下它，剩下的预算是 $M - P_i$。<br>
+同样枚举分配给前半部分的预算 $j$：<br>
+$$V_{with}(i) = V_i + \max_{0 \le j \le M-P_i} { \text{pre}[i-1][j] + \text{suf}[i+1][(M-P_i)-j] }$$</p>
+</li>
+</ol>
+<h3>复杂度分析</h3>
+<ul>
+<li>预处理 DP：O(NM)</li>
+<li>每次查询合并：O(M)</li>
+<li>总共有 $N$ 个物品，总时间复杂度：O(NM)</li>
+<li>空间复杂度：O(NM)</li>
+</ul>
+<p>代入数据 $1000 \times 50000 = 5 \times 10^7$，在 2.5 秒内可以通过。</p>
+<hr>
+<h2>4. 代码</h2>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
+<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
+<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
+<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
+    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
+    cin.tie(<span class="pl-c1">0</span>);              \
+    cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
+#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
+#<span class="pl-k">define</span> <span class="pl-en">se</span> second
+#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
+#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
+#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
+#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
+#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
+<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e3</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">5e4</span> + <span class="pl-c1">10</span>, K = <span class="pl-c1">26</span>;
+<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
+<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
+<span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c"></span>
+<span class="pl-c"><span class="pl-c">*/</span></span>
+ll n, m;
+ll v[N], w[N];
+ll <span class="pl-k">pre</span>[N][M];
+ll suf[N][M];
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    cin &gt;&gt; n &gt;&gt; m;
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n) cin &gt;&gt; v[i] &gt;&gt; w[i];
+
+    <span class="pl-c"><span class="pl-c">//</span> 1. 前缀背包 DP</span>
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n) {
+        <span class="pl-c1">rep</span>(j, <span class="pl-c1">0</span>, m) {
+            <span class="pl-k">pre</span>[i][j] = <span class="pl-k">pre</span>[i - <span class="pl-c1">1</span>][j];
+            <span class="pl-k">if</span> (j &gt;= v[i])
+                <span class="pl-k">pre</span>[i][j] = <span class="pl-c1">max</span>(<span class="pl-k">pre</span>[i][j], <span class="pl-k">pre</span>[i - <span class="pl-c1">1</span>][j - v[i]] + w[i]);
+        }
+    }
+
+    <span class="pl-c"><span class="pl-c">//</span> 2. 后缀背包 DP</span>
+    <span class="pl-c1">dep</span>(i, n, <span class="pl-c1">1</span>) {
+        <span class="pl-c1">rep</span>(j, <span class="pl-c1">0</span>, m) {
+            suf[i][j] = suf[i + <span class="pl-c1">1</span>][j];
+            <span class="pl-k">if</span> (j &gt;= v[i])
+                suf[i][j] = <span class="pl-c1">max</span>(suf[i][j], suf[i + <span class="pl-c1">1</span>][j - v[i]] + w[i]);
+        }
+    }
+
+    ll mx = <span class="pl-k">pre</span>[n][m]; <span class="pl-c"><span class="pl-c">//</span> 全局最大价值</span>
+    string ans = <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>;
+
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n)
+    {
+        <span class="pl-c"><span class="pl-c">//</span> 如果物品本身价格超过预算，直接判定为 C (永远买不起)</span>
+        <span class="pl-k">if</span> (v[i] &gt; m) {
+            ans += <span class="pl-s"><span class="pl-pds">'</span>C<span class="pl-pds">'</span></span>;
+            <span class="pl-k">continue</span>;
+        }
+
+        <span class="pl-c"><span class="pl-c">//</span> 计算 p1: 强制选 i 的最大价值</span>
+        ll rem = m - v[i];
+        ll p1 = <span class="pl-c1">0</span>;
+        <span class="pl-c1">rep</span>(j, <span class="pl-c1">0</span>, rem) {
+            <span class="pl-c"><span class="pl-c">//</span> 合并前缀和后缀</span>
+            p1 = <span class="pl-c1">max</span>(p1, <span class="pl-k">pre</span>[i - <span class="pl-c1">1</span>][j] + suf[i + <span class="pl-c1">1</span>][rem - j] + w[i]);
+        }
+
+        <span class="pl-c"><span class="pl-c">//</span> 计算 p2: 强制不选 i 的最大价值</span>
+        ll p2 = <span class="pl-c1">0</span>;
+        <span class="pl-c1">rep</span>(j, <span class="pl-c1">0</span>, m) {
+            <span class="pl-c"><span class="pl-c">//</span> 合并前缀和后缀</span>
+            p2 = <span class="pl-c1">max</span>(p2, <span class="pl-k">pre</span>[i - <span class="pl-c1">1</span>][j] + suf[i + <span class="pl-c1">1</span>][m - j]);
+        }
+
+        <span class="pl-c"><span class="pl-c">//</span> 分类讨论</span>
+        <span class="pl-k">if</span> (p1 &lt; mx) ans += <span class="pl-s"><span class="pl-pds">'</span>C<span class="pl-pds">'</span></span>;      <span class="pl-c"><span class="pl-c">//</span> 选了反而变小 -&gt; 绝不能选</span>
+        <span class="pl-k">else</span> <span class="pl-k">if</span> (p2 &lt; mx) ans += <span class="pl-s"><span class="pl-pds">'</span>A<span class="pl-pds">'</span></span>; <span class="pl-c"><span class="pl-c">//</span> 不选就变小 -&gt; 必须选</span>
+        <span class="pl-k">else</span> ans += <span class="pl-s"><span class="pl-pds">'</span>B<span class="pl-pds">'</span></span>;              <span class="pl-c"><span class="pl-c">//</span> 选不选都能达到最大值 -&gt; 可选可不选</span>
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    IOS;
+
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    <span class="pl-c"><span class="pl-c">//</span> cin&gt;&gt;_;//如果是多组数据</span>
+    <span class="pl-k">while</span> (_--)
+    {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h2>G - Takoyaki and Flip</h2>
+<h4>问题陈述</h4>
+<p>$N$ 块板从左到右排成一条直线。我们把从左边开始的第 $i$ 个盘子称为 $(1\le i\le N)$ 个盘子，第 $i$ 个盘子称为 $i$ 个盘子。最初，所有盘子都是正面朝上摆放的，盘子上也没有章鱼小丸子。</p>
+<p>处理以下三种类型共 $Q$ 个查询：</p>
+<ul>
+<li>类型 $1$ ：给定整数 $L,R,X$ 。对于 $i=L,L+1,\ldots,R$ ，如果盘子 $i$ 面朝上放置，则在盘子 $i$ 上放置 $X$ 章鱼烧。</li>
+<li>输入 $2$ ：给你整数 $L,R$ 。对于 $i=L,L+1,\ldots,R$ ，如果盘子 $i$ 中至少有一个章鱼烧，则吃掉盘子 $i$ 中的所有章鱼烧。翻转盘子 $i$ （如果盘子正面朝上，则将其正面朝下放置；否则，将其正面朝上放置）。</li>
+<li>输入 $3$ ：给你整数 $L,R$ 。在 $L,$ 个盘子中，打印一个盘子中最大的章鱼烧数量。 $L+1,\ldots,$ $R$ .</li>
+</ul>
+<h4>限制因素</h4>
+<ul>
+<li>$1\le N\le2\times10 ^ 5$</li>
+<li>$1\le Q\le2\times10 ^ 5$</li>
+<li>在所有查询中， $1\le L\le R\le N$ 。</li>
+<li>在类型 $1$ 查询中， $1\le X\le10 ^ 9$ 。</li>
+<li>至少有一个 $3$ 类型的查询。</li>
+<li>所有输入值均为整数。</li>
+</ul>
+<h3>输入</h3>
+<p>输入内容由标准输入法提供，格式如下：</p>
+<pre lang="text" class="notranslate"><code class="notranslate">N Q
+query_1
+query_2
+...
+query_Q
+</code></pre>
+<h3>输出</h3>
+<p>设 $q$ 为 $3$ 类型查询的数量。打印 $q$ 行。<br>
+第 $i$ 行 ($1 \le i \le q$) 应包含第 $i$ 个类型 $3$ 查询的答案。</p>
+<h2>2. 核心思路：双状态线段树</h2>
+<p>这道题的难点在于：<strong>盘子的“朝向”和“数值”是耦合的</strong>。</p>
+<ul>
+<li>操作 1 只更新朝上的盘子。</li>
+<li>操作 2 会改变盘子的朝向。</li>
+<li>如果我们在线段树中只维护一个 <code class="notranslate">sum</code> 和一个布尔标记 <code class="notranslate">is_up</code>，在处理区间翻转（Flip）时，很难快速计算出翻转后应该加多少值，或者原来的值去了哪里。</li>
+</ul>
+<h3>破局点：平行世界法（INF 掩码技巧）</h3>
+<p>我们可以把每个盘子想象成有两个“面”：</p>
+<ul>
+<li><strong><code class="notranslate">mx[1]</code> (Visible/Up)</strong>：假设盘子<strong>正面朝上</strong>时，这一面的数值。</li>
+<li><strong><code class="notranslate">mx[0]</code> (Hidden/Down)</strong>：假设盘子<strong>正面朝下</strong>时，这一面的数值。</li>
+</ul>
+<p>为了区分盘子当前到底是朝上还是朝下，我们引入 <code class="notranslate">-INF</code> 作为<strong>无效状态的掩码</strong>：</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">盘子实际状态</th>
+<th align="left"><code class="notranslate">mx[1]</code> (Up 面)</th>
+<th align="left"><code class="notranslate">mx[0]</code> (Down 面)</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><strong>正面朝上</strong></td>
+<td align="left"><code class="notranslate">Val</code> (真实值)</td>
+<td align="left"><code class="notranslate">-INF</code> (无效)</td>
+<td align="left">此时只能操作 Up 面</td>
+</tr>
+<tr>
+<td align="left"><strong>正面朝下</strong></td>
+<td align="left"><code class="notranslate">-INF</code> (无效)</td>
+<td align="left"><code class="notranslate">Val</code> (真实值)</td>
+<td align="left">此时只能操作 Down 面</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h3>为什么这样做有效？</h3>
+<ol>
+<li>
+<p><strong>Add 操作</strong>：只给“正面朝上”的盘子加值。</p>
+<ul>
+<li>我们只需要给整个区间的 <code class="notranslate">mx[1]</code> 加上 $X$。</li>
+<li>对于真正朝上的盘子：<code class="notranslate">Val + X</code> （正确更新）。</li>
+<li>对于朝下的盘子：<code class="notranslate">-INF + X</code> （依然是极小值，不影响最大值查询）。</li>
+<li><strong>不需要判断哪些盘子朝上，直接全加！</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Flip 操作</strong>：翻转盘子。</p>
+<ul>
+<li>只需要交换 <code class="notranslate">mx[1]</code> 和 <code class="notranslate">mx[0]</code> 的值。</li>
+<li>原本 <code class="notranslate">mx[1]</code> 是真实值，交换后 <code class="notranslate">mx[0]</code> 变成真实值（代表它转到了背面），<code class="notranslate">mx[1]</code> 变成 <code class="notranslate">-INF</code>（代表正面现在不可用）。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2>3. 线段树节点设计与 Lazy 标记</h2>
+<p>为了支持区间操作，我们需要三种 Lazy Tag，并且要注意它们的<strong>优先级</strong>。</p>
+<h3>结构体定义</h3>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">struct</span> <span class="pl-en">node</span> {
+    ll l, r;
+    ll mx[<span class="pl-c1">2</span>];   <span class="pl-c"><span class="pl-c">//</span> mx[1]: 正面值, mx[0]: 背面值</span>
+    ll add[<span class="pl-c1">2</span>];  <span class="pl-c"><span class="pl-c">//</span> 对应两个面的加法 Tag</span>
+    ll rev;     <span class="pl-c"><span class="pl-c">//</span> 翻转 Tag (0 或 1)</span>
+    <span class="pl-k">bool</span> clean; <span class="pl-c"><span class="pl-c">//</span> 清空 Tag (吃掉章鱼烧)</span>
+} tr[N &lt;&lt; <span class="pl-c1">2</span>];</pre></div>
+<h3>Pushdown 优先级 (非常重要)</h3>
+<p>由于一个节点可能积压了多种操作，下放标记时必须遵循逻辑顺序：<br>
+<strong>先吃 (Clean) $\to$ 再翻 (Rev) $\to$ 最后加 (Add)</strong></p>
+<ol>
+<li>
+<p><strong>Clean (吃掉)</strong>：</p>
+<ul>
+<li>将所有 <strong>有效值</strong>（$&gt; -INF$ 的值）归零。</li>
+<li>
+<code class="notranslate">-INF</code> 保持不变（因为那个面本来就不存在）。</li>
+<li><em>注意：吃完后，盘子上的章鱼烧变为 0，但朝向不变。</em></li>
+</ul>
+</li>
+<li>
+<p><strong>Rev (翻转)</strong>：</p>
+<ul>
+<li>交换 <code class="notranslate">mx[0]</code> 和 <code class="notranslate">mx[1]</code>。</li>
+<li>交换 <code class="notranslate">add[0]</code> 和 <code class="notranslate">add[1]</code>（因为累积的加法操作也随之换了面）。</li>
+</ul>
+</li>
+<li>
+<p><strong>Add (加法)</strong>：</p>
+<ul>
+<li>仅对 $&amp;gt; -INF$ 的状态进行数值累加。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2>4. AC 代码实现</h2>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll;
+#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2e5</span> + <span class="pl-c1">10</span>;
+
+<span class="pl-k">struct</span> <span class="pl-en">node</span> {
+    ll l, r;
+    ll mx[<span class="pl-c1">2</span>];   <span class="pl-c"><span class="pl-c">//</span> mx[1] 始终代表"朝上面"的值(若当前朝下则为-INF)</span>
+    ll add[<span class="pl-c1">2</span>];
+    ll rev;
+    <span class="pl-k">bool</span> clean;
+} tr[N &lt;&lt; <span class="pl-c1">2</span>];
+
+<span class="pl-c"><span class="pl-c">//</span> 辅助函数：给 ch 状态增加 v</span>
+<span class="pl-k">void</span> <span class="pl-en">lazy_add</span>(ll p, <span class="pl-k">int</span> ch, ll v) {
+    <span class="pl-c"><span class="pl-c">//</span> 关键：只更新有效状态，-INF 永远保持 -INF</span>
+    <span class="pl-k">if</span> (tr[p].<span class="pl-smi">mx</span>[ch] &gt; -INF)
+        tr[p].<span class="pl-smi">mx</span>[ch] += v;
+    tr[p].<span class="pl-smi">add</span>[ch] += v;
+}
+
+<span class="pl-c"><span class="pl-c">//</span> 辅助函数：翻转状态</span>
+<span class="pl-k">void</span> <span class="pl-en">lazy_rev</span>(ll p) {
+    tr[p].<span class="pl-smi">rev</span> ^= <span class="pl-c1">1</span>;
+    <span class="pl-c1">swap</span>(tr[p].<span class="pl-smi">mx</span>[<span class="pl-c1">0</span>], tr[p].<span class="pl-smi">mx</span>[<span class="pl-c1">1</span>]);    <span class="pl-c"><span class="pl-c">//</span> 交换数值</span>
+    <span class="pl-c1">swap</span>(tr[p].<span class="pl-smi">add</span>[<span class="pl-c1">0</span>], tr[p].<span class="pl-smi">add</span>[<span class="pl-c1">1</span>]);  <span class="pl-c"><span class="pl-c">//</span> 交换加法标记</span>
+}
+
+<span class="pl-c"><span class="pl-c">//</span> 辅助函数：清空（吃掉）</span>
+<span class="pl-k">void</span> <span class="pl-en">lazy_clean</span>(ll p) {
+    tr[p].<span class="pl-smi">clean</span> = <span class="pl-c1">1</span>;
+    tr[p].<span class="pl-smi">add</span>[<span class="pl-c1">0</span>] = tr[p].<span class="pl-smi">add</span>[<span class="pl-c1">1</span>] = <span class="pl-c1">0</span>; <span class="pl-c"><span class="pl-c">//</span> 之前的加法作废</span>
+    <span class="pl-c"><span class="pl-c">//</span> 只把真实存在的数值归零</span>
+    <span class="pl-k">if</span> (tr[p].<span class="pl-smi">mx</span>[<span class="pl-c1">0</span>] &gt; -INF) tr[p].<span class="pl-smi">mx</span>[<span class="pl-c1">0</span>] = <span class="pl-c1">0</span>;
+    <span class="pl-k">if</span> (tr[p].<span class="pl-smi">mx</span>[<span class="pl-c1">1</span>] &gt; -INF) tr[p].<span class="pl-smi">mx</span>[<span class="pl-c1">1</span>] = <span class="pl-c1">0</span>;
+}
+
+<span class="pl-k">void</span> <span class="pl-en">pushup</span>(ll p) {
+    tr[p].<span class="pl-smi">mx</span>[<span class="pl-c1">0</span>] = <span class="pl-c1">max</span>(tr[lc].<span class="pl-smi">mx</span>[<span class="pl-c1">0</span>], tr[rc].<span class="pl-smi">mx</span>[<span class="pl-c1">0</span>]);
+    tr[p].<span class="pl-smi">mx</span>[<span class="pl-c1">1</span>] = <span class="pl-c1">max</span>(tr[lc].<span class="pl-smi">mx</span>[<span class="pl-c1">1</span>], tr[rc].<span class="pl-smi">mx</span>[<span class="pl-c1">1</span>]);
+}
+
+<span class="pl-k">void</span> <span class="pl-en">pushdown</span>(ll p) {
+    <span class="pl-c"><span class="pl-c">//</span> 优先级 1: Clean</span>
+    <span class="pl-k">if</span> (tr[p].<span class="pl-smi">clean</span>) {
+        <span class="pl-c1">lazy_clean</span>(lc);
+        <span class="pl-c1">lazy_clean</span>(rc);
+        tr[p].<span class="pl-smi">clean</span> = <span class="pl-c1">0</span>;
+    }
+    <span class="pl-c"><span class="pl-c">//</span> 优先级 2: Rev</span>
+    <span class="pl-k">if</span> (tr[p].<span class="pl-smi">rev</span>) {
+        <span class="pl-c1">lazy_rev</span>(lc);
+        <span class="pl-c1">lazy_rev</span>(rc);
+        tr[p].<span class="pl-smi">rev</span> = <span class="pl-c1">0</span>;
+    }
+    <span class="pl-c"><span class="pl-c">//</span> 优先级 3: Add</span>
+    <span class="pl-k">if</span> (tr[p].<span class="pl-smi">add</span>[<span class="pl-c1">0</span>]) {
+        <span class="pl-c1">lazy_add</span>(lc, <span class="pl-c1">0</span>, tr[p].<span class="pl-smi">add</span>[<span class="pl-c1">0</span>]);
+        <span class="pl-c1">lazy_add</span>(rc, <span class="pl-c1">0</span>, tr[p].<span class="pl-smi">add</span>[<span class="pl-c1">0</span>]);
+        tr[p].<span class="pl-smi">add</span>[<span class="pl-c1">0</span>] = <span class="pl-c1">0</span>;
+    }
+    <span class="pl-k">if</span> (tr[p].<span class="pl-smi">add</span>[<span class="pl-c1">1</span>]) {
+        <span class="pl-c1">lazy_add</span>(lc, <span class="pl-c1">1</span>, tr[p].<span class="pl-smi">add</span>[<span class="pl-c1">1</span>]);
+        <span class="pl-c1">lazy_add</span>(rc, <span class="pl-c1">1</span>, tr[p].<span class="pl-smi">add</span>[<span class="pl-c1">1</span>]);
+        tr[p].<span class="pl-smi">add</span>[<span class="pl-c1">1</span>] = <span class="pl-c1">0</span>;
+    }
+}
+
+<span class="pl-k">void</span> <span class="pl-en">build</span>(ll p, ll l, ll r) {
+    tr[p].<span class="pl-smi">l</span> = l; tr[p].<span class="pl-smi">r</span> = r;
+    tr[p].<span class="pl-smi">clean</span> = <span class="pl-c1">0</span>; tr[p].<span class="pl-smi">rev</span> = <span class="pl-c1">0</span>;
+    tr[p].<span class="pl-smi">add</span>[<span class="pl-c1">0</span>] = tr[p].<span class="pl-smi">add</span>[<span class="pl-c1">1</span>] = <span class="pl-c1">0</span>;
+
+    <span class="pl-k">if</span> (l == r) {
+        <span class="pl-c"><span class="pl-c">//</span> 初始状态：全部正面朝上(mx[1])，值为0</span>
+        <span class="pl-c"><span class="pl-c">//</span> 背面(mx[0])是不存在的，设为 -INF</span>
+        tr[p].<span class="pl-smi">mx</span>[<span class="pl-c1">1</span>] = <span class="pl-c1">0</span>;
+        tr[p].<span class="pl-smi">mx</span>[<span class="pl-c1">0</span>] = -INF;
+        <span class="pl-k">return</span>;
+    }
+    ll mid = (l + r) &gt;&gt; <span class="pl-c1">1</span>;
+    <span class="pl-c1">build</span>(lc, l, mid);
+    <span class="pl-c1">build</span>(rc, mid + <span class="pl-c1">1</span>, r);
+    <span class="pl-c1">pushup</span>(p);
+}
+
+<span class="pl-c"><span class="pl-c">//</span> Type 1: Add (只加到 mx[1])</span>
+<span class="pl-k">void</span> <span class="pl-en">modify1</span>(ll p, ll x, ll y, ll c) {
+    <span class="pl-k">if</span> (x &lt;= tr[p].<span class="pl-smi">l</span> &amp;&amp; tr[p].<span class="pl-smi">r</span> &lt;= y) {
+        <span class="pl-c1">lazy_add</span>(p, <span class="pl-c1">1</span>, c);
+        <span class="pl-k">return</span>;
+    }
+    <span class="pl-c1">pushdown</span>(p);
+    ll mid = (tr[p].<span class="pl-smi">l</span> + tr[p].<span class="pl-smi">r</span>) &gt;&gt; <span class="pl-c1">1</span>;
+    <span class="pl-k">if</span> (x &lt;= mid) <span class="pl-c1">modify1</span>(lc, x, y, c);
+    <span class="pl-k">if</span> (y &gt; mid) <span class="pl-c1">modify1</span>(rc, x, y, c);
+    <span class="pl-c1">pushup</span>(p);
+}
+
+<span class="pl-c"><span class="pl-c">//</span> Type 2: Eat &amp; Flip</span>
+<span class="pl-k">void</span> <span class="pl-en">modify2</span>(ll p, ll x, ll y) {
+    <span class="pl-k">if</span> (x &lt;= tr[p].<span class="pl-smi">l</span> &amp;&amp; tr[p].<span class="pl-smi">r</span> &lt;= y) {
+        <span class="pl-c1">lazy_clean</span>(p); <span class="pl-c"><span class="pl-c">//</span> 先吃</span>
+        <span class="pl-c1">lazy_rev</span>(p);   <span class="pl-c"><span class="pl-c">//</span> 后翻</span>
+        <span class="pl-k">return</span>;
+    }
+    <span class="pl-c1">pushdown</span>(p);
+    ll mid = (tr[p].<span class="pl-smi">l</span> + tr[p].<span class="pl-smi">r</span>) &gt;&gt; <span class="pl-c1">1</span>;
+    <span class="pl-k">if</span> (x &lt;= mid) <span class="pl-c1">modify2</span>(lc, x, y);
+    <span class="pl-k">if</span> (y &gt; mid) <span class="pl-c1">modify2</span>(rc, x, y);
+    <span class="pl-c1">pushup</span>(p);
+}
+
+ll <span class="pl-en">query</span>(ll p, ll x, ll y) {
+    <span class="pl-k">if</span> (x &lt;= tr[p].<span class="pl-smi">l</span> &amp;&amp; tr[p].<span class="pl-smi">r</span> &lt;= y) {
+        <span class="pl-c"><span class="pl-c">//</span> 因为我们一直在维护 mx[1] 为"当前朝上面"</span>
+        <span class="pl-c"><span class="pl-c">//</span> 即使盘子翻转了，swap 操作也保证了 mx[1] 存的是可视面的值</span>
+        <span class="pl-k">return</span> tr[p].<span class="pl-smi">mx</span>[<span class="pl-c1">1</span>];
+    }
+    <span class="pl-c1">pushdown</span>(p);
+    ll mid = (tr[p].<span class="pl-smi">l</span> + tr[p].<span class="pl-smi">r</span>) &gt;&gt; <span class="pl-c1">1</span>;
+    ll res = -INF;
+    <span class="pl-k">if</span> (x &lt;= mid) res = <span class="pl-c1">max</span>(res, <span class="pl-c1">query</span>(lc, x, y));
+    <span class="pl-k">if</span> (y &gt; mid) res = <span class="pl-c1">max</span>(res, <span class="pl-c1">query</span>(rc, x, y));
+    <span class="pl-k">return</span> res;
+}
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+    <span class="pl-k">int</span> n, q;
+    cin &gt;&gt; n &gt;&gt; q;
+    <span class="pl-c1">build</span>(<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, n);
+    <span class="pl-k">while</span> (q--) {
+        ll op, x, y, c;
+        cin &gt;&gt; op &gt;&gt; x &gt;&gt; y;
+        <span class="pl-k">if</span> (op == <span class="pl-c1">1</span>) {
+            cin &gt;&gt; c;
+            <span class="pl-c1">modify1</span>(<span class="pl-c1">1</span>, x, y, c);
+        } <span class="pl-k">else</span> <span class="pl-k">if</span> (op == <span class="pl-c1">2</span>) {
+            <span class="pl-c1">modify2</span>(<span class="pl-c1">1</span>, x, y);
+        } <span class="pl-k">else</span> {
+            ll ans = <span class="pl-c1">query</span>(<span class="pl-c1">1</span>, x, y);
+            <span class="pl-c"><span class="pl-c">//</span> 如果 ans 是 -INF，说明盘子可能正面朝下(且正面无效)，输出 0</span>
+            cout &lt;&lt; <span class="pl-c1">max</span>(<span class="pl-c1">0LL</span>, ans) &lt;&lt; endl;
+        }
+    }
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>() {
+    <span class="pl-c1">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); cin.<span class="pl-c1">tie</span>(<span class="pl-c1">0</span>); cout.<span class="pl-c1">tie</span>(<span class="pl-c1">0</span>);
+    <span class="pl-c1">solve</span>();
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://zhezhi198.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","zhezhi198/zhezhi198.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</html>
