@@ -559,24 +559,15 @@ P_N V_N
 那么分类逻辑如下：
 
 1. **C 类**：即使我们强制选了它，也达不到全局最优。
-
-   $$
-   V_{\text{with}}(i) < V_{\max}
-   $$
+   - 判定公式：$V_{\text{with}}(i) \lt V_{\max}$
 
 2. **A 类**：如果我们不选它，就无法达到全局最优。
-
-   $$
-   V_{\text{without}}(i) < V_{\max}
-   $$
+   - 判定公式：$V_{\text{without}}(i) \lt V_{\max}$
    
-   *(注意：如果 $V_{\text{with}}(i) < V_{\max}$ 已经在第一步判定过了，所以走到这里隐含了 $V_{\text{with}}(i) = V_{\max}$)*
+   *(注意：如果 $V_{\text{with}}(i) \lt V_{\max}$ 已经在第一步判定过了，所以走到这里隐含了 $V_{\text{with}}(i) = V_{\max}$)*
 
 3. **B 类**：选它或不选它，都有办法达到全局最优。
-
-   $$
-   V_{\text{with}}(i) = V_{\max} \quad \text{且} \quad V_{\text{without}}(i) = V_{\max}
-   $$
+   - 判定公式：$V_{\text{with}}(i) = V_{\max}$ 且 $V_{\text{without}}(i) = V_{\max}$
 ---
 
 ### 性能瓶颈
