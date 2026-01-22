@@ -586,17 +586,23 @@ $V_{without}(i)$：强制<strong>不选</strong>第 $i$ 个物品时，能获得
 <p>那么分类逻辑如下：</p>
 <ol>
 <li>
-<p><strong>C 类</strong>：即使我们强制选了它，也达不到全局最优。<br>
-$V_{with}(i) &amp;lt;  V_{max} $</p>
+<p><strong>C 类</strong>：即使我们强制选了它，也达不到全局最优。</p>
+<p>$$<br>
+V_{\text{with}}(i) &lt; V_{\max}<br>
+$$</p>
 </li>
 <li>
-<p><strong>A 类</strong>：如果我们不选它，就无法达到全局最优。<br>
-$V_{without}(i) &amp;lt; V_{max}$<br>
-<em>(注意：如果 $V_{with}(i) &lt; V_{max}$ 已经在第一步判定过了，所以走到这里隐含了 $V_{with}(i) == V_{max}$)</em></p>
+<p><strong>A 类</strong>：如果我们不选它，就无法达到全局最优。</p>
+<p>$$<br>
+V_{\text{without}}(i) &lt; V_{\max}<br>
+$$</p>
+<p><em>(注意：如果 $V_{\text{with}}(i) &lt; V_{\max}$ 已经在第一步判定过了，所以走到这里隐含了 $V_{\text{with}}(i) = V_{\max}$)</em></p>
 </li>
 <li>
-<p><strong>B 类</strong>：选它或不选它，都有办法达到全局最优。<br>
-$$V_{with}(i) == V_{max} \quad \text{且} \quad V_{without}(i) == V_{max}$$</p>
+<p><strong>B 类</strong>：选它或不选它，都有办法达到全局最优。</p>
+<p>$$<br>
+V_{\text{with}}(i) = V_{\max} \quad \text{且} \quad V_{\text{without}}(i) = V_{\max}<br>
+$$</p>
 </li>
 </ol>
 <hr>
