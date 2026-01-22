@@ -428,7 +428,7 @@ P_{l-1} &lt; P_r
 $$</p>
 <h3>第三步：问题转化</h3>
 <p>现在的任务变成了：<br>
-<strong>对于每一个右端点 $r$ (从 $1$ 到 $N$)，我们要找到有多少个左端点 $l$ ($1 \le l \le r$)，满足 $P_{l-1} &amp;lt; P_r$。</strong></p>
+<strong>对于每一个右端点 $r$ (从 $1$ 到 $N$)，我们要找到有多少个左端点 $l$ ($1 \le l \le r$)，满足 P_{l-1} &lt; P_r。</strong></p>
 <p>也就是统计在 $r$ 之前，有多少个前缀和的值 <strong>严格小于</strong> 当前的前缀和 $P_r$。</p>
 <hr>
 <h2>4. 数据结构优化</h2>
@@ -488,103 +488,6 @@ $$</p>
 <span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
 <span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
 <span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">struct</span> <span class="pl-en">BIT1</span>
-{
-    <span class="pl-k">int</span> n;
-    vector&lt;T&gt; tr;
-    <span class="pl-en">BIT1</span>(<span class="pl-k">int</span> n) : n(n), tr(n + <span class="pl-c1">1</span>) {}
-    <span class="pl-k">void</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> x, T v)
-    {
-        <span class="pl-k">for</span> (; x &lt;= n; x += x &amp; -x)
-            tr[x] += v;
-    }
-    T <span class="pl-en">sum</span>(<span class="pl-k">int</span> x)
-    {
-        T r = <span class="pl-c1">0</span>;
-        <span class="pl-k">for</span> (; x; x -= x &amp; -x)
-            r += tr[x];
-        <span class="pl-k">return</span> r;
-    }
-    T <span class="pl-en">range</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> <span class="pl-c1">sum</span>(r) - <span class="pl-c1">sum</span>(l - <span class="pl-c1">1</span>); }
-};
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">struct</span> <span class="pl-en">BIT2</span>
-{
-    <span class="pl-k">int</span> n, m;
-    vector&lt;vector&lt;T&gt;&gt; t1, t2, t3, t4;
-    <span class="pl-en">BIT2</span>(<span class="pl-k">int</span> n_ = <span class="pl-c1">0</span>, <span class="pl-k">int</span> m_ = <span class="pl-c1">0</span>) { <span class="pl-c1">init</span>(n_, m_); }
-    <span class="pl-k">void</span> <span class="pl-en">init</span>(<span class="pl-k">int</span> n_, <span class="pl-k">int</span> m_)
-    {
-        n = n_;
-        m = m_;
-        t1.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-        t2.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-        t3.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-        t4.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-    }
-    <span class="pl-k">void</span> <span class="pl-en">_add</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> y, <span class="pl-k">const</span> T &amp;v)
-    {
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = x; i &lt;= n; i += i &amp; -i)
-            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = y; j &lt;= m; j += j &amp; -j)
-            {
-                t1[i][j] += v;
-                t2[i][j] += v * x;
-                t3[i][j] += v * y;
-                t4[i][j] += v * x * y;
-            }
-    }
-    <span class="pl-k">void</span> <span class="pl-en">rangeAdd</span>(<span class="pl-k">int</span> x1, <span class="pl-k">int</span> y1, <span class="pl-k">int</span> x2, <span class="pl-k">int</span> y2, <span class="pl-k">const</span> T &amp;v)
-    {
-        <span class="pl-c1">_add</span>(x1, y1, v);
-        <span class="pl-c1">_add</span>(x1, y2 + <span class="pl-c1">1</span>, -v);
-        <span class="pl-c1">_add</span>(x2 + <span class="pl-c1">1</span>, y1, -v);
-        <span class="pl-c1">_add</span>(x2 + <span class="pl-c1">1</span>, y2 + <span class="pl-c1">1</span>, v);
-    }
-    T <span class="pl-en">prefixSum</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> y)
-    {
-        T r{};
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = x; i &gt; <span class="pl-c1">0</span>; i -= i &amp; -i)
-            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = y; j &gt; <span class="pl-c1">0</span>; j -= j &amp; -j)
-                r += t1[i][j] * (x + <span class="pl-c1">1</span>) * (y + <span class="pl-c1">1</span>) - t2[i][j] * (y + <span class="pl-c1">1</span>) - t3[i][j] * (x + <span class="pl-c1">1</span>) + t4[i][j];
-        <span class="pl-k">return</span> r;
-    }
-    T <span class="pl-en">rangeSum</span>(<span class="pl-k">int</span> x1, <span class="pl-k">int</span> y1, <span class="pl-k">int</span> x2, <span class="pl-k">int</span> y2)
-    {
-        <span class="pl-k">if</span> (x1 &gt; x2 || y1 &gt; y2)
-            <span class="pl-k">return</span> T{};
-        <span class="pl-k">return</span> <span class="pl-c1">prefixSum</span>(x2, y2) - <span class="pl-c1">prefixSum</span>(x1 - <span class="pl-c1">1</span>, y2) - <span class="pl-c1">prefixSum</span>(x2, y1 - <span class="pl-c1">1</span>) + <span class="pl-c1">prefixSum</span>(x1 - <span class="pl-c1">1</span>, y1 - <span class="pl-c1">1</span>);
-    }
-};
-<span class="pl-k">struct</span> <span class="pl-en">Random</span>
-{
-    mt19937_64 rng;
-    <span class="pl-en">Random</span>() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
-    ull <span class="pl-en">rand_ull</span>(ull max_val = -<span class="pl-c1">1</span>) { <span class="pl-k">return</span> <span class="pl-c1">rng</span>() % (max_val + <span class="pl-c1">1</span>); }
-    ll <span class="pl-en">rand_ll</span>(ll l, ll r) { <span class="pl-k">return</span> uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
-    <span class="pl-k">int</span> <span class="pl-en">rand_int</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> uniform_int_distribution&lt;<span class="pl-k">int</span>&gt;(l, r)(rng); }
-    <span class="pl-k">double</span> <span class="pl-en">rand_db</span>(<span class="pl-k">double</span> l, <span class="pl-k">double</span> r) { <span class="pl-k">return</span> uniform_real_distribution&lt;<span class="pl-k">double</span>&gt;(l, r)(rng); }
-    <span class="pl-k">bool</span> <span class="pl-en">rand_bool</span>(<span class="pl-k">double</span> p = <span class="pl-c1">0.5</span>) { <span class="pl-k">return</span> <span class="pl-c1">bernoulli_distribution</span>(p)(rng); }
-    <span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-    <span class="pl-k">void</span> <span class="pl-en">shuffle</span>(vector&lt;T&gt; &amp;v) { <span class="pl-c1">std::shuffle</span>(v.<span class="pl-c1">begin</span>(), v.<span class="pl-c1">end</span>(), rng); }
-};
-ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
-{
-    ll res = <span class="pl-c1">1</span> % p;
-    a %= p;
-    <span class="pl-k">while</span> (b)
-    {
-        <span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>)
-            res = res * a % p;
-        a = a * a % p;
-        b &gt;&gt;= <span class="pl-c1">1</span>;
-    }
-    <span class="pl-k">return</span> res;
-}
-<span class="pl-c"><span class="pl-c">/*</span></span>
-<span class="pl-c"></span>
-<span class="pl-c"><span class="pl-c">*/</span></span>
-
 <span class="pl-k">void</span> <span class="pl-en">solve</span>()
 {
     ll n;
@@ -684,11 +587,11 @@ $V_{without}(i)$：强制<strong>不选</strong>第 $i$ 个物品时，能获得
 <ol>
 <li>
 <p><strong>C 类</strong>：即使我们强制选了它，也达不到全局最优。<br>
-$$V_{with}(i) &amp;lt; V_{max}$$</p>
+$V_{with}(i) &amp;lt;  V_{max} $</p>
 </li>
 <li>
 <p><strong>A 类</strong>：如果我们不选它，就无法达到全局最优。<br>
-$$V_{without}(i) &amp;lt; V_{max}$$<br>
+$V_{without}(i) &amp;lt; V_{max}$<br>
 <em>(注意：如果 $V_{with}(i) &lt; V_{max}$ 已经在第一步判定过了，所以走到这里隐含了 $V_{with}(i) == V_{max}$)</em></p>
 </li>
 <li>
@@ -988,7 +891,7 @@ query_Q
 <li>
 <p><strong>Add (加法)</strong>：</p>
 <ul>
-<li>仅对 $&amp;gt; -INF$ 的状态进行数值累加。</li>
+<li>仅对 &gt; -INF 的状态进行数值累加。</li>
 </ul>
 </li>
 </ol>

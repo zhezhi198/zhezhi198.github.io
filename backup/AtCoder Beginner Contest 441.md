@@ -383,7 +383,7 @@ $$
 
 ### 第三步：问题转化
 现在的任务变成了：
-**对于每一个右端点 $r$ (从 $1$ 到 $N$)，我们要找到有多少个左端点 $l$ ($1 \le l \le r$)，满足 $P_{l-1} < P_r$。**
+**对于每一个右端点 $r$ (从 $1$ 到 $N$)，我们要找到有多少个左端点 $l$ ($1 \le l \le r$)，满足 P_{l-1} < P_r。**
 
 也就是统计在 $r$ 之前，有多少个前缀和的值 **严格小于** 当前的前缀和 $P_r$。
 
@@ -451,103 +451,6 @@ template <typename T>
 bool cmax(T &a, const T &b) { return b > a ? a = b, 1 : 0; }
 template <typename T>
 void sort_range(vector<T> &v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
-template <typename T>
-struct BIT1
-{
-    int n;
-    vector<T> tr;
-    BIT1(int n) : n(n), tr(n + 1) {}
-    void add(int x, T v)
-    {
-        for (; x <= n; x += x & -x)
-            tr[x] += v;
-    }
-    T sum(int x)
-    {
-        T r = 0;
-        for (; x; x -= x & -x)
-            r += tr[x];
-        return r;
-    }
-    T range(int l, int r) { return sum(r) - sum(l - 1); }
-};
-template <typename T>
-struct BIT2
-{
-    int n, m;
-    vector<vector<T>> t1, t2, t3, t4;
-    BIT2(int n_ = 0, int m_ = 0) { init(n_, m_); }
-    void init(int n_, int m_)
-    {
-        n = n_;
-        m = m_;
-        t1.assign(n + 1, vector<T>(m + 1, T{}));
-        t2.assign(n + 1, vector<T>(m + 1, T{}));
-        t3.assign(n + 1, vector<T>(m + 1, T{}));
-        t4.assign(n + 1, vector<T>(m + 1, T{}));
-    }
-    void _add(int x, int y, const T &v)
-    {
-        for (int i = x; i <= n; i += i & -i)
-            for (int j = y; j <= m; j += j & -j)
-            {
-                t1[i][j] += v;
-                t2[i][j] += v * x;
-                t3[i][j] += v * y;
-                t4[i][j] += v * x * y;
-            }
-    }
-    void rangeAdd(int x1, int y1, int x2, int y2, const T &v)
-    {
-        _add(x1, y1, v);
-        _add(x1, y2 + 1, -v);
-        _add(x2 + 1, y1, -v);
-        _add(x2 + 1, y2 + 1, v);
-    }
-    T prefixSum(int x, int y)
-    {
-        T r{};
-        for (int i = x; i > 0; i -= i & -i)
-            for (int j = y; j > 0; j -= j & -j)
-                r += t1[i][j] * (x + 1) * (y + 1) - t2[i][j] * (y + 1) - t3[i][j] * (x + 1) + t4[i][j];
-        return r;
-    }
-    T rangeSum(int x1, int y1, int x2, int y2)
-    {
-        if (x1 > x2 || y1 > y2)
-            return T{};
-        return prefixSum(x2, y2) - prefixSum(x1 - 1, y2) - prefixSum(x2, y1 - 1) + prefixSum(x1 - 1, y1 - 1);
-    }
-};
-struct Random
-{
-    mt19937_64 rng;
-    Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
-    ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
-    ll rand_ll(ll l, ll r) { return uniform_int_distribution<ll>(l, r)(rng); }
-    int rand_int(int l, int r) { return uniform_int_distribution<int>(l, r)(rng); }
-    double rand_db(double l, double r) { return uniform_real_distribution<double>(l, r)(rng); }
-    bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
-    template <typename T>
-    void shuffle(vector<T> &v) { std::shuffle(v.begin(), v.end(), rng); }
-};
-ll qmi(ll a, ll b, ll p)
-{
-    ll res = 1 % p;
-    a %= p;
-    while (b)
-    {
-        if (b & 1)
-            res = res * a % p;
-        a = a * a % p;
-        b >>= 1;
-    }
-    return res;
-}
-/*
-
-*/
-
 void solve()
 {
     ll n;
@@ -654,10 +557,10 @@ P_N V_N
 那么分类逻辑如下：
 
 1. **C 类**：即使我们强制选了它，也达不到全局最优。
-   $$V_{with}(i) < V_{max}$$
+    $V_{with}(i) <  V_{max} $
 
 2. **A 类**：如果我们不选它，就无法达到全局最优。
-   $$V_{without}(i) < V_{max}$$
+   $V_{without}(i) < V_{max}$
    *(注意：如果 $V_{with}(i) < V_{max}$ 已经在第一步判定过了，所以走到这里隐含了 $V_{with}(i) == V_{max}$)*
 
 3. **B 类**：选它或不选它，都有办法达到全局最优。
@@ -928,7 +831,7 @@ struct node {
     - 交换 `add[0]` 和 `add[1]`（因为累积的加法操作也随之换了面）。
 
 3.  **Add (加法)**：
-    - 仅对 $> -INF$ 的状态进行数值累加。
+    - 仅对 > -INF 的状态进行数值累加。
 
 ---
 
