@@ -1,5 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Thu, 22 Jan 2026 08:58:05 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>AtCoder Beginner Contest 441</title><link>https://zhezhi198.github.io/post/AtCoder%20Beginner%20Contest%20441.html</link><description>[AtCoder Beginner Contest 441](https://atcoder.jp/contests/abc441)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Sat, 24 Jan 2026 09:02:53 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>Codeforces Round 1075 (Div. 2)</title><link>https://zhezhi198.github.io/post/Codeforces%20Round%201075%20%28Div.%202%29.html</link><description>[Codeforces Round 1075 (Div. 2)](https://codeforces.com/contest/2189)
+# A. 带有数字的表格 
+
+| 每次测试时间限制 | 每次测试内存限制 | 输入 | 输出 |
+| :--- | :--- | :--- | :--- |
+| 1 秒 | 256 MB | 标准输入 | 标准输出 |
+
+## 题目描述
+
+Peter 画了一张大小为 $h \times l$ 的表格，里面初始填满了零。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/Codeforces%20Round%201075%20%28Div.%202%29.html</guid><pubDate>Sat, 24 Jan 2026 09:02:24 +0000</pubDate></item><item><title>AtCoder Beginner Contest 441</title><link>https://zhezhi198.github.io/post/AtCoder%20Beginner%20Contest%20441.html</link><description>[AtCoder Beginner Contest 441](https://atcoder.jp/contests/abc441)
 ABC的比赛向来不写AB的，从C开始写。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/AtCoder%20Beginner%20Contest%20441.html</guid><pubDate>Thu, 22 Jan 2026 08:57:34 +0000</pubDate></item><item><title>Codeforces Round 1074 (Div. 4)</title><link>https://zhezhi198.github.io/post/Codeforces%20Round%201074%20%28Div.%204%29.html</link><description>[进入比赛](https://codeforces.com/contest/2185)
 # A. 完美的根 
 
