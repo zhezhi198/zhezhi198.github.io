@@ -793,7 +793,11 @@ int main()
 
 <img width="1295" height="410" alt="Image" src="https://github.com/user-attachments/assets/56152a6b-0586-46f8-b7ce-2e4f48c854c5" />
 
+
+
 <img width="1311" height="291" alt="Image" src="https://github.com/user-attachments/assets/daa79701-c65d-443f-84aa-3f30ca580edd" />
+
+
 
 ```
 D2也差不多，给代码算了，思路差不多，只是判断整除麻烦.
