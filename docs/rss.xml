@@ -1,5 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Sat, 24 Jan 2026 09:02:53 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>Codeforces Round 1075 (Div. 2)</title><link>https://zhezhi198.github.io/post/Codeforces%20Round%201075%20%28Div.%202%29.html</link><description>[Codeforces Round 1075 (Div. 2)](https://codeforces.com/contest/2189)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Wed, 04 Feb 2026 15:10:19 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>2026.2月</title><link>https://zhezhi198.github.io/post/2026.2-yue.html</link><description>之前的慢慢补上先从今天开始记录
+2.4(当日已完成补题)
+[C - Striped Horse](https://atcoder.jp/contests/abc440/tasks/abc440_c)
+
+[E - Cookies](https://atcoder.jp/contests/abc440/tasks/abc440_e)
+为此我找了两个差不多的题目练手目前已经写完
+[E - Kth Takoyaki Set](https://atcoder.jp/contests/abc297/tasks/abc297_e)
+[序列合并](https://www.luogu.com.cn/problem/P1631)。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/2026.2-yue.html</guid><pubDate>Wed, 04 Feb 2026 15:09:53 +0000</pubDate></item><item><title>Codeforces Round 1075 (Div. 2)</title><link>https://zhezhi198.github.io/post/Codeforces%20Round%201075%20%28Div.%202%29.html</link><description>[Codeforces Round 1075 (Div. 2)](https://codeforces.com/contest/2189)
 # A. 带有数字的表格 
 
 | 每次测试时间限制 | 每次测试内存限制 | 输入 | 输出 |
