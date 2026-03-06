@@ -601,7 +601,7 @@ ll get(ll i) {
 <meta property="og:url" content="https://zhezhi198.github.io/post/fen-kuai-ru-men-9-ti.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
 <title>分块入门9题</title>
-<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
 
 
 </head>
@@ -673,89 +673,89 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>第一题是y总的板子，但是y总的分块就讲了这个基础题目，我觉得还是太浅了，后来讲的就是链表分块，但是后来我去洛谷交了一个数据大一点点的题目，发现会卡常，还算不建议用y总的板子了</p>
 </blockquote>
 <p>代码：</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
-<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
-<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
-<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
-<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
-<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
-<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
-<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
-<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
-<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
-<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
-<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
-#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
-    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
-    cin.tie(<span class="pl-c1">0</span>);              \
-    cout.tie(<span class="pl-c1">0</span>);
-#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
-#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
-#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
-#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
-#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
-#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
-#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
-#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
-#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
-#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
-#<span class="pl-k">define</span> <span class="pl-en">se</span> second
-#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
-#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
-#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
-#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
-#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
-<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
-<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">350</span>, K = <span class="pl-c1">26</span>;
-<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
-<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
-<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
-<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">struct</span> <span class="pl-en">BIT1</span>
+<pre lang="cpp" class="notranslate"><code class="notranslate">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define debug(...) cout &lt;&lt; "[debug] " #__VA_ARGS__ " = " &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p &lt;&lt; 1
+#define rc p &lt;&lt; 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) &amp; (-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 1e5 + 10, M = 350, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template &lt;typename T&gt;
+bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+template &lt;typename T&gt;
+struct BIT1
 {
-    <span class="pl-k">int</span> n;
+    int n;
     vector&lt;T&gt; tr;
-    <span class="pl-en">BIT1</span>(<span class="pl-k">int</span> n) : n(n), tr(n + <span class="pl-c1">1</span>) {}
-    <span class="pl-k">void</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> x, T v)
+    BIT1(int n) : n(n), tr(n + 1) {}
+    void add(int x, T v)
     {
-        <span class="pl-k">for</span> (; x &lt;= n; x += x &amp; -x)
+        for (; x &lt;= n; x += x &amp; -x)
             tr[x] += v;
     }
-    T <span class="pl-en">sum</span>(<span class="pl-k">int</span> x)
+    T sum(int x)
     {
-        T r = <span class="pl-c1">0</span>;
-        <span class="pl-k">for</span> (; x; x -= x &amp; -x)
+        T r = 0;
+        for (; x; x -= x &amp; -x)
             r += tr[x];
-        <span class="pl-k">return</span> r;
+        return r;
     }
-    T <span class="pl-en">range</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> <span class="pl-c1">sum</span>(r) - <span class="pl-c1">sum</span>(l - <span class="pl-c1">1</span>); }
+    T range(int l, int r) { return sum(r) - sum(l - 1); }
 };
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">struct</span> <span class="pl-en">BIT2</span>
+template &lt;typename T&gt;
+struct BIT2
 {
-    <span class="pl-k">int</span> n, m;
+    int n, m;
     vector&lt;vector&lt;T&gt;&gt; t1, t2, t3, t4;
-    <span class="pl-en">BIT2</span>(<span class="pl-k">int</span> n_ = <span class="pl-c1">0</span>, <span class="pl-k">int</span> m_ = <span class="pl-c1">0</span>) { <span class="pl-c1">init</span>(n_, m_); }
-    <span class="pl-k">void</span> <span class="pl-en">init</span>(<span class="pl-k">int</span> n_, <span class="pl-k">int</span> m_)
+    BIT2(int n_ = 0, int m_ = 0) { init(n_, m_); }
+    void init(int n_, int m_)
     {
         n = n_;
         m = m_;
-        t1.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-        t2.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-        t3.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-        t4.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
+        t1.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t2.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t3.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t4.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
     }
-    <span class="pl-k">void</span> <span class="pl-en">_add</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> y, <span class="pl-k">const</span> T &amp;v)
+    void _add(int x, int y, const T &amp;v)
     {
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = x; i &lt;= n; i += i &amp; -i)
-            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = y; j &lt;= m; j += j &amp; -j)
+        for (int i = x; i &lt;= n; i += i &amp; -i)
+            for (int j = y; j &lt;= m; j += j &amp; -j)
             {
                 t1[i][j] += v;
                 t2[i][j] += v * x;
@@ -763,77 +763,77 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
                 t4[i][j] += v * x * y;
             }
     }
-    <span class="pl-k">void</span> <span class="pl-en">rangeAdd</span>(<span class="pl-k">int</span> x1, <span class="pl-k">int</span> y1, <span class="pl-k">int</span> x2, <span class="pl-k">int</span> y2, <span class="pl-k">const</span> T &amp;v)
+    void rangeAdd(int x1, int y1, int x2, int y2, const T &amp;v)
     {
-        <span class="pl-c1">_add</span>(x1, y1, v);
-        <span class="pl-c1">_add</span>(x1, y2 + <span class="pl-c1">1</span>, -v);
-        <span class="pl-c1">_add</span>(x2 + <span class="pl-c1">1</span>, y1, -v);
-        <span class="pl-c1">_add</span>(x2 + <span class="pl-c1">1</span>, y2 + <span class="pl-c1">1</span>, v);
+        _add(x1, y1, v);
+        _add(x1, y2 + 1, -v);
+        _add(x2 + 1, y1, -v);
+        _add(x2 + 1, y2 + 1, v);
     }
-    T <span class="pl-en">prefixSum</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> y)
+    T prefixSum(int x, int y)
     {
         T r{};
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = x; i &gt; <span class="pl-c1">0</span>; i -= i &amp; -i)
-            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = y; j &gt; <span class="pl-c1">0</span>; j -= j &amp; -j)
-                r += t1[i][j] * (x + <span class="pl-c1">1</span>) * (y + <span class="pl-c1">1</span>) - t2[i][j] * (y + <span class="pl-c1">1</span>) - t3[i][j] * (x + <span class="pl-c1">1</span>) + t4[i][j];
-        <span class="pl-k">return</span> r;
+        for (int i = x; i &gt; 0; i -= i &amp; -i)
+            for (int j = y; j &gt; 0; j -= j &amp; -j)
+                r += t1[i][j] * (x + 1) * (y + 1) - t2[i][j] * (y + 1) - t3[i][j] * (x + 1) + t4[i][j];
+        return r;
     }
-    T <span class="pl-en">rangeSum</span>(<span class="pl-k">int</span> x1, <span class="pl-k">int</span> y1, <span class="pl-k">int</span> x2, <span class="pl-k">int</span> y2)
+    T rangeSum(int x1, int y1, int x2, int y2)
     {
-        <span class="pl-k">if</span> (x1 &gt; x2 || y1 &gt; y2)
-            <span class="pl-k">return</span> T{};
-        <span class="pl-k">return</span> <span class="pl-c1">prefixSum</span>(x2, y2) - <span class="pl-c1">prefixSum</span>(x1 - <span class="pl-c1">1</span>, y2) - <span class="pl-c1">prefixSum</span>(x2, y1 - <span class="pl-c1">1</span>) + <span class="pl-c1">prefixSum</span>(x1 - <span class="pl-c1">1</span>, y1 - <span class="pl-c1">1</span>);
+        if (x1 &gt; x2 || y1 &gt; y2)
+            return T{};
+        return prefixSum(x2, y2) - prefixSum(x1 - 1, y2) - prefixSum(x2, y1 - 1) + prefixSum(x1 - 1, y1 - 1);
     }
 };
-<span class="pl-k">struct</span> <span class="pl-en">Random</span>
+struct Random
 {
     mt19937_64 rng;
-    <span class="pl-en">Random</span>() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
-    ull <span class="pl-en">rand_ull</span>(ull max_val = -<span class="pl-c1">1</span>) { <span class="pl-k">return</span> <span class="pl-c1">rng</span>() % (max_val + <span class="pl-c1">1</span>); }
-    ll <span class="pl-en">rand_ll</span>(ll l, ll r) { <span class="pl-k">return</span> uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
-    <span class="pl-k">int</span> <span class="pl-en">rand_int</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> uniform_int_distribution&lt;<span class="pl-k">int</span>&gt;(l, r)(rng); }
-    <span class="pl-k">double</span> <span class="pl-en">rand_db</span>(<span class="pl-k">double</span> l, <span class="pl-k">double</span> r) { <span class="pl-k">return</span> uniform_real_distribution&lt;<span class="pl-k">double</span>&gt;(l, r)(rng); }
-    <span class="pl-k">bool</span> <span class="pl-en">rand_bool</span>(<span class="pl-k">double</span> p = <span class="pl-c1">0.5</span>) { <span class="pl-k">return</span> <span class="pl-c1">bernoulli_distribution</span>(p)(rng); }
-    <span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-    <span class="pl-k">void</span> <span class="pl-en">shuffle</span>(vector&lt;T&gt; &amp;v) { <span class="pl-c1">std::shuffle</span>(v.<span class="pl-c1">begin</span>(), v.<span class="pl-c1">end</span>(), rng); }
+    Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+    ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
+    ll rand_ll(ll l, ll r) { return uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
+    int rand_int(int l, int r) { return uniform_int_distribution&lt;int&gt;(l, r)(rng); }
+    double rand_db(double l, double r) { return uniform_real_distribution&lt;double&gt;(l, r)(rng); }
+    bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
+    template &lt;typename T&gt;
+    void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); }
 };
-ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
+ll qmi(ll a, ll b, ll p)
 {
-    ll res = <span class="pl-c1">1</span> % p;
+    ll res = 1 % p;
     a %= p;
-    <span class="pl-k">while</span> (b)
+    while (b)
     {
-        <span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>)
+        if (b &amp; 1)
             res = res * a % p;
         a = a * a % p;
-        b &gt;&gt;= <span class="pl-c1">1</span>;
+        b &gt;&gt;= 1;
     }
-    <span class="pl-k">return</span> res;
+    return res;
 }
-<span class="pl-c"><span class="pl-c">/*</span></span>
-<span class="pl-c"></span>
-<span class="pl-c"><span class="pl-c">*/</span></span>
+/*
+
+*/
 ll n, m, len;
 ll a[N], add[M], sum[M];
-ll <span class="pl-en">get</span>(ll i)
+ll get(ll i)
 {
-    <span class="pl-k">return</span> i / len;
+    return i / len;
 }
 
-<span class="pl-k">void</span> <span class="pl-en">change</span>(ll l, ll r, ll d)
+void change(ll l, ll r, ll d)
 {
-    <span class="pl-k">if</span> (<span class="pl-c1">get</span>(l) == <span class="pl-c1">get</span>(r))
+    if (get(l) == get(r))
     {
-        <span class="pl-c1">rep</span>(i, l, r) a[i] += d, sum[<span class="pl-c1">get</span>(i)] += d;
+        rep(i, l, r) a[i] += d, sum[get(i)] += d;
     }
-    <span class="pl-k">else</span>
+    else
     {
         ll i = l, j = r;
-        <span class="pl-k">while</span> (<span class="pl-c1">get</span>(i) == <span class="pl-c1">get</span>(l))
-            a[i] += d, sum[<span class="pl-c1">get</span>(i)] += d, i++;
-        <span class="pl-k">while</span> (<span class="pl-c1">get</span>(j) == <span class="pl-c1">get</span>(r))
-            a[j] += d, sum[<span class="pl-c1">get</span>(j)] += d, j--;
-        <span class="pl-c1">rep</span>(k, <span class="pl-c1">get</span>(i), <span class="pl-c1">get</span>(j))
+        while (get(i) == get(l))
+            a[i] += d, sum[get(i)] += d, i++;
+        while (get(j) == get(r))
+            a[j] += d, sum[get(j)] += d, j--;
+        rep(k, get(i), get(j))
         {
             sum[k] += len * d;
             add[k] += d;
@@ -841,262 +841,264 @@ ll <span class="pl-en">get</span>(ll i)
     }
 }
 
-ll <span class="pl-en">query</span>(ll l, ll r)
+ll query(ll l, ll r)
 {
-    ll ret = <span class="pl-c1">0</span>;
-    <span class="pl-k">if</span> (<span class="pl-c1">get</span>(l) == <span class="pl-c1">get</span>(r))
+    ll ret = 0;
+    if (get(l) == get(r))
     {
-        <span class="pl-c1">rep</span>(i, l, r) ret += a[i] + add[<span class="pl-c1">get</span>(i)];
+        rep(i, l, r) ret += a[i] + add[get(i)];
     }
-    <span class="pl-k">else</span>
+    else
     {
         ll i = l, j = r;
-        <span class="pl-k">while</span> (<span class="pl-c1">get</span>(i) == <span class="pl-c1">get</span>(l))
-            ret += a[i] + add[<span class="pl-c1">get</span>(i)], i++;
-        <span class="pl-k">while</span> (<span class="pl-c1">get</span>(j) == <span class="pl-c1">get</span>(r))
-            ret += a[j] + add[<span class="pl-c1">get</span>(j)], j--;
-        <span class="pl-c1">rep</span>(k, <span class="pl-c1">get</span>(i), <span class="pl-c1">get</span>(j))
+        while (get(i) == get(l))
+            ret += a[i] + add[get(i)], i++;
+        while (get(j) == get(r))
+            ret += a[j] + add[get(j)], j--;
+        rep(k, get(i), get(j))
         {
             ret += sum[k];
         }
     }
-    <span class="pl-k">return</span> ret;
+    return ret;
 }
 
-<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+void solve()
 {
     cin &gt;&gt; n ;
     m=n;
-    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n) cin &gt;&gt; a[i];
-    len = <span class="pl-c1">sqrt</span>(n);
-    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n)
+    rep(i, 1, n) cin &gt;&gt; a[i];
+    len = sqrt(n);
+    rep(i, 1, n)
     {
-        sum[<span class="pl-c1">get</span>(i)] += a[i];
+        sum[get(i)] += a[i];
     }
-    <span class="pl-k">while</span> (m--)
+    while (m--)
     {
         string op;
         cin &gt;&gt; op;
-        <span class="pl-k">if</span> (op == <span class="pl-s"><span class="pl-pds">"</span>0<span class="pl-pds">"</span></span>)
+        if (op == "0")
         {
             ll l, r, d;
             cin &gt;&gt; l &gt;&gt; r &gt;&gt; d;
-            <span class="pl-c1">change</span>(l, r, d);
+            change(l, r, d);
         }
-        <span class="pl-k">else</span>
+        else
         {
             ll l, r,d;
             cin &gt;&gt; l &gt;&gt; r&gt;&gt;d;
-            ll ans = <span class="pl-c1">query</span>(r, r);
+            ll ans = query(r, r);
             cout &lt;&lt; ans &lt;&lt; endl;
         }
     }
 }
 
-<span class="pl-k">int</span> <span class="pl-en">main</span>()
+int main()
 {
     IOS;
 
-    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
-    <span class="pl-c"><span class="pl-c">//</span> cin&gt;&gt;_;//如果是多组数据</span>
-    <span class="pl-k">while</span> (_--)
+    int _ = 1;
+    // cin&gt;&gt;_;//如果是多组数据
+    while (_--)
     {
-        <span class="pl-c1">solve</span>();
+        solve();
     }
-    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
-}</pre></div>
+    return 0;
+}
+</code></pre>
 <p>下面的是暂时不卡常的代码:</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
-<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
-<span class="pl-c"><span class="pl-c">//</span>CJX__//</span>
-<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
-<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
-<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
-<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
-<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
-<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
-<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
-<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
-<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
-#<span class="pl-k">define</span> <span class="pl-en">IOS</span> <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); cin.tie(<span class="pl-c1">0</span>); cout.tie(<span class="pl-c1">0</span>);
-#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
-#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
-#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
-#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
-#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
-#<span class="pl-k">define</span> <span class="pl-en">lc</span> p&lt;&lt;<span class="pl-c1">1</span>
-#<span class="pl-k">define</span> <span class="pl-en">rc</span> p&lt;&lt;<span class="pl-c1">1</span>|<span class="pl-c1">1</span>
-#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
-#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
-#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
-#<span class="pl-k">define</span> <span class="pl-en">se</span> second
-#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
-#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x)&amp;(-x))
-#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
-#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
-#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
-<span class="pl-k">const</span> <span class="pl-k">double</span> eps=<span class="pl-c1">1e-5</span>;
-<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">3e5</span> + <span class="pl-c1">10</span>,M=<span class="pl-c1">550</span>,K=<span class="pl-c1">26</span>;
-<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>,Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
-<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
-<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
-<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
-<span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> T&gt; <span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
-<span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> T&gt; <span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
-<span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> T&gt; <span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
-<span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> T&gt; <span class="pl-k">struct</span> <span class="pl-en">BIT1</span> { <span class="pl-k">int</span> n; vector&lt;T&gt; tr; BIT1(<span class="pl-k">int</span> n) : n(n), tr(n+<span class="pl-c1">1</span>) {} <span class="pl-k">void</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> x, T v) { <span class="pl-k">for</span>(;x&lt;=n;x+=x&amp;-x) tr[x]+=v; } T <span class="pl-en">sum</span>(<span class="pl-k">int</span> x) { T r=<span class="pl-c1">0</span>; <span class="pl-k">for</span>(;x;x-=x&amp;-x) r+=tr[x]; <span class="pl-k">return</span> r; } T <span class="pl-en">range</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> <span class="pl-c1">sum</span>(r)-<span class="pl-c1">sum</span>(l-<span class="pl-c1">1</span>); } };
-<span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> T&gt; <span class="pl-k">struct</span> <span class="pl-en">BIT2</span> { <span class="pl-k">int</span> n,m; vector&lt;vector&lt;T&gt;&gt; t1,t2,t3,t4; BIT2(<span class="pl-k">int</span> n_=<span class="pl-c1">0</span>,<span class="pl-k">int</span> m_=<span class="pl-c1">0</span>) { <span class="pl-c1">init</span>(n_,m_); } <span class="pl-k">void</span> <span class="pl-en">init</span>(<span class="pl-k">int</span> n_,<span class="pl-k">int</span> m_) { n=n_; m=m_; t1.<span class="pl-c1">assign</span>(n+<span class="pl-c1">1</span>,vector&lt;T&gt;(m+<span class="pl-c1">1</span>,T{})); t2.<span class="pl-c1">assign</span>(n+<span class="pl-c1">1</span>,vector&lt;T&gt;(m+<span class="pl-c1">1</span>,T{})); t3.<span class="pl-c1">assign</span>(n+<span class="pl-c1">1</span>,vector&lt;T&gt;(m+<span class="pl-c1">1</span>,T{})); t4.<span class="pl-c1">assign</span>(n+<span class="pl-c1">1</span>,vector&lt;T&gt;(m+<span class="pl-c1">1</span>,T{})); } <span class="pl-k">void</span> <span class="pl-en">_add</span>(<span class="pl-k">int</span> x,<span class="pl-k">int</span> y,<span class="pl-k">const</span> T&amp; v) { <span class="pl-k">for</span>(<span class="pl-k">int</span> i=x;i&lt;=n;i+=i&amp;-i) <span class="pl-k">for</span>(<span class="pl-k">int</span> j=y;j&lt;=m;j+=j&amp;-j) { t1[i][j]+=v; t2[i][j]+=v*x; t3[i][j]+=v*y; t4[i][j]+=v*x*y; } } <span class="pl-k">void</span> <span class="pl-en">rangeAdd</span>(<span class="pl-k">int</span> x1,<span class="pl-k">int</span> y1,<span class="pl-k">int</span> x2,<span class="pl-k">int</span> y2,<span class="pl-k">const</span> T&amp; v) { <span class="pl-c1">_add</span>(x1,y1,v); <span class="pl-c1">_add</span>(x1,y2+<span class="pl-c1">1</span>,-v); <span class="pl-c1">_add</span>(x2+<span class="pl-c1">1</span>,y1,-v); <span class="pl-c1">_add</span>(x2+<span class="pl-c1">1</span>,y2+<span class="pl-c1">1</span>,v); } T <span class="pl-en">prefixSum</span>(<span class="pl-k">int</span> x,<span class="pl-k">int</span> y) { T r{}; <span class="pl-k">for</span>(<span class="pl-k">int</span> i=x;i&gt;<span class="pl-c1">0</span>;i-=i&amp;-i) <span class="pl-k">for</span>(<span class="pl-k">int</span> j=y;j&gt;<span class="pl-c1">0</span>;j-=j&amp;-j) r+=t1[i][j]*(x+<span class="pl-c1">1</span>)*(y+<span class="pl-c1">1</span>)-t2[i][j]*(y+<span class="pl-c1">1</span>)-t3[i][j]*(x+<span class="pl-c1">1</span>)+t4[i][j]; <span class="pl-k">return</span> r; } T <span class="pl-en">rangeSum</span>(<span class="pl-k">int</span> x1,<span class="pl-k">int</span> y1,<span class="pl-k">int</span> x2,<span class="pl-k">int</span> y2) { <span class="pl-k">if</span>(x1&gt;x2||y1&gt;y2) <span class="pl-k">return</span> T{}; <span class="pl-k">return</span> <span class="pl-c1">prefixSum</span>(x2,y2)-<span class="pl-c1">prefixSum</span>(x1-<span class="pl-c1">1</span>,y2)-<span class="pl-c1">prefixSum</span>(x2,y1-<span class="pl-c1">1</span>)+<span class="pl-c1">prefixSum</span>(x1-<span class="pl-c1">1</span>,y1-<span class="pl-c1">1</span>); } };
-<span class="pl-k">struct</span> <span class="pl-en">Random</span> { mt19937_64 rng; Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {} ull <span class="pl-en">rand_ull</span>(ull max_val = -<span class="pl-c1">1</span>) { <span class="pl-k">return</span> <span class="pl-c1">rng</span>() % (max_val + <span class="pl-c1">1</span>); } ll <span class="pl-en">rand_ll</span>(ll l, ll r) { <span class="pl-k">return</span> uniform_int_distribution&lt;ll&gt;(l, r)(rng); } <span class="pl-k">int</span> <span class="pl-en">rand_int</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> uniform_int_distribution&lt;<span class="pl-k">int</span>&gt;(l, r)(rng); } <span class="pl-k">double</span> <span class="pl-en">rand_db</span>(<span class="pl-k">double</span> l, <span class="pl-k">double</span> r) { <span class="pl-k">return</span> uniform_real_distribution&lt;<span class="pl-k">double</span>&gt;(l, r)(rng); } <span class="pl-k">bool</span> <span class="pl-en">rand_bool</span>(<span class="pl-k">double</span> p = <span class="pl-c1">0.5</span>) { <span class="pl-k">return</span> <span class="pl-c1">bernoulli_distribution</span>(p)(rng); } <span class="pl-k">template</span>&lt;<span class="pl-k">typename</span> T&gt; <span class="pl-k">void</span> <span class="pl-en">shuffle</span>(vector&lt;T&gt; &amp;v) { <span class="pl-c1">std::shuffle</span>(v.<span class="pl-c1">begin</span>(), v.<span class="pl-c1">end</span>(), rng); } };
-ll <span class="pl-en">qmi</span>(ll a, ll b, ll p) { ll res = <span class="pl-c1">1</span> % p; a %= p; <span class="pl-k">while</span> (b) { <span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>) res = res * a % p; a = a * a % p; b &gt;&gt;= <span class="pl-c1">1</span>; } <span class="pl-k">return</span> res; }
-<span class="pl-c"><span class="pl-c">/*</span></span>
-<span class="pl-c">  </span>
-<span class="pl-c"><span class="pl-c">*/</span></span>
+<pre lang="cpp" class="notranslate"><code class="notranslate">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+//CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#define debug(...) cout &lt;&lt; "[debug] " #__VA_ARGS__ " = " &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p&lt;&lt;1
+#define rc p&lt;&lt;1|1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x)&amp;(-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps=1e-5;
+const int N = 3e5 + 10,M=550,K=26;
+const ll MOD = 1e9 + 7,Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template&lt;typename T&gt; bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template&lt;typename T&gt; bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template&lt;typename T&gt; void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+template&lt;typename T&gt; struct BIT1 { int n; vector&lt;T&gt; tr; BIT1(int n) : n(n), tr(n+1) {} void add(int x, T v) { for(;x&lt;=n;x+=x&amp;-x) tr[x]+=v; } T sum(int x) { T r=0; for(;x;x-=x&amp;-x) r+=tr[x]; return r; } T range(int l, int r) { return sum(r)-sum(l-1); } };
+template&lt;typename T&gt; struct BIT2 { int n,m; vector&lt;vector&lt;T&gt;&gt; t1,t2,t3,t4; BIT2(int n_=0,int m_=0) { init(n_,m_); } void init(int n_,int m_) { n=n_; m=m_; t1.assign(n+1,vector&lt;T&gt;(m+1,T{})); t2.assign(n+1,vector&lt;T&gt;(m+1,T{})); t3.assign(n+1,vector&lt;T&gt;(m+1,T{})); t4.assign(n+1,vector&lt;T&gt;(m+1,T{})); } void _add(int x,int y,const T&amp; v) { for(int i=x;i&lt;=n;i+=i&amp;-i) for(int j=y;j&lt;=m;j+=j&amp;-j) { t1[i][j]+=v; t2[i][j]+=v*x; t3[i][j]+=v*y; t4[i][j]+=v*x*y; } } void rangeAdd(int x1,int y1,int x2,int y2,const T&amp; v) { _add(x1,y1,v); _add(x1,y2+1,-v); _add(x2+1,y1,-v); _add(x2+1,y2+1,v); } T prefixSum(int x,int y) { T r{}; for(int i=x;i&gt;0;i-=i&amp;-i) for(int j=y;j&gt;0;j-=j&amp;-j) r+=t1[i][j]*(x+1)*(y+1)-t2[i][j]*(y+1)-t3[i][j]*(x+1)+t4[i][j]; return r; } T rangeSum(int x1,int y1,int x2,int y2) { if(x1&gt;x2||y1&gt;y2) return T{}; return prefixSum(x2,y2)-prefixSum(x1-1,y2)-prefixSum(x2,y1-1)+prefixSum(x1-1,y1-1); } };
+struct Random { mt19937_64 rng; Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {} ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); } ll rand_ll(ll l, ll r) { return uniform_int_distribution&lt;ll&gt;(l, r)(rng); } int rand_int(int l, int r) { return uniform_int_distribution&lt;int&gt;(l, r)(rng); } double rand_db(double l, double r) { return uniform_real_distribution&lt;double&gt;(l, r)(rng); } bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); } template&lt;typename T&gt; void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); } };
+ll qmi(ll a, ll b, ll p) { ll res = 1 % p; a %= p; while (b) { if (b &amp; 1) res = res * a % p; a = a * a % p; b &gt;&gt;= 1; } return res; }
+/*
+  
+*/
 ll n, len;
-ll a[N], add[M]; <span class="pl-c"><span class="pl-c">//</span> 移除了不必要的sum数组</span>
+ll a[N], add[M]; // 移除了不必要的sum数组
 
-ll <span class="pl-en">get</span>(ll i) {
-    <span class="pl-k">return</span> (i - <span class="pl-c1">1</span>) / len; <span class="pl-c"><span class="pl-c">//</span> 通常块编号从0开始，或者用(i-1)/len +1从1开始，这里根据你的习惯调整。注意与后续操作匹配。</span>
+ll get(ll i) {
+    return (i - 1) / len; // 通常块编号从0开始，或者用(i-1)/len +1从1开始，这里根据你的习惯调整。注意与后续操作匹配。
 }
 
-<span class="pl-k">void</span> <span class="pl-en">change</span>(ll l, ll r, ll d) {
-    <span class="pl-k">int</span> bl = <span class="pl-c1">get</span>(l), br = <span class="pl-c1">get</span>(r);
-    <span class="pl-k">if</span> (bl == br) {
-        <span class="pl-c"><span class="pl-c">//</span> 情况1：l和r在同一个块内，暴力修改</span>
-        <span class="pl-k">for</span> (ll i = l; i &lt;= r; i++) {
+void change(ll l, ll r, ll d) {
+    int bl = get(l), br = get(r);
+    if (bl == br) {
+        // 情况1：l和r在同一个块内，暴力修改
+        for (ll i = l; i &lt;= r; i++) {
             a[i] += d;
         }
-    } <span class="pl-k">else</span> {
-        <span class="pl-c"><span class="pl-c">//</span> 情况2：跨块</span>
-        <span class="pl-c"><span class="pl-c">//</span> 处理左侧不完整块</span>
-        <span class="pl-k">for</span> (ll i = l; i &lt;= (bl + <span class="pl-c1">1</span>) * len; i++) { <span class="pl-c"><span class="pl-c">//</span> 假设块编号从0开始，bl是l所在的块</span>
+    } else {
+        // 情况2：跨块
+        // 处理左侧不完整块
+        for (ll i = l; i &lt;= (bl + 1) * len; i++) { // 假设块编号从0开始，bl是l所在的块
             a[i] += d;
         }
-        <span class="pl-c"><span class="pl-c">//</span> 处理右侧不完整块</span>
-        <span class="pl-k">for</span> (ll i = br * len + <span class="pl-c1">1</span>; i &lt;= r; i++) { <span class="pl-c"><span class="pl-c">//</span> br是r所在的块</span>
+        // 处理右侧不完整块
+        for (ll i = br * len + 1; i &lt;= r; i++) { // br是r所在的块
             a[i] += d;
         }
-        <span class="pl-c"><span class="pl-c">//</span> 处理中间的完整块</span>
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> k = bl + <span class="pl-c1">1</span>; k &lt; br; k++) {
+        // 处理中间的完整块
+        for (int k = bl + 1; k &lt; br; k++) {
             add[k] += d;
         }
     }
 }
 
-<span class="pl-k">void</span> <span class="pl-en">solve</span>() {
+void solve() {
     cin &gt;&gt; n;
-    len = <span class="pl-c1">sqrt</span>(n); <span class="pl-c"><span class="pl-c">//</span> 块的大小</span>
-    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++) {
+    len = sqrt(n); // 块的大小
+    for (int i = 1; i &lt;= n; i++) {
         cin &gt;&gt; a[i];
     }
 
-    <span class="pl-k">int</span> m = n;
-    <span class="pl-k">while</span> (m--) {
-        <span class="pl-k">int</span> opt;
+    int m = n;
+    while (m--) {
+        int opt;
         ll l, r, c;
         cin &gt;&gt; opt &gt;&gt; l &gt;&gt; r &gt;&gt; c;
-        <span class="pl-k">if</span> (opt == <span class="pl-c1">0</span>) {
-            <span class="pl-c1">change</span>(l, r, c);
-        } <span class="pl-k">else</span> {
-            <span class="pl-c"><span class="pl-c">//</span> 单点查询：直接输出 a[r] + 其所在块的add标记</span>
-            cout &lt;&lt; a[r] + add[<span class="pl-c1">get</span>(r)] &lt;&lt; endl;
+        if (opt == 0) {
+            change(l, r, c);
+        } else {
+            // 单点查询：直接输出 a[r] + 其所在块的add标记
+            cout &lt;&lt; a[r] + add[get(r)] &lt;&lt; endl;
         }
     }
 }
 
-<span class="pl-k">int</span> <span class="pl-en">main</span>() {
+int main() {
     IOS;
-    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
-    <span class="pl-k">while</span> (_--) {
-        <span class="pl-c1">solve</span>();
+    int _ = 1;
+    while (_--) {
+        solve();
     }
-    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
-}</pre></div>
+    return 0;
+}
+</code></pre>
 <h2>数列分块入门2</h2>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e6e2db24-4291-4558-a01a-ba5af079bd07"><img width="2000" height="1332" alt="Image" src="https://github.com/user-attachments/assets/e6e2db24-4291-4558-a01a-ba5af079bd07" style="max-width: 100%; height: auto; max-height: 1332px;"></a></p>
 <p>代码：</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
-<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
-<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
-<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
-<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
-<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
-<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
-<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
-<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
-<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
-<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
-<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
-#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
-    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
-    cin.tie(<span class="pl-c1">0</span>);              \
-    cout.tie(<span class="pl-c1">0</span>);
-#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
-#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
-#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
-#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
-#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
-#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
-#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
-#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
-#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
-#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
-#<span class="pl-k">define</span> <span class="pl-en">se</span> second
-#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
-#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
-#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
-#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
-#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
-<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
-<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">350</span>, K = <span class="pl-c1">26</span>;
-<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
-<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
-<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
-<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">struct</span> <span class="pl-en">BIT1</span>
+<pre lang="cpp" class="notranslate"><code class="notranslate">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define debug(...) cout &lt;&lt; "[debug] " #__VA_ARGS__ " = " &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p &lt;&lt; 1
+#define rc p &lt;&lt; 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) &amp; (-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 1e5 + 10, M = 350, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template &lt;typename T&gt;
+bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+template &lt;typename T&gt;
+struct BIT1
 {
-    <span class="pl-k">int</span> n;
+    int n;
     vector&lt;T&gt; tr;
-    <span class="pl-en">BIT1</span>(<span class="pl-k">int</span> n) : n(n), tr(n + <span class="pl-c1">1</span>) {}
-    <span class="pl-k">void</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> x, T v)
+    BIT1(int n) : n(n), tr(n + 1) {}
+    void add(int x, T v)
     {
-        <span class="pl-k">for</span> (; x &lt;= n; x += x &amp; -x)
+        for (; x &lt;= n; x += x &amp; -x)
             tr[x] += v;
     }
-    T <span class="pl-en">sum</span>(<span class="pl-k">int</span> x)
+    T sum(int x)
     {
-        T r = <span class="pl-c1">0</span>;
-        <span class="pl-k">for</span> (; x; x -= x &amp; -x)
+        T r = 0;
+        for (; x; x -= x &amp; -x)
             r += tr[x];
-        <span class="pl-k">return</span> r;
+        return r;
     }
-    T <span class="pl-en">range</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> <span class="pl-c1">sum</span>(r) - <span class="pl-c1">sum</span>(l - <span class="pl-c1">1</span>); }
+    T range(int l, int r) { return sum(r) - sum(l - 1); }
 };
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">struct</span> <span class="pl-en">BIT2</span>
+template &lt;typename T&gt;
+struct BIT2
 {
-    <span class="pl-k">int</span> n, m;
+    int n, m;
     vector&lt;vector&lt;T&gt;&gt; t1, t2, t3, t4;
-    <span class="pl-en">BIT2</span>(<span class="pl-k">int</span> n_ = <span class="pl-c1">0</span>, <span class="pl-k">int</span> m_ = <span class="pl-c1">0</span>) { <span class="pl-c1">init</span>(n_, m_); }
-    <span class="pl-k">void</span> <span class="pl-en">init</span>(<span class="pl-k">int</span> n_, <span class="pl-k">int</span> m_)
+    BIT2(int n_ = 0, int m_ = 0) { init(n_, m_); }
+    void init(int n_, int m_)
     {
         n = n_;
         m = m_;
-        t1.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-        t2.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-        t3.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-        t4.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
+        t1.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t2.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t3.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t4.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
     }
-    <span class="pl-k">void</span> <span class="pl-en">_add</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> y, <span class="pl-k">const</span> T &amp;v)
+    void _add(int x, int y, const T &amp;v)
     {
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = x; i &lt;= n; i += i &amp; -i)
-            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = y; j &lt;= m; j += j &amp; -j)
+        for (int i = x; i &lt;= n; i += i &amp; -i)
+            for (int j = y; j &lt;= m; j += j &amp; -j)
             {
                 t1[i][j] += v;
                 t2[i][j] += v * x;
@@ -1104,256 +1106,257 @@ ll <span class="pl-en">get</span>(ll i) {
                 t4[i][j] += v * x * y;
             }
     }
-    <span class="pl-k">void</span> <span class="pl-en">rangeAdd</span>(<span class="pl-k">int</span> x1, <span class="pl-k">int</span> y1, <span class="pl-k">int</span> x2, <span class="pl-k">int</span> y2, <span class="pl-k">const</span> T &amp;v)
+    void rangeAdd(int x1, int y1, int x2, int y2, const T &amp;v)
     {
-        <span class="pl-c1">_add</span>(x1, y1, v);
-        <span class="pl-c1">_add</span>(x1, y2 + <span class="pl-c1">1</span>, -v);
-        <span class="pl-c1">_add</span>(x2 + <span class="pl-c1">1</span>, y1, -v);
-        <span class="pl-c1">_add</span>(x2 + <span class="pl-c1">1</span>, y2 + <span class="pl-c1">1</span>, v);
+        _add(x1, y1, v);
+        _add(x1, y2 + 1, -v);
+        _add(x2 + 1, y1, -v);
+        _add(x2 + 1, y2 + 1, v);
     }
-    T <span class="pl-en">prefixSum</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> y)
+    T prefixSum(int x, int y)
     {
         T r{};
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = x; i &gt; <span class="pl-c1">0</span>; i -= i &amp; -i)
-            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = y; j &gt; <span class="pl-c1">0</span>; j -= j &amp; -j)
-                r += t1[i][j] * (x + <span class="pl-c1">1</span>) * (y + <span class="pl-c1">1</span>) - t2[i][j] * (y + <span class="pl-c1">1</span>) - t3[i][j] * (x + <span class="pl-c1">1</span>) + t4[i][j];
-        <span class="pl-k">return</span> r;
+        for (int i = x; i &gt; 0; i -= i &amp; -i)
+            for (int j = y; j &gt; 0; j -= j &amp; -j)
+                r += t1[i][j] * (x + 1) * (y + 1) - t2[i][j] * (y + 1) - t3[i][j] * (x + 1) + t4[i][j];
+        return r;
     }
-    T <span class="pl-en">rangeSum</span>(<span class="pl-k">int</span> x1, <span class="pl-k">int</span> y1, <span class="pl-k">int</span> x2, <span class="pl-k">int</span> y2)
+    T rangeSum(int x1, int y1, int x2, int y2)
     {
-        <span class="pl-k">if</span> (x1 &gt; x2 || y1 &gt; y2)
-            <span class="pl-k">return</span> T{};
-        <span class="pl-k">return</span> <span class="pl-c1">prefixSum</span>(x2, y2) - <span class="pl-c1">prefixSum</span>(x1 - <span class="pl-c1">1</span>, y2) - <span class="pl-c1">prefixSum</span>(x2, y1 - <span class="pl-c1">1</span>) + <span class="pl-c1">prefixSum</span>(x1 - <span class="pl-c1">1</span>, y1 - <span class="pl-c1">1</span>);
+        if (x1 &gt; x2 || y1 &gt; y2)
+            return T{};
+        return prefixSum(x2, y2) - prefixSum(x1 - 1, y2) - prefixSum(x2, y1 - 1) + prefixSum(x1 - 1, y1 - 1);
     }
 };
-<span class="pl-k">struct</span> <span class="pl-en">Random</span>
+struct Random
 {
     mt19937_64 rng;
-    <span class="pl-en">Random</span>() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
-    ull <span class="pl-en">rand_ull</span>(ull max_val = -<span class="pl-c1">1</span>) { <span class="pl-k">return</span> <span class="pl-c1">rng</span>() % (max_val + <span class="pl-c1">1</span>); }
-    ll <span class="pl-en">rand_ll</span>(ll l, ll r) { <span class="pl-k">return</span> uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
-    <span class="pl-k">int</span> <span class="pl-en">rand_int</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> uniform_int_distribution&lt;<span class="pl-k">int</span>&gt;(l, r)(rng); }
-    <span class="pl-k">double</span> <span class="pl-en">rand_db</span>(<span class="pl-k">double</span> l, <span class="pl-k">double</span> r) { <span class="pl-k">return</span> uniform_real_distribution&lt;<span class="pl-k">double</span>&gt;(l, r)(rng); }
-    <span class="pl-k">bool</span> <span class="pl-en">rand_bool</span>(<span class="pl-k">double</span> p = <span class="pl-c1">0.5</span>) { <span class="pl-k">return</span> <span class="pl-c1">bernoulli_distribution</span>(p)(rng); }
-    <span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-    <span class="pl-k">void</span> <span class="pl-en">shuffle</span>(vector&lt;T&gt; &amp;v) { <span class="pl-c1">std::shuffle</span>(v.<span class="pl-c1">begin</span>(), v.<span class="pl-c1">end</span>(), rng); }
+    Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+    ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
+    ll rand_ll(ll l, ll r) { return uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
+    int rand_int(int l, int r) { return uniform_int_distribution&lt;int&gt;(l, r)(rng); }
+    double rand_db(double l, double r) { return uniform_real_distribution&lt;double&gt;(l, r)(rng); }
+    bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
+    template &lt;typename T&gt;
+    void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); }
 };
-ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
+ll qmi(ll a, ll b, ll p)
 {
-    ll res = <span class="pl-c1">1</span> % p;
+    ll res = 1 % p;
     a %= p;
-    <span class="pl-k">while</span> (b)
+    while (b)
     {
-        <span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>)
+        if (b &amp; 1)
             res = res * a % p;
         a = a * a % p;
-        b &gt;&gt;= <span class="pl-c1">1</span>;
+        b &gt;&gt;= 1;
     }
-    <span class="pl-k">return</span> res;
+    return res;
 }
-<span class="pl-c"><span class="pl-c">/*</span></span>
-<span class="pl-c"></span>
-<span class="pl-c"><span class="pl-c">*/</span></span>
+/*
+
+*/
 
 ll n, len;
 ll a[N], add[M];
 vll sorted[M];
 
-ll <span class="pl-en">get</span>(ll i)
+ll get(ll i)
 {
-    <span class="pl-k">return</span> (i - <span class="pl-c1">1</span>) / len + <span class="pl-c1">1</span>;
+    return (i - 1) / len + 1;
 }
 
-<span class="pl-k">void</span> <span class="pl-en">build</span>(ll block)
+void build(ll block)
 {
-    ll st = (block - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>;
-    ll ed = <span class="pl-c1">min</span>((block)*len, n);
-    sorted[block].<span class="pl-c1">clear</span>();
-    <span class="pl-c1">rep</span>(i, st, ed)
+    ll st = (block - 1) * len + 1;
+    ll ed = min((block)*len, n);
+    sorted[block].clear();
+    rep(i, st, ed)
     {
-        sorted[block].<span class="pl-c1">push_back</span>(a[i]);
+        sorted[block].push_back(a[i]);
     }
-    <span class="pl-c1">sort</span>(<span class="pl-c1">all</span>(sorted[block]));
+    sort(all(sorted[block]));
 }
 
-<span class="pl-k">void</span> <span class="pl-en">change</span>(ll l, ll r, ll d)
+void change(ll l, ll r, ll d)
 {
-    ll bl = <span class="pl-c1">get</span>(l), br = <span class="pl-c1">get</span>(r);
-    <span class="pl-k">if</span> (bl == br)
+    ll bl = get(l), br = get(r);
+    if (bl == br)
     {
-        <span class="pl-c1">rep</span>(i, l, r) a[i] += d;
-        <span class="pl-c1">build</span>(bl);
+        rep(i, l, r) a[i] += d;
+        build(bl);
     }
-    <span class="pl-k">else</span>
+    else
     {
-        <span class="pl-c1">rep</span>(i, l, (bl)*len) a[i] += d;
-        <span class="pl-c1">build</span>(bl);
-        <span class="pl-c1">rep</span>(i, (br - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>, r) a[i] += d;
-        <span class="pl-c1">build</span>(br);
-        <span class="pl-c1">rep</span>(i, bl + <span class="pl-c1">1</span>, br - <span class="pl-c1">1</span>) add[i] += d;
+        rep(i, l, (bl)*len) a[i] += d;
+        build(bl);
+        rep(i, (br - 1) * len + 1, r) a[i] += d;
+        build(br);
+        rep(i, bl + 1, br - 1) add[i] += d;
     }
 }
 
-ll <span class="pl-en">query_less</span>(ll l, ll r, ll c)
+ll query_less(ll l, ll r, ll c)
 {
     ll x = c * c;
-    ll bl = <span class="pl-c1">get</span>(l), br = <span class="pl-c1">get</span>(r);
-    ll ans = <span class="pl-c1">0</span>;
-    <span class="pl-k">if</span> (bl == br)
+    ll bl = get(l), br = get(r);
+    ll ans = 0;
+    if (bl == br)
     {
-        <span class="pl-c1">rep</span>(i, l, r)
+        rep(i, l, r)
         {
-            <span class="pl-k">if</span> (a[i] + add[bl] &lt; x)
+            if (a[i] + add[bl] &lt; x)
                 ans++;
         }
     }
-    <span class="pl-k">else</span>
+    else
     {
-        <span class="pl-c1">rep</span>(i, l, bl * len)
+        rep(i, l, bl * len)
         {
-            <span class="pl-k">if</span> (a[i] + add[bl] &lt; x)
+            if (a[i] + add[bl] &lt; x)
                 ans++;
         }
-        <span class="pl-c1">rep</span>(i, (br - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>, r)
+        rep(i, (br - 1) * len + 1, r)
         {
-            <span class="pl-k">if</span> (a[i] + add[br] &lt; x)
+            if (a[i] + add[br] &lt; x)
                 ans++;
         }
-        <span class="pl-c1">rep</span>(i, bl + <span class="pl-c1">1</span>, br - <span class="pl-c1">1</span>)
+        rep(i, bl + 1, br - 1)
         {
             ll d = x - add[i];
-            ll pos = <span class="pl-c1">lower_bound</span>(<span class="pl-c1">all</span>(sorted[i]), d) - sorted[i].<span class="pl-c1">begin</span>();
+            ll pos = lower_bound(all(sorted[i]), d) - sorted[i].begin();
             ans += pos;
         }
     }
-    <span class="pl-k">return</span> ans;
+    return ans;
 }
 
-<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+void solve()
 {
    
     cin &gt;&gt; n;
-    len = <span class="pl-c1">sqrt</span>(n);
-    ll t = <span class="pl-c1">get</span>(n);
-    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n) cin &gt;&gt; a[i];
-     <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, t)
+    len = sqrt(n);
+    ll t = get(n);
+    rep(i, 1, n) cin &gt;&gt; a[i];
+     rep(i, 1, t)
     {
-        add[i] = <span class="pl-c1">0</span>;
-        <span class="pl-c1">build</span>(i);
+        add[i] = 0;
+        build(i);
     }
-    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n)
+    rep(i, 1, n)
     {
         ll op, l, r, d;
         cin &gt;&gt; op &gt;&gt; l &gt;&gt; r &gt;&gt; d;
-        <span class="pl-k">if</span> (op == <span class="pl-c1">0</span>)
+        if (op == 0)
         {
-            <span class="pl-c1">change</span>(l, r, d);
+            change(l, r, d);
         }
-        <span class="pl-k">else</span>
+        else
         {
-            ll ans = <span class="pl-c1">query_less</span>(l, r, d);
+            ll ans = query_less(l, r, d);
             cout &lt;&lt; ans &lt;&lt; endl;
         }
     }
 }
 
-<span class="pl-k">int</span> <span class="pl-en">main</span>()
+int main()
 {
     IOS;
 
-    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
-    <span class="pl-c"><span class="pl-c">//</span> cin&gt;&gt;_;//如果是多组数据</span>
-    <span class="pl-k">while</span> (_--)
+    int _ = 1;
+    // cin&gt;&gt;_;//如果是多组数据
+    while (_--)
     {
-        <span class="pl-c1">solve</span>();
+        solve();
     }
-    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
-}</pre></div>
+    return 0;
+}
+</code></pre>
 <h2>数列分块入门3</h2>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/2fc0e7c6-5828-4e2e-8397-8de345a30343"><img width="591" height="821" alt="Image" src="https://github.com/user-attachments/assets/2fc0e7c6-5828-4e2e-8397-8de345a30343" style="max-width: 100%; height: auto; max-height: 821px;"></a></p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
-<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
-<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
-<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
-<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
-<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
-<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
-<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
-<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
-<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
-<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
-<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
-#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
-    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
-    cin.tie(<span class="pl-c1">0</span>);              \
-    cout.tie(<span class="pl-c1">0</span>);
-#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
-#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
-#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
-#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
-#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
-#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
-#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
-#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
-#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
-#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
-#<span class="pl-k">define</span> <span class="pl-en">se</span> second
-#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
-#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
-#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
-#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
-#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
-<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
-<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">550</span>, K = <span class="pl-c1">26</span>;
-<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
-<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
-<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
-<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">struct</span> <span class="pl-en">BIT1</span>
+<pre lang="cpp" class="notranslate"><code class="notranslate">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define debug(...) cout &lt;&lt; "[debug] " #__VA_ARGS__ " = " &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p &lt;&lt; 1
+#define rc p &lt;&lt; 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) &amp; (-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 2e5 + 10, M = 550, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template &lt;typename T&gt;
+bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+template &lt;typename T&gt;
+struct BIT1
 {
-    <span class="pl-k">int</span> n;
+    int n;
     vector&lt;T&gt; tr;
-    <span class="pl-en">BIT1</span>(<span class="pl-k">int</span> n) : n(n), tr(n + <span class="pl-c1">1</span>) {}
-    <span class="pl-k">void</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> x, T v)
+    BIT1(int n) : n(n), tr(n + 1) {}
+    void add(int x, T v)
     {
-        <span class="pl-k">for</span> (; x &lt;= n; x += x &amp; -x)
+        for (; x &lt;= n; x += x &amp; -x)
             tr[x] += v;
     }
-    T <span class="pl-en">sum</span>(<span class="pl-k">int</span> x)
+    T sum(int x)
     {
-        T r = <span class="pl-c1">0</span>;
-        <span class="pl-k">for</span> (; x; x -= x &amp; -x)
+        T r = 0;
+        for (; x; x -= x &amp; -x)
             r += tr[x];
-        <span class="pl-k">return</span> r;
+        return r;
     }
-    T <span class="pl-en">range</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> <span class="pl-c1">sum</span>(r) - <span class="pl-c1">sum</span>(l - <span class="pl-c1">1</span>); }
+    T range(int l, int r) { return sum(r) - sum(l - 1); }
 };
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">struct</span> <span class="pl-en">BIT2</span>
+template &lt;typename T&gt;
+struct BIT2
 {
-    <span class="pl-k">int</span> n, m;
+    int n, m;
     vector&lt;vector&lt;T&gt;&gt; t1, t2, t3, t4;
-    <span class="pl-en">BIT2</span>(<span class="pl-k">int</span> n_ = <span class="pl-c1">0</span>, <span class="pl-k">int</span> m_ = <span class="pl-c1">0</span>) { <span class="pl-c1">init</span>(n_, m_); }
-    <span class="pl-k">void</span> <span class="pl-en">init</span>(<span class="pl-k">int</span> n_, <span class="pl-k">int</span> m_)
+    BIT2(int n_ = 0, int m_ = 0) { init(n_, m_); }
+    void init(int n_, int m_)
     {
         n = n_;
         m = m_;
-        t1.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-        t2.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-        t3.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-        t4.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
+        t1.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t2.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t3.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t4.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
     }
-    <span class="pl-k">void</span> <span class="pl-en">_add</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> y, <span class="pl-k">const</span> T &amp;v)
+    void _add(int x, int y, const T &amp;v)
     {
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = x; i &lt;= n; i += i &amp; -i)
-            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = y; j &lt;= m; j += j &amp; -j)
+        for (int i = x; i &lt;= n; i += i &amp; -i)
+            for (int j = y; j &lt;= m; j += j &amp; -j)
             {
                 t1[i][j] += v;
                 t2[i][j] += v * x;
@@ -1361,182 +1364,183 @@ ll <span class="pl-en">query_less</span>(ll l, ll r, ll c)
                 t4[i][j] += v * x * y;
             }
     }
-    <span class="pl-k">void</span> <span class="pl-en">rangeAdd</span>(<span class="pl-k">int</span> x1, <span class="pl-k">int</span> y1, <span class="pl-k">int</span> x2, <span class="pl-k">int</span> y2, <span class="pl-k">const</span> T &amp;v)
+    void rangeAdd(int x1, int y1, int x2, int y2, const T &amp;v)
     {
-        <span class="pl-c1">_add</span>(x1, y1, v);
-        <span class="pl-c1">_add</span>(x1, y2 + <span class="pl-c1">1</span>, -v);
-        <span class="pl-c1">_add</span>(x2 + <span class="pl-c1">1</span>, y1, -v);
-        <span class="pl-c1">_add</span>(x2 + <span class="pl-c1">1</span>, y2 + <span class="pl-c1">1</span>, v);
+        _add(x1, y1, v);
+        _add(x1, y2 + 1, -v);
+        _add(x2 + 1, y1, -v);
+        _add(x2 + 1, y2 + 1, v);
     }
-    T <span class="pl-en">prefixSum</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> y)
+    T prefixSum(int x, int y)
     {
         T r{};
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = x; i &gt; <span class="pl-c1">0</span>; i -= i &amp; -i)
-            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = y; j &gt; <span class="pl-c1">0</span>; j -= j &amp; -j)
-                r += t1[i][j] * (x + <span class="pl-c1">1</span>) * (y + <span class="pl-c1">1</span>) - t2[i][j] * (y + <span class="pl-c1">1</span>) - t3[i][j] * (x + <span class="pl-c1">1</span>) + t4[i][j];
-        <span class="pl-k">return</span> r;
+        for (int i = x; i &gt; 0; i -= i &amp; -i)
+            for (int j = y; j &gt; 0; j -= j &amp; -j)
+                r += t1[i][j] * (x + 1) * (y + 1) - t2[i][j] * (y + 1) - t3[i][j] * (x + 1) + t4[i][j];
+        return r;
     }
-    T <span class="pl-en">rangeSum</span>(<span class="pl-k">int</span> x1, <span class="pl-k">int</span> y1, <span class="pl-k">int</span> x2, <span class="pl-k">int</span> y2)
+    T rangeSum(int x1, int y1, int x2, int y2)
     {
-        <span class="pl-k">if</span> (x1 &gt; x2 || y1 &gt; y2)
-            <span class="pl-k">return</span> T{};
-        <span class="pl-k">return</span> <span class="pl-c1">prefixSum</span>(x2, y2) - <span class="pl-c1">prefixSum</span>(x1 - <span class="pl-c1">1</span>, y2) - <span class="pl-c1">prefixSum</span>(x2, y1 - <span class="pl-c1">1</span>) + <span class="pl-c1">prefixSum</span>(x1 - <span class="pl-c1">1</span>, y1 - <span class="pl-c1">1</span>);
+        if (x1 &gt; x2 || y1 &gt; y2)
+            return T{};
+        return prefixSum(x2, y2) - prefixSum(x1 - 1, y2) - prefixSum(x2, y1 - 1) + prefixSum(x1 - 1, y1 - 1);
     }
 };
-<span class="pl-k">struct</span> <span class="pl-en">Random</span>
+struct Random
 {
     mt19937_64 rng;
-    <span class="pl-en">Random</span>() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
-    ull <span class="pl-en">rand_ull</span>(ull max_val = -<span class="pl-c1">1</span>) { <span class="pl-k">return</span> <span class="pl-c1">rng</span>() % (max_val + <span class="pl-c1">1</span>); }
-    ll <span class="pl-en">rand_ll</span>(ll l, ll r) { <span class="pl-k">return</span> uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
-    <span class="pl-k">int</span> <span class="pl-en">rand_int</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> uniform_int_distribution&lt;<span class="pl-k">int</span>&gt;(l, r)(rng); }
-    <span class="pl-k">double</span> <span class="pl-en">rand_db</span>(<span class="pl-k">double</span> l, <span class="pl-k">double</span> r) { <span class="pl-k">return</span> uniform_real_distribution&lt;<span class="pl-k">double</span>&gt;(l, r)(rng); }
-    <span class="pl-k">bool</span> <span class="pl-en">rand_bool</span>(<span class="pl-k">double</span> p = <span class="pl-c1">0.5</span>) { <span class="pl-k">return</span> <span class="pl-c1">bernoulli_distribution</span>(p)(rng); }
-    <span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-    <span class="pl-k">void</span> <span class="pl-en">shuffle</span>(vector&lt;T&gt; &amp;v) { <span class="pl-c1">std::shuffle</span>(v.<span class="pl-c1">begin</span>(), v.<span class="pl-c1">end</span>(), rng); }
+    Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+    ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
+    ll rand_ll(ll l, ll r) { return uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
+    int rand_int(int l, int r) { return uniform_int_distribution&lt;int&gt;(l, r)(rng); }
+    double rand_db(double l, double r) { return uniform_real_distribution&lt;double&gt;(l, r)(rng); }
+    bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
+    template &lt;typename T&gt;
+    void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); }
 };
-ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
+ll qmi(ll a, ll b, ll p)
 {
-    ll res = <span class="pl-c1">1</span> % p;
+    ll res = 1 % p;
     a %= p;
-    <span class="pl-k">while</span> (b)
+    while (b)
     {
-        <span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>)
+        if (b &amp; 1)
             res = res * a % p;
         a = a * a % p;
-        b &gt;&gt;= <span class="pl-c1">1</span>;
+        b &gt;&gt;= 1;
     }
-    <span class="pl-k">return</span> res;
+    return res;
 }
-<span class="pl-c"><span class="pl-c">/*</span></span>
-<span class="pl-c"></span>
-<span class="pl-c"><span class="pl-c">*/</span></span>
+/*
+
+*/
 
 ll n, len;
 ll a[N], add[M];
 vll tmp[M];
-ll <span class="pl-en">get</span>(ll i)
+ll get(ll i)
 {
-    <span class="pl-k">return</span> (i - <span class="pl-c1">1</span>) / len + <span class="pl-c1">1</span>;
+    return (i - 1) / len + 1;
 }
 
-<span class="pl-k">void</span> <span class="pl-en">build</span>(ll block)
+void build(ll block)
 {
-    ll st = (block - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>;
-    ll ed = <span class="pl-c1">min</span>(block * len, n);
-    tmp[block].<span class="pl-c1">clear</span>();
-    <span class="pl-c1">rep</span>(i, st, ed)
+    ll st = (block - 1) * len + 1;
+    ll ed = min(block * len, n);
+    tmp[block].clear();
+    rep(i, st, ed)
     {
-        tmp[block].<span class="pl-c1">push_back</span>(a[i]);
+        tmp[block].push_back(a[i]);
     }
-    <span class="pl-c1">sort</span>(<span class="pl-c1">all</span>(tmp[block]));
+    sort(all(tmp[block]));
 }
 
-<span class="pl-k">void</span> <span class="pl-en">change</span>(ll l, ll r, ll d)
+void change(ll l, ll r, ll d)
 {
-    ll bl = <span class="pl-c1">get</span>(l), br = <span class="pl-c1">get</span>(r);
-    <span class="pl-k">if</span> (bl == br)
+    ll bl = get(l), br = get(r);
+    if (bl == br)
     {
-        <span class="pl-c1">rep</span>(i, l, r) a[i] += d;
-        <span class="pl-c1">build</span>(bl);
+        rep(i, l, r) a[i] += d;
+        build(bl);
     }
-    <span class="pl-k">else</span>
+    else
     {
-        <span class="pl-c1">rep</span>(i, l, <span class="pl-c1">min</span>(bl * len, n)) a[i] += d;
-        <span class="pl-c1">build</span>(bl);
-        <span class="pl-c1">rep</span>(i, (br - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>, r) a[i] += d;
-        <span class="pl-c1">build</span>(br);
-        <span class="pl-c1">rep</span>(i, bl + <span class="pl-c1">1</span>, br - <span class="pl-c1">1</span>) add[i] += d;
+        rep(i, l, min(bl * len, n)) a[i] += d;
+        build(bl);
+        rep(i, (br - 1) * len + 1, r) a[i] += d;
+        build(br);
+        rep(i, bl + 1, br - 1) add[i] += d;
     }
 }
 
-ll <span class="pl-en">query</span>(ll l, ll r, ll c)
+ll query(ll l, ll r, ll c)
 {
-    ll bl = <span class="pl-c1">get</span>(l), br = <span class="pl-c1">get</span>(r);
+    ll bl = get(l), br = get(r);
     ll ans = -INF;
-    <span class="pl-k">if</span> (bl == br)
+    if (bl == br)
     {
-        <span class="pl-c1">rep</span>(i, l, r)
+        rep(i, l, r)
         {
-            <span class="pl-k">if</span> (a[i] + add[bl] &lt; c)
-                <span class="pl-c1">cmax</span>(ans, a[i] + add[bl]);
+            if (a[i] + add[bl] &lt; c)
+                cmax(ans, a[i] + add[bl]);
         }
-        <span class="pl-k">if</span> (ans == -INF)
-            <span class="pl-k">return</span> -<span class="pl-c1">1</span>;
-        <span class="pl-k">return</span> ans;
+        if (ans == -INF)
+            return -1;
+        return ans;
     }
-    <span class="pl-k">else</span>
+    else
     {
-        <span class="pl-c1">rep</span>(i, l, <span class="pl-c1">min</span>(bl * len, n))
+        rep(i, l, min(bl * len, n))
         {
-            <span class="pl-k">if</span> (a[i] + add[bl] &lt; c)
-                <span class="pl-c1">cmax</span>(ans, a[i] + add[bl]);
+            if (a[i] + add[bl] &lt; c)
+                cmax(ans, a[i] + add[bl]);
         }
-        <span class="pl-c1">rep</span>(i, (br - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>, r)
+        rep(i, (br - 1) * len + 1, r)
         {
-            <span class="pl-k">if</span> (a[i] + add[br] &lt; c)
-                <span class="pl-c1">cmax</span>(ans, a[i] + add[br]);
+            if (a[i] + add[br] &lt; c)
+                cmax(ans, a[i] + add[br]);
         }
-        <span class="pl-c1">rep</span>(i, bl + <span class="pl-c1">1</span>, br - <span class="pl-c1">1</span>)
+        rep(i, bl + 1, br - 1)
         {
             ll d = c - add[i];
-            ll num = <span class="pl-c1">lower_bound</span>(<span class="pl-c1">all</span>(tmp[i]), d) - tmp[i].<span class="pl-c1">begin</span>();
+            ll num = lower_bound(all(tmp[i]), d) - tmp[i].begin();
 
-            <span class="pl-k">auto</span> it = <span class="pl-c1">lower_bound</span>(<span class="pl-c1">all</span>(tmp[i]), d);
-            <span class="pl-k">if</span> (it != tmp[i].<span class="pl-c1">begin</span>())
+            auto it = lower_bound(all(tmp[i]), d);
+            if (it != tmp[i].begin())
             {
                 it--;
                 ll now = *it + add[i];
-                <span class="pl-k">if</span> (now &lt; c)
+                if (now &lt; c)
                 {
-                    <span class="pl-c1">cmax</span>(ans, now);
+                    cmax(ans, now);
                 }
             }
         }
-        <span class="pl-k">if</span> (ans == -INF)
-            <span class="pl-k">return</span> -<span class="pl-c1">1</span>;
-        <span class="pl-k">return</span> ans;
+        if (ans == -INF)
+            return -1;
+        return ans;
     }
 }
-<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+void solve()
 {
     cin &gt;&gt; n;
-    len = <span class="pl-c1">sqrt</span>(n);
-    ll cnt = <span class="pl-c1">get</span>(n);
-    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n) cin &gt;&gt; a[i];
-    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, cnt)
+    len = sqrt(n);
+    ll cnt = get(n);
+    rep(i, 1, n) cin &gt;&gt; a[i];
+    rep(i, 1, cnt)
     {
-        add[i] = <span class="pl-c1">0</span>;
-        <span class="pl-c1">build</span>(i);
+        add[i] = 0;
+        build(i);
     }
-    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n)
+    rep(i, 1, n)
     {
         ll op, l, r, c;
         cin &gt;&gt; op &gt;&gt; l &gt;&gt; r &gt;&gt; c;
-        <span class="pl-k">if</span> (op == <span class="pl-c1">0</span>)
+        if (op == 0)
         {
-            <span class="pl-c1">change</span>(l, r, c);
+            change(l, r, c);
         }
-        <span class="pl-k">else</span>
+        else
         {
-            ll ans = <span class="pl-c1">query</span>(l, r, c);
+            ll ans = query(l, r, c);
             cout &lt;&lt; ans &lt;&lt; endl;
         }
     }
 }
 
-<span class="pl-k">int</span> <span class="pl-en">main</span>()
+int main()
 {
     IOS;
 
-    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
-    <span class="pl-c"><span class="pl-c">//</span> cin&gt;&gt;_;//如果是多组数据</span>
-    <span class="pl-k">while</span> (_--)
+    int _ = 1;
+    // cin&gt;&gt;_;//如果是多组数据
+    while (_--)
     {
-        <span class="pl-c1">solve</span>();
+        solve();
     }
-    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
-}</pre></div>
+    return 0;
+}
+</code></pre>
 <h2>数列分块入门4</h2>
 <h1>P13979 数列分块入门 4</h1>
 <h2>题目背景</h2>
@@ -1573,89 +1577,89 @@ ll <span class="pl-en">query</span>(ll l, ll r, ll c)
 <p>先吐槽一下vjudge的评测系统，太水了，我很多边界和细节都没有注意，给我一次过了，现在果断换上洛谷的题面和评测，第一次在Vjudge上写还真以为会了呢，结果一大堆细节没有处理好，真是会让人产生学会了的幻觉啊！！！<br>
 代码：</p>
 </blockquote>
-<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
-<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
-<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
-<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
-<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
-<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
-<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
-<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
-<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
-<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
-<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
-<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
-#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
-    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
-    cin.tie(<span class="pl-c1">0</span>);              \
-    cout.tie(<span class="pl-c1">0</span>);
-#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
-#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
-#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
-#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
-#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
-#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
-#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
-#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
-#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
-#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
-#<span class="pl-k">define</span> <span class="pl-en">se</span> second
-#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
-#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
-#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
-#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
-#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
-<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
-<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">3e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">550</span>, K = <span class="pl-c1">26</span>;
-<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
-<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
-<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
-<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">struct</span> <span class="pl-en">BIT1</span>
+<pre lang="cpp" class="notranslate"><code class="notranslate">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define debug(...) cout &lt;&lt; "[debug] " #__VA_ARGS__ " = " &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p &lt;&lt; 1
+#define rc p &lt;&lt; 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) &amp; (-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 3e5 + 10, M = 550, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template &lt;typename T&gt;
+bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+template &lt;typename T&gt;
+struct BIT1
 {
-    <span class="pl-k">int</span> n;
+    int n;
     vector&lt;T&gt; tr;
-    <span class="pl-en">BIT1</span>(<span class="pl-k">int</span> n) : n(n), tr(n + <span class="pl-c1">1</span>) {}
-    <span class="pl-k">void</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> x, T v)
+    BIT1(int n) : n(n), tr(n + 1) {}
+    void add(int x, T v)
     {
-        <span class="pl-k">for</span> (; x &lt;= n; x += x &amp; -x)
+        for (; x &lt;= n; x += x &amp; -x)
             tr[x] += v;
     }
-    T <span class="pl-en">sum</span>(<span class="pl-k">int</span> x)
+    T sum(int x)
     {
-        T r = <span class="pl-c1">0</span>;
-        <span class="pl-k">for</span> (; x; x -= x &amp; -x)
+        T r = 0;
+        for (; x; x -= x &amp; -x)
             r += tr[x];
-        <span class="pl-k">return</span> r;
+        return r;
     }
-    T <span class="pl-en">range</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> <span class="pl-c1">sum</span>(r) - <span class="pl-c1">sum</span>(l - <span class="pl-c1">1</span>); }
+    T range(int l, int r) { return sum(r) - sum(l - 1); }
 };
-<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-<span class="pl-k">struct</span> <span class="pl-en">BIT2</span>
+template &lt;typename T&gt;
+struct BIT2
 {
-    <span class="pl-k">int</span> n, m;
+    int n, m;
     vector&lt;vector&lt;T&gt;&gt; t1, t2, t3, t4;
-    <span class="pl-en">BIT2</span>(<span class="pl-k">int</span> n_ = <span class="pl-c1">0</span>, <span class="pl-k">int</span> m_ = <span class="pl-c1">0</span>) { <span class="pl-c1">init</span>(n_, m_); }
-    <span class="pl-k">void</span> <span class="pl-en">init</span>(<span class="pl-k">int</span> n_, <span class="pl-k">int</span> m_)
+    BIT2(int n_ = 0, int m_ = 0) { init(n_, m_); }
+    void init(int n_, int m_)
     {
         n = n_;
         m = m_;
-        t1.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-        t2.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-        t3.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
-        t4.<span class="pl-c1">assign</span>(n + <span class="pl-c1">1</span>, vector&lt;T&gt;(m + <span class="pl-c1">1</span>, T{}));
+        t1.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t2.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t3.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
+        t4.assign(n + 1, vector&lt;T&gt;(m + 1, T{}));
     }
-    <span class="pl-k">void</span> <span class="pl-en">_add</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> y, <span class="pl-k">const</span> T &amp;v)
+    void _add(int x, int y, const T &amp;v)
     {
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = x; i &lt;= n; i += i &amp; -i)
-            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = y; j &lt;= m; j += j &amp; -j)
+        for (int i = x; i &lt;= n; i += i &amp; -i)
+            for (int j = y; j &lt;= m; j += j &amp; -j)
             {
                 t1[i][j] += v;
                 t2[i][j] += v * x;
@@ -1663,179 +1667,180 @@ ll <span class="pl-en">query</span>(ll l, ll r, ll c)
                 t4[i][j] += v * x * y;
             }
     }
-    <span class="pl-k">void</span> <span class="pl-en">rangeAdd</span>(<span class="pl-k">int</span> x1, <span class="pl-k">int</span> y1, <span class="pl-k">int</span> x2, <span class="pl-k">int</span> y2, <span class="pl-k">const</span> T &amp;v)
+    void rangeAdd(int x1, int y1, int x2, int y2, const T &amp;v)
     {
-        <span class="pl-c1">_add</span>(x1, y1, v);
-        <span class="pl-c1">_add</span>(x1, y2 + <span class="pl-c1">1</span>, -v);
-        <span class="pl-c1">_add</span>(x2 + <span class="pl-c1">1</span>, y1, -v);
-        <span class="pl-c1">_add</span>(x2 + <span class="pl-c1">1</span>, y2 + <span class="pl-c1">1</span>, v);
+        _add(x1, y1, v);
+        _add(x1, y2 + 1, -v);
+        _add(x2 + 1, y1, -v);
+        _add(x2 + 1, y2 + 1, v);
     }
-    T <span class="pl-en">prefixSum</span>(<span class="pl-k">int</span> x, <span class="pl-k">int</span> y)
+    T prefixSum(int x, int y)
     {
         T r{};
-        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = x; i &gt; <span class="pl-c1">0</span>; i -= i &amp; -i)
-            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = y; j &gt; <span class="pl-c1">0</span>; j -= j &amp; -j)
-                r += t1[i][j] * (x + <span class="pl-c1">1</span>) * (y + <span class="pl-c1">1</span>) - t2[i][j] * (y + <span class="pl-c1">1</span>) - t3[i][j] * (x + <span class="pl-c1">1</span>) + t4[i][j];
-        <span class="pl-k">return</span> r;
+        for (int i = x; i &gt; 0; i -= i &amp; -i)
+            for (int j = y; j &gt; 0; j -= j &amp; -j)
+                r += t1[i][j] * (x + 1) * (y + 1) - t2[i][j] * (y + 1) - t3[i][j] * (x + 1) + t4[i][j];
+        return r;
     }
-    T <span class="pl-en">rangeSum</span>(<span class="pl-k">int</span> x1, <span class="pl-k">int</span> y1, <span class="pl-k">int</span> x2, <span class="pl-k">int</span> y2)
+    T rangeSum(int x1, int y1, int x2, int y2)
     {
-        <span class="pl-k">if</span> (x1 &gt; x2 || y1 &gt; y2)
-            <span class="pl-k">return</span> T{};
-        <span class="pl-k">return</span> <span class="pl-c1">prefixSum</span>(x2, y2) - <span class="pl-c1">prefixSum</span>(x1 - <span class="pl-c1">1</span>, y2) - <span class="pl-c1">prefixSum</span>(x2, y1 - <span class="pl-c1">1</span>) + <span class="pl-c1">prefixSum</span>(x1 - <span class="pl-c1">1</span>, y1 - <span class="pl-c1">1</span>);
+        if (x1 &gt; x2 || y1 &gt; y2)
+            return T{};
+        return prefixSum(x2, y2) - prefixSum(x1 - 1, y2) - prefixSum(x2, y1 - 1) + prefixSum(x1 - 1, y1 - 1);
     }
 };
-<span class="pl-k">struct</span> <span class="pl-en">Random</span>
+struct Random
 {
     mt19937_64 rng;
-    <span class="pl-en">Random</span>() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
-    ull <span class="pl-en">rand_ull</span>(ull max_val = -<span class="pl-c1">1</span>) { <span class="pl-k">return</span> <span class="pl-c1">rng</span>() % (max_val + <span class="pl-c1">1</span>); }
-    ll <span class="pl-en">rand_ll</span>(ll l, ll r) { <span class="pl-k">return</span> uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
-    <span class="pl-k">int</span> <span class="pl-en">rand_int</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-k">return</span> uniform_int_distribution&lt;<span class="pl-k">int</span>&gt;(l, r)(rng); }
-    <span class="pl-k">double</span> <span class="pl-en">rand_db</span>(<span class="pl-k">double</span> l, <span class="pl-k">double</span> r) { <span class="pl-k">return</span> uniform_real_distribution&lt;<span class="pl-k">double</span>&gt;(l, r)(rng); }
-    <span class="pl-k">bool</span> <span class="pl-en">rand_bool</span>(<span class="pl-k">double</span> p = <span class="pl-c1">0.5</span>) { <span class="pl-k">return</span> <span class="pl-c1">bernoulli_distribution</span>(p)(rng); }
-    <span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
-    <span class="pl-k">void</span> <span class="pl-en">shuffle</span>(vector&lt;T&gt; &amp;v) { <span class="pl-c1">std::shuffle</span>(v.<span class="pl-c1">begin</span>(), v.<span class="pl-c1">end</span>(), rng); }
+    Random() : rng(chrono::steady_clock::now().time_since_epoch().count()) {}
+    ull rand_ull(ull max_val = -1) { return rng() % (max_val + 1); }
+    ll rand_ll(ll l, ll r) { return uniform_int_distribution&lt;ll&gt;(l, r)(rng); }
+    int rand_int(int l, int r) { return uniform_int_distribution&lt;int&gt;(l, r)(rng); }
+    double rand_db(double l, double r) { return uniform_real_distribution&lt;double&gt;(l, r)(rng); }
+    bool rand_bool(double p = 0.5) { return bernoulli_distribution(p)(rng); }
+    template &lt;typename T&gt;
+    void shuffle(vector&lt;T&gt; &amp;v) { std::shuffle(v.begin(), v.end(), rng); }
 };
-ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
+ll qmi(ll a, ll b, ll p)
 {
-    ll res = <span class="pl-c1">1</span> % p;
+    ll res = 1 % p;
     a %= p;
-    <span class="pl-k">while</span> (b)
+    while (b)
     {
-        <span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>)
+        if (b &amp; 1)
             res = res * a % p;
         a = a * a % p;
-        b &gt;&gt;= <span class="pl-c1">1</span>;
+        b &gt;&gt;= 1;
     }
-    <span class="pl-k">return</span> res;
+    return res;
 }
-<span class="pl-c"><span class="pl-c">/*</span></span>
-<span class="pl-c"></span>
-<span class="pl-c"><span class="pl-c">*/</span></span>
+/*
+
+*/
 
 ll n, len;
 ll a[N], add[M], sum[M];
 
-ll <span class="pl-en">get</span>(ll i)
+ll get(ll i)
 {
-    <span class="pl-k">return</span> (i - <span class="pl-c1">1</span>) / len + <span class="pl-c1">1</span>;
+    return (i - 1) / len + 1;
 }
 
-<span class="pl-k">void</span> <span class="pl-en">modify</span>(ll l, ll r, ll d)
+void modify(ll l, ll r, ll d)
 {
-    ll bl = <span class="pl-c1">get</span>(l), br = <span class="pl-c1">get</span>(r);
-    <span class="pl-k">if</span> (bl == br)
+    ll bl = get(l), br = get(r);
+    if (bl == br)
     {
-        <span class="pl-c1">rep</span>(i, l, r)
+        rep(i, l, r)
         {
             a[i] += d;
             sum[bl] += d;
         }
     }
-    <span class="pl-k">else</span>
+    else
     {
 
-        <span class="pl-k">for</span> (ll i = l; i &lt;= <span class="pl-c1">min</span>(bl * len, n); i++)
+        for (ll i = l; i &lt;= min(bl * len, n); i++)
         {
             a[i] += d;
             sum[bl] += d;
         }
 
-        <span class="pl-k">for</span> (ll i = (br - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>; i &lt;= r; i++)
+        for (ll i = (br - 1) * len + 1; i &lt;= r; i++)
         {
             a[i] += d;
             sum[br] += d;
         }
 
-        <span class="pl-k">for</span> (ll i = bl + <span class="pl-c1">1</span>; i &lt; br; i++)
+        for (ll i = bl + 1; i &lt; br; i++)
         {
             add[i] += d;
         }
     }
 }
 
-ll <span class="pl-en">query</span>(ll l, ll r, ll c)
+ll query(ll l, ll r, ll c)
 {
-    ll m = c + <span class="pl-c1">1</span>;
-    ll tot = <span class="pl-c1">0</span>;
-    ll bl = <span class="pl-c1">get</span>(l), br = <span class="pl-c1">get</span>(r);
+    ll m = c + 1;
+    ll tot = 0;
+    ll bl = get(l), br = get(r);
 
-    <span class="pl-k">if</span> (bl == br)
+    if (bl == br)
     {
-        <span class="pl-c1">rep</span>(i, l, r)
+        rep(i, l, r)
         {
             tot = (tot + a[i] + add[bl]);
         }
     }
-    <span class="pl-k">else</span>
+    else
     {
 
-        <span class="pl-k">for</span> (ll i = l; i &lt;= <span class="pl-c1">min</span>(bl * len, n); i++)
+        for (ll i = l; i &lt;= min(bl * len, n); i++)
         {
             tot = (tot + a[i] + add[bl]);
         }
 
-        <span class="pl-k">for</span> (ll i = (br - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>; i &lt;= r; i++)
+        for (ll i = (br - 1) * len + 1; i &lt;= r; i++)
         {
             tot = (tot + a[i] + add[br]);
         }
 
-        <span class="pl-k">for</span> (ll i = bl + <span class="pl-c1">1</span>; i &lt; br; i++)
+        for (ll i = bl + 1; i &lt; br; i++)
         {
 
-            ll st = (i - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>;
-            ll ed = <span class="pl-c1">min</span>(i * len, n);
-            ll far = ed - st + <span class="pl-c1">1</span>;
+            ll st = (i - 1) * len + 1;
+            ll ed = min(i * len, n);
+            ll far = ed - st + 1;
             tot += sum[i] + add[i] * far;
         }
     }
 
-    <span class="pl-k">return</span> <span class="pl-c1">mod</span>(tot, m);
+    return mod(tot, m);
 }
 
-<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+void solve()
 {
     cin &gt;&gt; n;
-    len = <span class="pl-c1">sqrt</span>(n);
+    len = sqrt(n);
 
-    <span class="pl-c"><span class="pl-c">//</span> mem(add, 0);</span>
-    <span class="pl-c"><span class="pl-c">//</span> mem(sum, 0);</span>
+    // mem(add, 0);
+    // mem(sum, 0);
 
-    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n)
+    rep(i, 1, n)
     {
         cin &gt;&gt; a[i];
-        sum[<span class="pl-c1">get</span>(i)] += a[i];
+        sum[get(i)] += a[i];
     }
 
-    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n)
+    rep(i, 1, n)
     {
         ll op, l, r, c;
         cin &gt;&gt; op &gt;&gt; l &gt;&gt; r &gt;&gt; c;
-        <span class="pl-k">if</span> (op == <span class="pl-c1">0</span>)
+        if (op == 0)
         {
-            <span class="pl-c1">modify</span>(l, r, c);
+            modify(l, r, c);
         }
-        <span class="pl-k">else</span>
+        else
         {
-            ll ans = <span class="pl-c1">query</span>(l, r, c);
+            ll ans = query(l, r, c);
             cout &lt;&lt; ans &lt;&lt; endl;
         }
     }
 }
 
-<span class="pl-k">int</span> <span class="pl-en">main</span>()
+int main()
 {
     IOS;
 
-    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
-    <span class="pl-c"><span class="pl-c">//</span> cin&gt;&gt;_;//如果是多组数据</span>
-    <span class="pl-k">while</span> (_--)
+    int _ = 1;
+    // cin&gt;&gt;_;//如果是多组数据
+    while (_--)
     {
-        <span class="pl-c1">solve</span>();
+        solve();
     }
-    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
-}</pre></div>
+    return 0;
+}
+</code></pre>
 <h2>数列分块入门 5</h2>
 <h1>P13980 数列分块入门 5</h1>
 <h2>题目背景</h2>
@@ -1869,109 +1874,109 @@ ll <span class="pl-en">query</span>(ll l, ll r, ll c)
 <p>子任务 2（60 分）：$1 \leq n \leq 300000, 0 \leq a_i \leq 2^{31}-1$，$0\leq \mathrm{ans}\leq 2^{63}-1$。</p>
 <p>对于所有测试数据，满足 $1 \leq n \leq 300000, 0 \leq a_i \leq 2^{31}-1$，$0\leq \mathrm{ans} \leq 2^{63}-1$。$1 \leq l \leq r \leq n$。$\mathrm{opt} \in {0,1}, 1 \leq l \leq r\leq n$。每次操作后的 $a_i$ 满足 $0 \leq a_i \leq 2^{31}-1$。</p>
 <p>代码：</p>
-<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
-<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<pre lang="cpp" class="notranslate"><code class="notranslate">#include &lt;bits/stdc++.h&gt;
+using namespace std;
 
-<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll;
-<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">3e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">550</span>;
+typedef long long ll;
+const int N = 3e5 + 10, M = 550;
 
 ll n, len;
-ll a[N], sum[M];  <span class="pl-c"><span class="pl-c">//</span> sum记录每个块的和</span>
-<span class="pl-k">bool</span> flag[M];     <span class="pl-c"><span class="pl-c">//</span> flag标记块是否全为0或1（开方后不再变化）</span>
+ll a[N], sum[M];  // sum记录每个块的和
+bool flag[M];     // flag标记块是否全为0或1（开方后不再变化）
 
-ll <span class="pl-en">get</span>(ll i) {
-    <span class="pl-k">return</span> (i - <span class="pl-c1">1</span>) / len + <span class="pl-c1">1</span>;
+ll get(ll i) {
+    return (i - 1) / len + 1;
 }
 
-<span class="pl-k">void</span> <span class="pl-en">build</span>(ll block) {
-    ll st = (block - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>;
-    ll ed = <span class="pl-c1">min</span>(block * len, n);
-    sum[block] = <span class="pl-c1">0</span>;
-    flag[block] = <span class="pl-c1">true</span>;  
+void build(ll block) {
+    ll st = (block - 1) * len + 1;
+    ll ed = min(block * len, n);
+    sum[block] = 0;
+    flag[block] = true;  
     
-    <span class="pl-k">for</span> (ll i = st; i &lt;= ed; i++) {
+    for (ll i = st; i &lt;= ed; i++) {
         sum[block] += a[i];
-        <span class="pl-k">if</span> (a[i] &gt; <span class="pl-c1">1</span>) {
-            flag[block] = <span class="pl-c1">false</span>;  
+        if (a[i] &gt; 1) {
+            flag[block] = false;  
         }
     }
 }
 
 
-<span class="pl-k">void</span> <span class="pl-en">sqrt_range</span>(ll l, ll r) {
-    ll bl = <span class="pl-c1">get</span>(l), br = <span class="pl-c1">get</span>(r);
+void sqrt_range(ll l, ll r) {
+    ll bl = get(l), br = get(r);
     
-    <span class="pl-k">if</span> (bl == br) {
-        <span class="pl-k">if</span> (flag[bl]) <span class="pl-k">return</span>; 
+    if (bl == br) {
+        if (flag[bl]) return; 
         
-        <span class="pl-k">for</span> (ll i = l; i &lt;= r; i++) {
+        for (ll i = l; i &lt;= r; i++) {
             ll old = a[i];
-            a[i] = (ll)<span class="pl-c1">sqrt</span>(a[i]);  
+            a[i] = (ll)sqrt(a[i]);  
             sum[bl] += (a[i] - old);
         }
         
-        flag[bl] = <span class="pl-c1">true</span>;
-        ll st = (bl - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>;
-        ll ed = <span class="pl-c1">min</span>(bl * len, n);
-        <span class="pl-k">for</span> (ll i = st; i &lt;= ed; i++) {
-            <span class="pl-k">if</span> (a[i] &gt; <span class="pl-c1">1</span>) {
-                flag[bl] = <span class="pl-c1">false</span>;
-                <span class="pl-k">break</span>;
+        flag[bl] = true;
+        ll st = (bl - 1) * len + 1;
+        ll ed = min(bl * len, n);
+        for (ll i = st; i &lt;= ed; i++) {
+            if (a[i] &gt; 1) {
+                flag[bl] = false;
+                break;
             }
         }
-    } <span class="pl-k">else</span> {
+    } else {
        
-        <span class="pl-k">if</span> (!flag[bl]) {
-            <span class="pl-k">for</span> (ll i = l; i &lt;= bl * len; i++) {
+        if (!flag[bl]) {
+            for (ll i = l; i &lt;= bl * len; i++) {
                 ll old = a[i];
-                a[i] = (ll)<span class="pl-c1">sqrt</span>(a[i]);
+                a[i] = (ll)sqrt(a[i]);
                 sum[bl] += (a[i] - old);
             }
            
-            flag[bl] = <span class="pl-c1">true</span>;
-            ll st = (bl - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>;
+            flag[bl] = true;
+            ll st = (bl - 1) * len + 1;
             ll ed = bl * len;
-            <span class="pl-k">for</span> (ll i = st; i &lt;= ed; i++) {
-                <span class="pl-k">if</span> (a[i] &gt; <span class="pl-c1">1</span>) {
-                    flag[bl] = <span class="pl-c1">false</span>;
-                    <span class="pl-k">break</span>;
+            for (ll i = st; i &lt;= ed; i++) {
+                if (a[i] &gt; 1) {
+                    flag[bl] = false;
+                    break;
                 }
             }
         }
         
     
-        <span class="pl-k">if</span> (!flag[br]) {
-            <span class="pl-k">for</span> (ll i = (br - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>; i &lt;= r; i++) {
+        if (!flag[br]) {
+            for (ll i = (br - 1) * len + 1; i &lt;= r; i++) {
                 ll old = a[i];
-                a[i] = (ll)<span class="pl-c1">sqrt</span>(a[i]);
+                a[i] = (ll)sqrt(a[i]);
                 sum[br] += (a[i] - old);
             }
           
-            flag[br] = <span class="pl-c1">true</span>;
-            ll st = (br - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>;
-            ll ed = <span class="pl-c1">min</span>(br * len, n);
-            <span class="pl-k">for</span> (ll i = st; i &lt;= ed; i++) {
-                <span class="pl-k">if</span> (a[i] &gt; <span class="pl-c1">1</span>) {
-                    flag[br] = <span class="pl-c1">false</span>;
-                    <span class="pl-k">break</span>;
+            flag[br] = true;
+            ll st = (br - 1) * len + 1;
+            ll ed = min(br * len, n);
+            for (ll i = st; i &lt;= ed; i++) {
+                if (a[i] &gt; 1) {
+                    flag[br] = false;
+                    break;
                 }
             }
         }
         
        
-        <span class="pl-k">for</span> (ll i = bl + <span class="pl-c1">1</span>; i &lt;= br - <span class="pl-c1">1</span>; i++) {
-            <span class="pl-k">if</span> (flag[i]) <span class="pl-k">continue</span>; 
+        for (ll i = bl + 1; i &lt;= br - 1; i++) {
+            if (flag[i]) continue; 
             
-            flag[i] = <span class="pl-c1">true</span>;  
-            ll st = (i - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>;
-            ll ed = <span class="pl-c1">min</span>(i * len, n);
+            flag[i] = true;  
+            ll st = (i - 1) * len + 1;
+            ll ed = min(i * len, n);
             
-            <span class="pl-k">for</span> (ll j = st; j &lt;= ed; j++) {
+            for (ll j = st; j &lt;= ed; j++) {
                 ll old = a[j];
-                a[j] = (ll)<span class="pl-c1">sqrt</span>(a[j]);
+                a[j] = (ll)sqrt(a[j]);
                 sum[i] += (a[j] - old);
-                <span class="pl-k">if</span> (a[j] &gt; <span class="pl-c1">1</span>) {
-                    flag[i] = <span class="pl-c1">false</span>;  
+                if (a[j] &gt; 1) {
+                    flag[i] = false;  
                 }
             }
         }
@@ -1979,63 +1984,64 @@ ll <span class="pl-en">get</span>(ll i) {
 }
 
 
-ll <span class="pl-en">query_sum</span>(ll l, ll r) {
-    ll bl = <span class="pl-c1">get</span>(l), br = <span class="pl-c1">get</span>(r);
-    ll tot = <span class="pl-c1">0</span>;
+ll query_sum(ll l, ll r) {
+    ll bl = get(l), br = get(r);
+    ll tot = 0;
     
-    <span class="pl-k">if</span> (bl == br) {
-        <span class="pl-k">for</span> (ll i = l; i &lt;= r; i++) {
+    if (bl == br) {
+        for (ll i = l; i &lt;= r; i++) {
             tot += a[i];
         }
-    } <span class="pl-k">else</span> {
+    } else {
        
-        <span class="pl-k">for</span> (ll i = l; i &lt;= bl * len; i++) {
+        for (ll i = l; i &lt;= bl * len; i++) {
             tot += a[i];
         }
         
-        <span class="pl-k">for</span> (ll i = (br - <span class="pl-c1">1</span>) * len + <span class="pl-c1">1</span>; i &lt;= r; i++) {
+        for (ll i = (br - 1) * len + 1; i &lt;= r; i++) {
             tot += a[i];
         }
        
-        <span class="pl-k">for</span> (ll i = bl + <span class="pl-c1">1</span>; i &lt;= br - <span class="pl-c1">1</span>; i++) {
+        for (ll i = bl + 1; i &lt;= br - 1; i++) {
             tot += sum[i];
         }
     }
-    <span class="pl-k">return</span> tot;
+    return tot;
 }
 
-<span class="pl-k">int</span> <span class="pl-en">main</span>() {
-    <span class="pl-c1">ios::sync_with_stdio</span>(<span class="pl-c1">false</span>);
-    cin.<span class="pl-c1">tie</span>(<span class="pl-c1">0</span>);
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
     
     cin &gt;&gt; n;
-    len = <span class="pl-c1">sqrt</span>(n);
-    ll blocks = <span class="pl-c1">get</span>(n);
+    len = sqrt(n);
+    ll blocks = get(n);
     
-    <span class="pl-k">for</span> (ll i = <span class="pl-c1">1</span>; i &lt;= n; i++) {
+    for (ll i = 1; i &lt;= n; i++) {
         cin &gt;&gt; a[i];
     }
     
 
-    <span class="pl-k">for</span> (ll i = <span class="pl-c1">1</span>; i &lt;= blocks; i++) {
-        <span class="pl-c1">build</span>(i);
+    for (ll i = 1; i &lt;= blocks; i++) {
+        build(i);
     }
     
-    <span class="pl-k">for</span> (ll i = <span class="pl-c1">1</span>; i &lt;= n; i++) {
+    for (ll i = 1; i &lt;= n; i++) {
         ll op, l, r;
         cin &gt;&gt; op &gt;&gt; l &gt;&gt; r ;
-        <span class="pl-k">if</span> (op == <span class="pl-c1">0</span>) {
+        if (op == 0) {
          
-            <span class="pl-c1">sqrt_range</span>(l, r);
-        } <span class="pl-k">else</span> {
+            sqrt_range(l, r);
+        } else {
         
-            ll result = <span class="pl-c1">query_sum</span>(l, r);
+            ll result = query_sum(l, r);
             cout &lt;&lt; result &lt;&lt; endl;
         }
     }
     
-    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
-}</pre></div></div>
+    return 0;
+}
+</code></pre></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
