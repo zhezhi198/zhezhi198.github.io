@@ -536,7 +536,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div class="markdown-body" id="postBody"><h3>牛客周赛 Round 116</h3>
 <p><a href="https://ac.nowcoder.com/acm/contest/120553#question" rel="nofollow">点这里进入比赛</a></p>
 <h3>A-小红的区间</h3>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0a7c960c-0bf3-4cd0-98cd-f87c95de8901"><img width="940" height="757" alt="Image" src="https://github.com/user-attachments/assets/0a7c960c-0bf3-4cd0-98cd-f87c95de8901" style="max-width: 100%; height: auto; max-height: 757px;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/0a7c960c-0bf3-4cd0-98cd-f87c95de8901"><img width="940" height="757" alt="Image" src="https://github.com/user-attachments/assets/0a7c960c-0bf3-4cd0-98cd-f87c95de8901" style="max-width: 100%; height: auto; max-height: 757px;; aspect-ratio: 940 / 757; background-color: var(--bgColor-muted); border-radius: 6px; display: block" class="js-gh-image-fallback"></a></p>
 <blockquote>
 <p>A题不多说，弄清楚相交，包含，相离的定义通过条件判断就可以解决这个题目</p>
 </blockquote>
@@ -640,7 +640,7 @@ ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
 }</pre></div>
 <h3>B-小红的区间判断</h3>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a382e77b-7512-4484-9b15-b1af61a2e25a"><img width="945" height="953" alt="Image" src="https://github.com/user-attachments/assets/a382e77b-7512-4484-9b15-b1af61a2e25a" style="max-width: 100%; height: auto; max-height: 953px;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a382e77b-7512-4484-9b15-b1af61a2e25a"><img width="945" height="953" alt="Image" src="https://github.com/user-attachments/assets/a382e77b-7512-4484-9b15-b1af61a2e25a" style="max-width: 100%; height: auto; max-height: 953px;; aspect-ratio: 945 / 953; background-color: var(--bgColor-muted); border-radius: 6px; display: block" class="js-gh-image-fallback"></a></p>
 <blockquote>
 <p>B题和A题一样在这里直接给出代码</p>
 </blockquote>
@@ -750,7 +750,7 @@ ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
 	<span class="pl-k">return</span> <span class="pl-c1">0</span>;
 }</pre></div>
 <h3>C-小红的区间查询</h3>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/5724a7c1-4c61-4c1d-b4f8-b7076f289c53"><img width="954" height="913" alt="Image" src="https://github.com/user-attachments/assets/5724a7c1-4c61-4c1d-b4f8-b7076f289c53" style="max-width: 100%; height: auto; max-height: 913px;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/5724a7c1-4c61-4c1d-b4f8-b7076f289c53"><img width="954" height="913" alt="Image" src="https://github.com/user-attachments/assets/5724a7c1-4c61-4c1d-b4f8-b7076f289c53" style="max-width: 100%; height: auto; max-height: 913px;; aspect-ratio: 954 / 913; background-color: var(--bgColor-muted); border-radius: 6px; display: block" class="js-gh-image-fallback"></a></p>
 <blockquote>
 <p>朴素的思路:<br>
 已知题目给出n个区间，然后q次询问，问我们每次询问的这个数是在第几个区间内，我们首先一个最朴素的想法就是，我们知道每个区间的l,r，我们可以利用差分数组在两个区间之间打上他们是第几个区间的值，比如他们是第一个区间。那么我们就在这个区间的两端赋值为1，使得[l,r]区间内的值都为1，其他的区间依次类推，最后没有赋值过的值肯定为0，那输出-1即可，有值的输出值即为题目要求的答案。为什么可以这样呢，因为题目保证了区间互不相交，所以每一段赋值都不会被其他的值覆盖掉，所以保证每个区间内的值都是单一的。这是最朴素的想法，但是1e9的数据范围让此方法不可行，所以我们必须想到优化的方法。<br>
@@ -889,7 +889,7 @@ ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
 <p>这是我写的二分，读者可以想想为什么在输出答案的时候我的if条件为什么还如此复杂呢，为什么是这样，可以思考思考。但也许也有更好的二分技巧，我以为这个if条件wa了一发! -_-.</p>
 </blockquote>
 <h3>小红的区间相交</h3>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/96969b25-0785-4bbc-83c2-e1cda2354be7"><img width="938" height="955" alt="Image" src="https://github.com/user-attachments/assets/96969b25-0785-4bbc-83c2-e1cda2354be7" style="max-width: 100%; height: auto; max-height: 955px;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/96969b25-0785-4bbc-83c2-e1cda2354be7"><img width="938" height="955" alt="Image" src="https://github.com/user-attachments/assets/96969b25-0785-4bbc-83c2-e1cda2354be7" style="max-width: 100%; height: auto; max-height: 955px;; aspect-ratio: 938 / 955; background-color: var(--bgColor-muted); border-radius: 6px; display: block" class="js-gh-image-fallback"></a></p>
 <blockquote>
 <p>题目意思很简单，问我们区间是否满足任意两个两两相交,我们想什么时候一定可以保证两两相交呢，那么就是按区间的左右端点从小到大排列后，第一个区间和最后一个区间依然满足相交的关系就说明其他的都满足这个关系，想到这个就非常简单了。这题有一个启发我们的地方，在某一个条件难以写出它的条件判断时，我们可以写出其他与他互斥的关系，在用else就可以简单的把这个条件表示出来了。<br>
 AC代码:</p>
@@ -1007,7 +1007,7 @@ ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
 }</pre></div>
 <h3>小红的区间构造</h3>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/1f04ca5e-8c3e-4e5d-8a83-7805f7e4df28"><img width="1256" height="1414" alt="Image" src="https://github.com/user-attachments/assets/1f04ca5e-8c3e-4e5d-8a83-7805f7e4df28" style="max-width: 100%; height: auto; max-height: 1414px;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/1f04ca5e-8c3e-4e5d-8a83-7805f7e4df28"><img width="1256" height="1414" alt="Image" src="https://github.com/user-attachments/assets/1f04ca5e-8c3e-4e5d-8a83-7805f7e4df28" style="max-width: 100%; height: auto; max-height: 1414px;; aspect-ratio: 1256 / 1414; background-color: var(--bgColor-muted); border-radius: 6px; display: block" class="js-gh-image-fallback"></a></p>
 <blockquote>
 <p>这个题目我一开始没写出来，慢慢看别人的代码才逐渐明白，最后自己又敲了一遍，才决定把题解奉上。</p>
 </blockquote>

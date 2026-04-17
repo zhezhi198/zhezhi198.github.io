@@ -111,7 +111,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p>在宇宙的最深处有一个神奇的星球，这个星球的形状类似一条直线，在这个星球的最左边（坐标为 0 处）有一个十分强力的火山，火山会影响这个星球的每一个地方的温度，温度会随着离火山的距离越远而越低。有一天小灰灰因为不写作业被发配到了这个星球上去，他需要收集足够的学分才能够回到地球。这个星球可以看成一条长度为 𝑛+1 坐标轴，每一个整数点都有两个数值，一个 v 代表这个点存在的学分，一个 h 代表当前点的温度。由于星球中的生物神通广大，所以这个星球不遵循能量守恒定律，每天 0 点的时候学分都会刷新（即一个地点的学分在某天被收集后，在之后满足条件的日子里仍然可以被再次收集），并且每天每个地方的温度都是不变的。每天他都能获得一个法力值为 x 魔法法杖，可以保护他前往至多两处温度小于 x 的地方收集学分。<br>
 小灰灰共有 T 天可以收集学分。他会告诉你每天获得的魔法法杖的法力值，请你帮他算一算，他最多一共能收集多少学分。</p>
 </blockquote>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e647f119-a70f-492b-a1d6-12d169b71ae0"><img width="466" height="378" alt="Image" src="https://github.com/user-attachments/assets/e647f119-a70f-492b-a1d6-12d169b71ae0" style="max-width: 100%; height: auto; max-height: 378px;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/e647f119-a70f-492b-a1d6-12d169b71ae0"><img width="466" height="378" alt="Image" src="https://github.com/user-attachments/assets/e647f119-a70f-492b-a1d6-12d169b71ae0" style="max-width: 100%; height: auto; max-height: 378px;; aspect-ratio: 466 / 378; background-color: var(--bgColor-muted); border-radius: 6px; display: block" class="js-gh-image-fallback"></a></p>
 <blockquote>
 <p>思考过程:当天在温度小于等于X的情况下，我们选择两个不重复的学分，最后问收集的最多的学分是多少，但是每天0点我们所有位置的学分会刷新，但都是题目给的固定值，而且每天所选的学分在最优的情况下是在符合条件范围内找到最大的两个学分累加起来.....由于复杂度的原因，我们必须用高效率的查找方式快速找到题目输入的那个X，由于题目的单调不减特性，便可以考虑一下二分查找，于是问题变成了一下几个子问题:<br>
 1.我们得维护一下小于等于当前温度下的一个最大值和次大值。<br>
@@ -333,7 +333,7 @@ ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
 }</pre></div>
 <h3>C盲目自大的小灰灰</h3>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/746f1d1a-dc13-4028-a813-028368ba0bfb"><img width="917" height="1652" alt="Image" src="https://github.com/user-attachments/assets/746f1d1a-dc13-4028-a813-028368ba0bfb" style="max-width: 100%; height: auto; max-height: 1652px;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/746f1d1a-dc13-4028-a813-028368ba0bfb"><img width="917" height="1652" alt="Image" src="https://github.com/user-attachments/assets/746f1d1a-dc13-4028-a813-028368ba0bfb" style="max-width: 100%; height: auto; max-height: 1652px;; aspect-ratio: 917 / 1652; background-color: var(--bgColor-muted); border-radius: 6px; display: block" class="js-gh-image-fallback"></a></p>
 <blockquote>
 <p>思考:<br>
 我们要解决两个问题：<br>
@@ -556,11 +556,11 @@ ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
     <span class="pl-k">return</span> <span class="pl-c1">0</span>;
 }</pre></div>
 <h2>E小机器人</h2>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/41b48faf-34a9-4c92-8b08-68ce95eccd82"><img width="924" height="1324" alt="Image" src="https://github.com/user-attachments/assets/41b48faf-34a9-4c92-8b08-68ce95eccd82" style="max-width: 100%; height: auto; max-height: 1324px;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/41b48faf-34a9-4c92-8b08-68ce95eccd82"><img width="924" height="1324" alt="Image" src="https://github.com/user-attachments/assets/41b48faf-34a9-4c92-8b08-68ce95eccd82" style="max-width: 100%; height: auto; max-height: 1324px;; aspect-ratio: 924 / 1324; background-color: var(--bgColor-muted); border-radius: 6px; display: block" class="js-gh-image-fallback"></a></p>
 <blockquote>
 <p>思路：我们暴力的模拟每次区间操作，先抛开复杂度的问题，想想问题解决的朴素思想，我们动态修改{l,r}区间内最优最小值加上k个1，最暴力的方法是说，查找区间内的最优最小值，然后让这个最优最小值加+1，同时让k--表示完成一次加法操作。完全的暴力是不可行的，于是我们想到了分块的思想，我们想一个问题，当一个最小值足够小的时候，我们是不是不用修改我们的对象，一直让最小值加+1，直到把k耗尽即可，这是其中一种况且，第二种比较特别的情况是当k不为0时，你发现你目前的最优最小值马上要变成区间内的次小值了，之后就是在最小值和次小值交替相加，如果达到某个值的时候我们会让新的次小值进来，直至把这个k耗尽。</p>
 </blockquote>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a6a3d3a8-38aa-4d96-b4f9-0dd8a1185470"><img width="681" height="271" alt="Image" src="https://github.com/user-attachments/assets/a6a3d3a8-38aa-4d96-b4f9-0dd8a1185470" style="max-width: 100%; height: auto; max-height: 271px;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/a6a3d3a8-38aa-4d96-b4f9-0dd8a1185470"><img width="681" height="271" alt="Image" src="https://github.com/user-attachments/assets/a6a3d3a8-38aa-4d96-b4f9-0dd8a1185470" style="max-width: 100%; height: auto; max-height: 271px;; aspect-ratio: 681 / 271; background-color: var(--bgColor-muted); border-radius: 6px; display: block" class="js-gh-image-fallback"></a></p>
 <blockquote>
 <p>于是我们就理解了分块优化的妙处了<br>
 AC代码：</p>

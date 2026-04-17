@@ -102,7 +102,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <div class="markdown-body" id="postBody"><h3>牛客周赛121部分题解</h3>
 <p><a href="https://ac.nowcoder.com/acm/contest/124143#question" rel="nofollow">点击进入比赛</a></p>
 <h2>F</h2>
-<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bf4004bd-aad5-4e96-8126-1c97e3fd4af2"><img width="1248" height="1327" alt="Image" src="https://github.com/user-attachments/assets/bf4004bd-aad5-4e96-8126-1c97e3fd4af2" style="max-width: 100%; height: auto; max-height: 1327px;"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/bf4004bd-aad5-4e96-8126-1c97e3fd4af2"><img width="1248" height="1327" alt="Image" src="https://github.com/user-attachments/assets/bf4004bd-aad5-4e96-8126-1c97e3fd4af2" style="max-width: 100%; height: auto; max-height: 1327px;; aspect-ratio: 1248 / 1327; background-color: var(--bgColor-muted); border-radius: 6px; display: block" class="js-gh-image-fallback"></a></p>
 <blockquote>
 <p>思路:要询问一个区间的子序列是否可以通过乘积来得到一个完全平方数，那么我们想想想完全平方数的特征，从公式来看就是某个数的平方，也就是说这个数出现了两次，然而这样说在当前题意下仍然不够严谨，我们所说的某个数是不是也是其他数的乘积呢，仔细想想发现，我们发现可以定义为最小质因数的偶数次幂，这个最小可以有多个，但是必须是偶数幂。有了这个发现之后，我们尝试把每个数组中的数改成[1,100]内的质数的二进制，为什么可以这样，说来也巧，因为100以内的质因数只有差不多25个，于是我们的想法依然是可行的。那么让数组中的子序列出现完全平方数的判断转换为，我们选一些数，让这些数对应的特殊二进制数的异或最后为0，因为0可以表示所有(位)次幂是偶数次，也就是我们想要的完全平方数的状态。那么现在的问题是我们如何知道选那些数，可以或者说可能能让子序列成为完全平方数呢?结合异或的特点，我们的目的是让1变成0，最后全部变成0，那么我们选的就是那些可以使得异或结果变小的数，从大到小贪心就好。</p>
 </blockquote>
