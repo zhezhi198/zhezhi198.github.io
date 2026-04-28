@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="[Codeforces Round 1075 (Div. 2)](https://codeforces.com/contest/2189)
+# A. 带有数字的表格 
+
+| 每次测试时间限制 | 每次测试内存限制 | 输入 | 输出 |
+| :--- | :--- | :--- | :--- |
+| 1 秒 | 256 MB | 标准输入 | 标准输出 |
+
+## 题目描述
+
+Peter 画了一张大小为 $h \times l$ 的表格，里面初始填满了零。">
+<meta property="og:title" content="Codeforces Round 1075 (Div. 2)">
+<meta property="og:description" content="[Codeforces Round 1075 (Div. 2)](https://codeforces.com/contest/2189)
+# A. 带有数字的表格 
+
+| 每次测试时间限制 | 每次测试内存限制 | 输入 | 输出 |
+| :--- | :--- | :--- | :--- |
+| 1 秒 | 256 MB | 标准输入 | 标准输出 |
+
+## 题目描述
+
+Peter 画了一张大小为 $h \times l$ 的表格，里面初始填满了零。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://zhezhi198.github.io/post/Codeforces%20Round%201075%20%28Div.%202%29.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>Codeforces Round 1075 (Div. 2)</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">Codeforces Round 1075 (Div. 2)</h1>
+<div class="title-right">
+    <a href="https://zhezhi198.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/zhezhi198/zhezhi198.github.io/issues/20" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><p><a href="https://codeforces.com/contest/2189" rel="nofollow">Codeforces Round 1075 (Div. 2)</a></p>
+<h1>A. 带有数字的表格</h1>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">每次测试时间限制</th>
+<th align="left">每次测试内存限制</th>
+<th align="left">输入</th>
+<th align="left">输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1 秒</td>
+<td align="left">256 MB</td>
+<td align="left">标准输入</td>
+<td align="left">标准输出</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h2>题目描述</h2>
+<p>Peter 画了一张大小为 $h \times l$ 的表格，里面初始填满了零。我们将其行从上到下编号为 $1$ 到 $h$，列从左到右编号为 $1$ 到 $l$。</p>
+<p>Ned 提出了一个数字数组 $a_1, a_2, \dots, a_n$，并想要修改该表格。</p>
+<p>Ned 的操作规则如下：</p>
+<ol>
+<li>从他的数组中选择 $2k$ 个数字（其中 $2k \le n$）。</li>
+<li>将这 $2k$ 个数字分成 $k$ 对。</li>
+<li>对于每一对 $(x, y)$，他获取位于行 $x$ 和列 $y$ 的单元格，并将 $1$ 添加到该单元格中的数字。</li>
+<li>如果这样的单元格不存在（即 $x &amp;gt; h$ 或 $y &amp;gt; l$），则该对对表格不执行任何操作。</li>
+</ol>
+<p>Peter 支持 Ned 的倡议，并要求他最大化表中数字的总和。请帮助 Ned 计算他能达到的最大总和是多少。</p>
+<h2>输入格式</h2>
+<p>每个测试包含多个测试用例。第一行包含测试用例的数量 $t$ ($1 \le t \le 500$)。</p>
+<p>测试用例的描述如下：</p>
+<ul>
+<li>每个测试用例的第一行包含三个整数 $n, h, l$ ($2 \le n \le 100$, $1 \le h, l \le 1000$) —— 分别是数组的大小、表格的高度和表格的宽度。</li>
+<li>每个测试用例的第二行包含 $n$ 个数字 $a_1, a_2, \dots, a_n$ ($1 \le a_i \le 1000$) —— 数组本身。</li>
+</ul>
+<h2>输出格式</h2>
+<p>对于每个测试用例，输出表中数字的最大可能总和。</p>
+<h2>样例</h2>
+<h3>输入</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">7
+2 1 1
+1 1
+5 2 2
+1 2 2 3 2
+8 4 2
+7 2 2 2 3 4 4 2
+7 3 6
+10 4 1 3 5 4 6
+2 4 4
+5 5
+7 6 3
+10 4 1 3 5 4 6
+4 1 1
+1 1 1 1
+</code></pre>
+<h3>输出</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">1
+2
+3
+2
+0
+2
+2
+</code></pre>
+<blockquote>
+<p>思路:由于GitHub的markdown格式太难调了，有时候写题解就去了一下午，有些不方便的证明我就写在纸上了，参考照片和代码。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/194a923b-5d55-4a00-bfd8-640ca16fe171"><img src="https://github.com/user-attachments/assets/194a923b-5d55-4a00-bfd8-640ca16fe171" alt="Image" style="max-width: 100%;"></a></p>
+<p>AC代码:</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
+<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
+<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
+<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
+    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
+    cin.tie(<span class="pl-c1">0</span>);              \
+    cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
+#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
+#<span class="pl-k">define</span> <span class="pl-en">se</span> second
+#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
+#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
+#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
+#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
+#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
+<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
+<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
+<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
+<span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c"></span>
+<span class="pl-c"><span class="pl-c">*/</span></span>
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    ll n, h, l;
+    cin &gt;&gt; n &gt;&gt; h &gt;&gt; l;
+    ll cnt1 = <span class="pl-c1">0</span>, cnt2 = <span class="pl-c1">0</span>, cnt3 = <span class="pl-c1">0</span>;
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n)
+    {
+        ll x;
+        cin &gt;&gt; x;
+        <span class="pl-k">if</span> (x &lt;= h)
+            cnt1++;
+        <span class="pl-k">if</span> (x &lt;= l)
+            cnt2++;
+        <span class="pl-k">if</span> (x &lt;= h || x &lt;= l)
+            cnt3++;
+    }
+    cout &lt;&lt; <span class="pl-c1">min</span>({cnt1, cnt2, cnt3 / <span class="pl-c1">2</span>}) &lt;&lt; endl;
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    IOS;
+
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    cin &gt;&gt; _; <span class="pl-c"><span class="pl-c">//</span> 如果是多组数据</span>
+    <span class="pl-k">while</span> (_--)
+    {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h1>B. 青蛙的诅咒</h1>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">每次测试时间限制</th>
+<th align="left">每次测试内存限制</th>
+<th align="left">输入</th>
+<th align="left">输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1 秒</td>
+<td align="left">256 MB</td>
+<td align="left">标准输入</td>
+<td align="left">标准输出</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h2>题目描述</h2>
+<p>在无限数轴上的点 $0$ 处，坐着一只青蛙。经过多年的冥想，青蛙已经掌握了 $n$ 种独特类型的魔法跳跃。</p>
+<p>第 $i$ 种跳跃允许其向前跳转不超过 $a_i$ 个单位。换句话说，如果它位于整数点 $k$，则跳转后它可以降落在从 $k$ 到 $k+a_i$ 的任何整数点。</p>
+<p>但魔法总是有代价的；它已经被诅咒了。在每次尝试第 $b_i$ 次使用第 $i$ 种跳跃类型之前（即在使用第 $i$ 种跳跃的第 $b_i$ 次、第 $2b_i$ 次、第 $3b_i$ 次……之前），青蛙都会回滚 $c_i$ 个单位！</p>
+<p>换句话说，如果它在点 $k$ 且触发了回滚，它首先会发现自己在点 $k-c_i$，跳转后，它可以降落在从 $k-c_i$ 到 $k-c_i+a_i$ 的任何整数点。</p>
+<p>青蛙的目标是到达数字为 $x$ 的点。请帮助青蛙找出它在到达目标的过程中必须忍受的<strong>最少回滚次数</strong>，或者确定它无法到达点 $x$。</p>
+<h2>输入格式</h2>
+<p>每个测试包含多个测试用例。第一行包含测试用例的数量 $t$ ($1 \le t \le 10^4$)。</p>
+<p>测试用例的描述如下：</p>
+<ul>
+<li>每个测试用例的第一行包含两个整数 $n$ 和 $x$ ($1 \le n \le 10^5$, $1 \le x \le 10^{18}$) —— 青蛙可以进行的跳跃类型数量及其最终目标。</li>
+<li>接下来 $n$ 行，每行包含 3 个整数 $a_i, b_i, c_i$ ($1 \le a_i, b_i, c_i \le 10^6$) —— 描述第 $i$ 种跳跃类型的参数。</li>
+</ul>
+<p>保证所有测试用例的 $n$ 之和不超过 $10^5$。</p>
+<h2>输出格式</h2>
+<p>对于每个测试用例，如果青蛙可以到达点 $x$，请输出它为此必须忍受的最小回滚次数。如果无法到达点 $x$，则输出 $-1$。</p>
+<h2>样例</h2>
+<h3>输入</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">6
+1 1
+3 3 3
+1 7
+4 2 5
+2 4
+1 2 3
+2 2 4
+5 8
+12 1 11
+10 1 4
+1 1 3
+1 2 5
+2 1 7
+1 1000000000000000000
+1000000 4 654321
+1 10
+2 2 1
+</code></pre>
+<h3>输出</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">0
+1
+-1
+2
+298892990032
+3
+</code></pre>
+<blockquote>
+<p>思路:贪心，我们可以计算所有技能恰好都不回退时能走far这么远，记录一个mx，为一个周期(恰好回退时走了多远)走的最大值，如果我们算出far和mx后呢，如果far&gt;目标值，意味着我们不用回退任何一次就能达到目标，如果达不到，mx&lt;0 那么将无法达到了，mx&gt;0，那么剩下的路程看要多少个走多少个mx能覆盖到(上取整),<br>
+AC代码：</p>
+</blockquote>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
+<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
+<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
+<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
+    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
+    cin.tie(<span class="pl-c1">0</span>);              \
+    cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
+#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
+#<span class="pl-k">define</span> <span class="pl-en">se</span> second
+#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
+#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
+#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
+#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
+#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
+<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
+<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
+<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
+<span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c"></span>
+<span class="pl-c"><span class="pl-c">*/</span></span>
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    ll n, x;
+    cin &gt;&gt; n &gt;&gt; x;
+    ll far = <span class="pl-c1">0</span>, mx = -INF;
+    <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n)
+    {
+        ll a, b, c;
+        cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+        far += (b - <span class="pl-c1">1</span>) * a;
+        ll d = a * b - c;
+        <span class="pl-c1">cmax</span>(mx, d);
+    }
+    <span class="pl-k">if</span> (far &gt;= x)
+    {
+        cout &lt;&lt; <span class="pl-c1">0</span> &lt;&lt; endl;
+        <span class="pl-k">return</span>;
+    }
+    <span class="pl-k">if</span> (mx &lt;= <span class="pl-c1">0</span>)
+    {
+        cout &lt;&lt; -<span class="pl-c1">1</span> &lt;&lt; endl;
+        <span class="pl-k">return</span>;
+    }
+    cout &lt;&lt; ((x - far) + mx - <span class="pl-c1">1</span>) / mx &lt;&lt; endl;
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    IOS;
+
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    cin &gt;&gt; _; <span class="pl-c"><span class="pl-c">//</span> 如果是多组数据</span>
+    <span class="pl-k">while</span> (_--)
+    {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h1>C1. 异或便利 (简易版)</h1>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">每次测试时间限制</th>
+<th align="left">每次测试内存限制</th>
+<th align="left">输入</th>
+<th align="left">输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">2 秒</td>
+<td align="left">256 MB</td>
+<td align="left">标准输入</td>
+<td align="left">标准输出</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h2>题目描述</h2>
+<p>这是问题的<strong>简单版本</strong>。版本之间的区别在于，在此版本中 $2 \le i \le n-1$。请注意，困难版本的正确解决方案不一定是简单版本的正确解决方案。</p>
+<p>给定一个自然数 $n$。请找到一个长度为 $n$ 的排列 $p$，使得对于每个 $i$ ($2 \le i \le n-1$)，都存在一个 $j$ ($i \le j \le n$) 满足：<br>
+$$p_i = p_j \oplus i$$</p>
+<p>可以证明，在问题的约束下，至少存在一种合适的排列 $p$。</p>
+<ul>
+<li>
+<strong>注 1：</strong> 长度为 $n$ 的排列是一个数组，由从 $1$ 到 $n$ 的 $n$ 个不同整数以任意顺序组成。例如，$ [2,3,1,5,4] $ 是一个排列，但 $[1,2,2]$ 不是排列（$2$ 在数组中出现两次），$[1,3,4]$ 也不是排列（$n=3$ 但数组中有 $4$）。</li>
+<li>
+<strong>注 2：</strong> $\oplus$ 表示按位异或运算。</li>
+</ul>
+<h2>输入格式</h2>
+<p>每个测试包含多个测试用例。第一行包含测试用例的数量 $t$ ($1 \le t \le 10^4$)。</p>
+<p>测试用例的描述如下：</p>
+<ul>
+<li>每个测试用例的唯一行包含一个整数 $n$ ($3 \le n \le 2 \cdot 10^5$) —— 排列的长度。</li>
+</ul>
+<p>保证所有测试用例的 $n$ 之和不超过 $2 \cdot 10^5$。</p>
+<h2>输出格式</h2>
+<p>对于每个测试用例，输出 $n$ 个整数 $p_1, p_2, \dots, p_n$ —— 即你找到的排列 $p$。</p>
+<p>如果有多个解决方案，您可以输出其中任何一个。</p>
+<h2>样例</h2>
+<h3>输入</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">2
+3
+6
+</code></pre>
+<h3>输出</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">2 1 3
+3 6 2 5 1 4
+</code></pre>
+<blockquote>
+<p>赛时思路:我在第一次写的时候想的是最朴素的解法，就给最后一个位置放1，后面填的数用数组存着，再开st数组标记哪些数已经被用过了。就从后往前一路填，当然这样很容易tle，不过我加上了一些优化居然过了，可能是数据水了，再加上这场不会被hack，所有...总之这种方法不可取<br>
+思路：<br>
+其实核心思路和最初的朴素解法是一致的。我们需要满足题目要求的下标范围是 $[2, n-1]$。</p>
+</blockquote>
+<p>我们的策略是：<strong>先固定最后一个位置为 1</strong>，即令 $p_n = 1$。</p>
+<h3>为什么选择填 1？</h3>
+<p>我们利用 $i \oplus 1$ 的性质，结果分为两种情况：</p>
+<ul>
+<li>如果 $i$ 是奇数，则得到 $i-1$；</li>
+<li>如果 $i$ 是偶数，则得到 $i+1$。</li>
+</ul>
+<p>从 $2$ 到 $n-1$，下标不断进行奇偶交替。我们发现 $2^ 1 = 3$，$3 ^ 1 = 2$。在连续下标的基础上，$i ^ 1$ 本质上是<strong>奇偶位值的互换</strong>。因此，中间部分得到的就是一段连续互换的结果，我们可以直接根据下标求出对应的值。</p>
+<h3>下标为 1 的位置该填什么？</h3>
+<p>下标 $1$ 不必满足异或条件的限制，唯一的限制是必须构成<strong>全排列</strong>（即不能使用后面已经填过的数）。通过观察 $n$ 的奇偶性，我们发现：</p>
+<ul>
+<li>
+<strong>若 $n$ 是奇数</strong>：下标 $1$ 的位置填 $n-1$。
+<ul>
+<li>
+<em>原因</em>：此时 $n-1$ 是偶数，但在计算中它和 $n$ 发生了互换（即 $p_{n-1} = (n-1) \oplus 1 = n$），导致数值 $n-1$ 没有被使用，所以填入 $p_1$ 即可。</li>
+</ul>
+</li>
+<li>
+<strong>若 $n$ 是偶数</strong>：下标 $1$ 的位置填 $n$。
+<ul>
+<li>
+<em>原因</em>：同理，此时数值 $n$ 是剩下的未被使用的数。</li>
+</ul>
+</li>
+</ul>
+<p>代码：</p>
+<pre class="notranslate"><code class="notranslate">cpp
+#include &lt;bits/stdc++.h&gt;
+using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define debug(...) cout &lt;&lt; "[debug] " #__VA_ARGS__ " = " &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p &lt;&lt; 1
+#define rc p &lt;&lt; 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) &amp; (-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 1e5 + 10, M = 2 * N, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template &lt;typename T&gt;
+bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+/*
+
+*/
+
+void solve()
+{
+    ll n;
+    cin &gt;&gt; n;
+    vll p(n + 1, 0);
+    p[n] = 1;
+    if (n &amp; 1)
+    {
+        p[1] = n - 1;
+    }
+    else
+    {
+        p[1] = n;
+    }
+    rep(i, 2, n - 1)
+    {
+        p[i] = 1 ^ i;
+    }
+    rep(i, 1, n) cout &lt;&lt; p[i] &lt;&lt; " ";
+    cout &lt;&lt; endl;
+}
+
+int main()
+{
+    IOS;
+
+    int _ = 1;
+     cin&gt;&gt;_;//如果是多组数据
+    while (_--)
+    {
+        solve();
+    }
+    return 0;
+}
+</code></pre>
+<h1>C2. 异或便利 (困难版)</h1>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">每次测试时间限制</th>
+<th align="left">每次测试内存限制</th>
+<th align="left">输入</th>
+<th align="left">输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">2 秒</td>
+<td align="left">256 MB</td>
+<td align="left">标准输入</td>
+<td align="left">标准输出</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h2>题目描述</h2>
+<p>这是问题的<strong>困难版本</strong>。版本之间的区别在于，在此版本中 $1 \le i \le n-1$。请注意，困难版本的正确解决方案不一定是简单版本的正确解决方案。</p>
+<p>给定一个正整数 $n$。请找到一个长度为 $n$ 的排列 $p$，使得对于每个 $i$ ($1 \le i \le n-1$)，都存在一个 $j$ ($i \le j \le n$) 满足：<br>
+$$p_i = p_j \oplus i$$</p>
+<p>或者确定不存在这样的排列。</p>
+<ul>
+<li>
+<strong>注 1：</strong> 长度为 $n$ 的排列是一个数组，由从 $1$ 到 $n$ 的 $n$ 个不同整数以任意顺序组成。例如，$[2,3,1,5,4]$ 是一个排列，但 $[1,2,2]$ 不是排列（$2$ 在数组中出现两次），$[1,3,4]$ 也不是排列（$n=3$ 但数组中有 $4$）。</li>
+<li>
+<strong>注 2：</strong> $\oplus$ 表示按位异或运算。</li>
+</ul>
+<h2>输入格式</h2>
+<p>每个测试包含多个测试用例。第一行包含测试用例的数量 $t$ ($1 \le t \le 10^4$)。</p>
+<p>测试用例的描述如下：</p>
+<ul>
+<li>每个测试用例的唯一行包含一个正整数 $n$ ($3 \le n \le 2 \cdot 10^5$) —— 排列的长度。</li>
+</ul>
+<p>保证所有测试用例的 $n$ 之和不超过 $2 \cdot 10^5$。</p>
+<h2>输出格式</h2>
+<p>对于每个测试用例，如果存在合适的排列，则输出 $n$ 个整数 $p_1, p_2, \dots, p_n$ —— 即你找到的排列 $p$。否则，输出 $-1$。</p>
+<p>如果存在多个解，则输出其中任何一个。</p>
+<h2>样例</h2>
+<h3>输入</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">2
+3
+4
+</code></pre>
+<h3>输出</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">2 1 3
+-1
+</code></pre>
+<blockquote>
+<p>思路:</p>
+</blockquote>
+<h2>解题思路与证明</h2>
+<p>我们通过固定 $p_n = 1$ 来简化问题，对于所有 $i \in [2, n-1]$，只要令 $p_i = p_n \oplus i = 1 \oplus i$，即可始终选择 $j = n$ 来满足题目条件 $p_i = p_j \oplus i$。</p>
+<p>利用 $x \oplus 1$ 的性质（相邻的偶奇数互换，如 $2 \leftrightarrow 3$），该构造本质上是对区间内的数进行两两交换：</p>
+<ul>
+<li>
+<strong>若 $n$ 为奇数</strong>：区间内的最大偶数 $n-1$ 会被映射为 $n$（因为 $(n-1) \oplus 1 = n$），导致数值 $n-1$ 未被使用，因此令 $p_1 = n-1$。</li>
+<li>
+<strong>若 $n$ 为偶数</strong>：区间 $[2, n-1]$ 内的数恰好两两配对闭环互换，剩余最大值 $n$ 未被使用，因此令 $p_1 = n$。</li>
+</ul>
+<p>此方案保证了每个 $i$ 都能找到 $j=n$ 满足等式，且所有填入的数恰好构成 $1$ 到 $n$ 的全排列。</p>
+<p>代码：</p>
+<pre class="notranslate"><code class="notranslate">cpp
+#include &lt;bits/stdc++.h&gt;
+using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define debug(...) cout &lt;&lt; "[debug] " #__VA_ARGS__ " = " &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p &lt;&lt; 1
+#define rc p &lt;&lt; 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) &amp; (-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 1e5 + 10, M = 2 * N, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template &lt;typename T&gt;
+bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+/*
+
+*/
+
+void solve()
+{
+    ll n;
+    cin &gt;&gt; n;
+    if (n - lowbit(n) == 0)
+    {
+        cout &lt;&lt; -1 &lt;&lt; endl;
+        return;
+    }
+    vll p(n + 1, 0);
+    if (n &amp; 1)
+    {
+        p[n] = 1;
+        p[1] = n - 1;
+        rep(i, 2, n - 1)
+        {
+            p[i] = 1 ^ i;
+        }
+    }
+    else
+    {
+        p[n] = 1;
+        p[1] = lowbit(n) ^ 1;
+        rep(i, 2, n - 1)
+        {
+            if (i == lowbit(n))
+            {
+                p[i] = n;
+            }
+            else
+            {
+                p[i] = 1 ^ i;
+            }
+        }
+    }
+    rep(i, 1, n) cout &lt;&lt; p[i] &lt;&lt; " ";
+    cout &lt;&lt; endl;
+}
+
+int main()
+{
+    IOS;
+
+    int _ = 1;
+    cin &gt;&gt; _; // 如果是多组数据
+    while (_--)
+    {
+        solve();
+    }
+    return 0;
+}
+</code></pre>
+<h1>D1. 小字符串 (简单版)</h1>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">每次测试时间限制</th>
+<th align="left">每次测试内存限制</th>
+<th align="left">输入</th>
+<th align="left">输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">2 秒</td>
+<td align="left">256 MB</td>
+<td align="left">标准输入</td>
+<td align="left">标准输出</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h2>题目描述</h2>
+<p>这是问题的<strong>简单版本</strong>。版本之间的区别在于，在此版本中保证字符串 $s$ 不包含字符 <code class="notranslate">?</code>。</p>
+<p>对于由字符 <code class="notranslate">0</code> 和 <code class="notranslate">1</code> 组成的字符串 $w_1w_2\dots w_n$，我们将 $f(w)$ 定义为数组 $[0,1,\dots,n-1]$ 的排列 $p_1,p_2,\dots,p_n$ 的数量，使得对于从 $1$ 到 $n$ 的所有 $i$，满足以下条件：</p>
+<ul>
+<li>如果 $w_i=1$，则存在 $1 \le l \le r \le n$，使得 $\text{mex}([p_l,p_{l+1},\dots,p_r])=i$。</li>
+<li>如果 $w_i=0$，则<strong>不存在</strong> $1 \le l \le r \le n$，使得 $\text{mex}([p_l,p_{l+1},\dots,p_r])=i$。</li>
+</ul>
+<p>给定一个由字符 <code class="notranslate">0</code> 和 <code class="notranslate">1</code> 组成的字符串 $s_1s_2\dots s_n$ 以及一个正整数 $c$。注意在此版本的问题中，字符串 $s$ 不包含 <code class="notranslate">?</code>。考虑所有可以通过将 $s$ 中的所有 <code class="notranslate">?</code> 字符替换为 <code class="notranslate">0</code> 和 <code class="notranslate">1</code> 获得的字符串 $w$（在此版本中，只有 $w=s$ 这一种情况）。</p>
+<p>请在所有此类字符串 $w$ 中，找到 $f(w)$ 不能被 $c$ 整除的最小值，或者确定不存在这样的字符串 $w$。由于答案可能很大，请输出其对 $10^9+7$ 取模后的结果。</p>
+<ul>
+<li>
+<strong>注：</strong> 整数集合 $c_1,c_2,\dots,c_k$ 的最小排除值（MEX）定义为集合 $c$ 中未出现的最小非负整数 $x$。</li>
+</ul>
+<h2>输入格式</h2>
+<p>每个测试包含多个测试用例。第一行包含测试用例的数量 $t$ ($1 \le t \le 10^4$)。</p>
+<p>测试用例的描述如下：</p>
+<ul>
+<li>每个测试用例的第一行包含两个整数 $n$ 和 $c$ ($3 \le n \le 2 \cdot 10^5, 1 \le c \le 10^9$) —— 字符串的长度和限制函数值的数字。</li>
+<li>每个测试用例的第二行包含一个长度为 $n$ 的字符串，由字符 <code class="notranslate">0</code> 和 <code class="notranslate">1</code> 组成 —— 即字符串 $s$。</li>
+</ul>
+<p>保证所有测试用例的 $n$ 之和不超过 $2 \cdot 10^5$。</p>
+<h2>输出格式</h2>
+<p>对于每个测试用例，如果存在这样的字符串 $w$（可以通过替换 $s$ 中的 <code class="notranslate">?</code> 得到），使得 $f(w)$ 不能被 $c$ 整除，则输出所有此类字符串 $w$ 中 $f(w)$ 的最小值。答案应对 $10^9+7$ 取模。</p>
+<p>如果不存在这样的字符串，则输出 $-1$。</p>
+<h2>样例</h2>
+<h3>输入</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">9
+3 3
+001
+3 1
+111
+4 100
+1001
+6 100
+111001
+6 100
+111101
+5 8
+10001
+4 100
+1110
+21 123456789
+111000111000111000111
+3 4
+101
+</code></pre>
+<h3>输出</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">-1
+-1
+4
+96
+64
+12
+-1
+336892528
+2
+</code></pre>
+<blockquote>
+<p>思路:其实可以看成0&gt;n-1这个在不断的插数，如果si=='1‘我们可以插在数字区间的左边或者右边，贡献为2，如果si==‘0’我们要从前面的数字区间插入以破坏连续区间构成的mex值贡献为i，我们默认字符串从0开始。注意不要被c恰好整除<br>
+代码:</p>
+</blockquote>
+<pre class="notranslate"><code class="notranslate">cpp
+#include &lt;bits/stdc++.h&gt;
+using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define debug(...) cout &lt;&lt; "[debug] " #__VA_ARGS__ " = " &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p &lt;&lt; 1
+#define rc p &lt;&lt; 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) &amp; (-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 1e5 + 10, M = 2 * N, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template &lt;typename T&gt;
+bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+
+/*
+
+*/
+
+void solve()
+{
+    ll n, c;
+    cin &gt;&gt; n &gt;&gt; c;
+    string s;
+    cin &gt;&gt; s;
+    if (s.back() == '0')
+    {
+        cout &lt;&lt; -1 &lt;&lt; endl;
+        return;
+    }
+    ll ans = 1, res = 1;
+    rep(i, 0, n - 2)
+    {
+        if (s[i] == '1')
+        {
+            ans = (ans * 2) % Md7;
+            res = (res * 2) % c;
+        }
+        else
+        {
+            ans = (ans * i) % Md7;
+            res = (res * i) % c;
+        }
+    }
+    if (res == 0)
+    {
+        cout &lt;&lt; -1 &lt;&lt; endl;
+    }
+    else
+    {
+        cout &lt;&lt; ans &lt;&lt; endl;
+    }
+}
+
+int main()
+{
+    IOS;
+
+    int _ = 1;
+    cin &gt;&gt; _; // 如果是多组数据
+    while (_--)
+    {
+        solve();
+    }
+    return 0;
+}
+</code></pre>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/56152a6b-0586-46f8-b7ce-2e4f48c854c5"><img width="1295" height="410" alt="Image" src="https://github.com/user-attachments/assets/56152a6b-0586-46f8-b7ce-2e4f48c854c5" style="max-width: 100%; height: auto; max-height: 410px;; aspect-ratio: 1295 / 410; background-color: var(--bgColor-muted); border-radius: 6px; display: block" class="js-gh-image-fallback"></a></p>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/daa79701-c65d-443f-84aa-3f30ca580edd"><img width="1311" height="291" alt="Image" src="https://github.com/user-attachments/assets/daa79701-c65d-443f-84aa-3f30ca580edd" style="max-width: 100%; height: auto; max-height: 291px;; aspect-ratio: 1311 / 291; background-color: var(--bgColor-muted); border-radius: 6px; display: block" class="js-gh-image-fallback"></a></p>
+<pre class="notranslate"><code class="notranslate">D2也差不多，给代码算了，思路差不多，只是判断整除麻烦.
+代码:
+```cpp
+#include &lt;bits/stdc++.h&gt;
+using namespace std;
+// CJX__//
+typedef long long ll; // 不开long long 见祖宗
+typedef unsigned long long ull;
+typedef __int128 i128;
+typedef pair&lt;int, int&gt; PII;
+typedef pair&lt;ll, ll&gt; PLL;
+typedef vector&lt;int&gt; vi;
+typedef vector&lt;ll&gt; vll;
+typedef vector&lt;double&gt; vd;
+typedef vector&lt;PII&gt; vPII;
+#define IOS                  \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+#define debug(...) cout &lt;&lt; "[debug] " #__VA_ARGS__ " = " &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#define out(x) cout &lt;&lt; ((x) ? "YES" : "NO") &lt;&lt; endl
+#define mod(x, P) (((x) % (P) + (P)) % (P))
+#define endl '\n'
+#define gcd __gcd
+#define lc p &lt;&lt; 1
+#define rc p &lt;&lt; 1 | 1
+#define INF 0x3f3f3f3f3f3f3f3f
+#define inf 0x3f3f3f3f
+#define fi first
+#define se second
+#define all(x) x.begin(), x.end()
+#define lowbit(x) ((x) &amp; (-x))
+#define rep(i, x, n) for (ll i = x; i &lt;= n; i++)
+#define dep(i, x, n) for (ll i = x; i &gt;= n; i--)
+#define mem(a, x) memset(a, x, sizeof a)
+const double eps = 1e-5;
+const int N = 1e5 + 10, M = 2 * N, K = 26;
+const ll MOD = 1e9 + 7, Md3 = 998244353, Md7 = 1e9 + 7, Md9 = 1e9 + 9;
+const ll base1 = 131, base2 = 13331;
+const int dx[8] = {-1, 0, 1, 0, -1, -1, 1, 1}, dy[8] = {0, 1, 0, -1, -1, 1, -1, 1};
+const int ddx[8] = {1, 1, 2, 2, -1, -1, -2, -2}, ddy[8] = {2, -2, 1, -1, 2, -2, 1, -1};
+template &lt;typename T&gt;
+bool cmin(T &amp;a, const T &amp;b) { return b &lt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+bool cmax(T &amp;a, const T &amp;b) { return b &gt; a ? a = b, 1 : 0; }
+template &lt;typename T&gt;
+void sort_range(vector&lt;T&gt; &amp;v, int l, int r) { sort(v.begin() + l, v.begin() + r + 1); }
+/*
+
+*/
+
+void solve()
+{
+    ll n, c;
+    string s;
+    cin &gt;&gt; n &gt;&gt; c &gt;&gt; s;
+    vll pos;
+    if (s[0] == '?')
+    {
+        s[0] = '1';
+    }
+    if (s[0] != '1')
+    {
+        cout &lt;&lt; -1 &lt;&lt; endl;
+        return;
+    }
+    if (s[n - 1] == '?')
+    {
+        s[n - 1] = '1';
+    }
+    if (s[n - 1] != '1')
+    {
+        cout &lt;&lt; -1 &lt;&lt; endl;
+        return;
+    }
+    ll w = 2;
+    c /= gcd(c, (ll)2);
+    rep(i, 1, n - 2)
+    {
+        if (s[i] == '0')
+        {
+            c /= gcd(c, i);
+            w = w * i % Md7;
+        }
+        else if (s[i] == '1')
+        {
+            c /= gcd(c, (ll)2);
+            w = w * 2 % Md7;
+        }
+        else
+        {
+            if (i == 1)
+                continue;
+            if (i % 2 == 0)
+            {
+                c /= gcd(c, (ll)2);
+                w = w * 2 % Md7;
+            }
+            else
+            {
+                pos.push_back(i);
+            }
+        }
+    }
+    if (c == 1)
+    {
+        cout &lt;&lt; -1 &lt;&lt; endl;
+        return;
+    }
+    ll m = pos.size();
+    ll cnt = 0;
+    while (c % 2 == 0)
+    {
+        c /= 2;
+        cnt++;
+    }
+    if (c != 1)
+    {
+        rep(i, 0, m - 1)
+        {
+            w = w * 2 % Md7;
+        }
+        cout &lt;&lt; w &lt;&lt; endl;
+        return;
+    }
+    cnt = min(cnt - 1, m);
+    rep(i, 0, m - cnt - 1) w = w * pos[i] % Md7;
+    rep(i, 0, cnt - 1) w = w * 2 % Md7;
+    cout &lt;&lt; w &lt;&lt; endl;
+}
+
+int main()
+{
+    IOS;
+
+    int _ = 1;
+     cin&gt;&gt;_;//如果是多组数据
+    while (_--)
+    {
+        solve();
+    }
+    return 0;
+}
+</code></pre></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://zhezhi198.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","zhezhi198/zhezhi198.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</html>
