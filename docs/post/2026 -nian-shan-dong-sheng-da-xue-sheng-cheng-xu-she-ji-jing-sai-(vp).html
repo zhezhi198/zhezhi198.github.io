@@ -666,7 +666,7 @@ int main()
 赛后我发现E题目有人用check配合dfs处理出来了，后续尝试一下。<br>
 -----------------------------------------------------分割线----------------------------------------------------------</p>
 <p><a target="_blank" rel="noopener noreferrer" href="https://github.com/user-attachments/assets/afe90571-f649-4fec-9561-6e3f85d63acc"><img width="885" height="1132" alt="Image" src="https://github.com/user-attachments/assets/afe90571-f649-4fec-9561-6e3f85d63acc" style="max-width: 100%; height: auto; max-height: 1132px;; aspect-ratio: 885 / 1132; background-color: var(--bgColor-muted); border-radius: 6px" class="js-gh-image-fallback"></a></p>
-<p>思路：好吧，赛时还是被这个题目给迷惑了，其实如果想一些极限情况，大概会想到某个点被所有区间包括的同时是某些区间的边界，那么我们可以钦定一个x，算出所有区间包括x的价值，然后尝试找到最值，这里有一个疑问，二分没发现单调性可以找最值吗，显然这个函数图像是u型或者v型的，所以我们可以通过ck(mid)&lt;=ck(mid+1) 这样的条件判断找到最值，找到边界的时候注意一下输出即可。<br>
+<p>思路：好吧，赛时还是被这个题目给迷惑了，其实如果想一些极限情况，大概会想到某个点被所有区间包括的同时是某些区间的边界，那么我们可以钦定一个x，算出所有区间包括x的价值，然后尝试找到最值，这里有一个疑问，二分没发现单调性可以找最值吗，显然这个函数图像是上凸的，所以我们可以通过ck(mid)&lt;=ck(mid+1) 这样的条件判断找到最值，找到边界的时候注意一下输出即可。<br>
 AC代码：</p>
 <div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
 <span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
