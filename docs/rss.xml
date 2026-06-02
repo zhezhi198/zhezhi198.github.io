@@ -1,5 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Sun, 31 May 2026 12:33:09 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>Codeforces Round 1101 (Div. 2) 题解报告</title><link>https://zhezhi198.github.io/post/Codeforces%20Round%201101%20%28Div.%202%29%20-ti-jie-bao-gao.html</link><description>[Codeforces Round 1101 (Div. 2)](https://codeforces.com/contest/2232)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Tue, 02 Jun 2026 11:08:23 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>AtCoder Beginner Contest 461（补题报告）</title><link>https://zhezhi198.github.io/post/AtCoder%20Beginner%20Contest%20461%EF%BC%88-bu-ti-bao-gao-%EF%BC%89.html</link><description>[AtCoder Beginner Contest 461](https://atcoder.jp/contests/abc461)
+
+E - x + y ≡ x + y
+
+问题陈述
+
+
+
+对于正整数 $a$ 和 $b$ ，定义 $\mathrm{concat}(a, b)$ 为依次写入 $a$ 和 $b$ 形成的整数。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/AtCoder%20Beginner%20Contest%20461%EF%BC%88-bu-ti-bao-gao-%EF%BC%89.html</guid><pubDate>Tue, 02 Jun 2026 11:07:50 +0000</pubDate></item><item><title>Codeforces Round 1101 (Div. 2) 题解报告</title><link>https://zhezhi198.github.io/post/Codeforces%20Round%201101%20%28Div.%202%29%20-ti-jie-bao-gao.html</link><description>[Codeforces Round 1101 (Div. 2)](https://codeforces.com/contest/2232)
 
 &lt;img width='954' height='1190' alt='Image' src='https://github.com/user-attachments/assets/548d0409-47be-4bb1-a061-b28ef42e19d7' /&gt;
 
