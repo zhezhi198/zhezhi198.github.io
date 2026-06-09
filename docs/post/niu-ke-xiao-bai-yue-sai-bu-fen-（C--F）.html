@@ -123,12 +123,12 @@ AC代码：</p>
 <span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
 <span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
 <span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
-<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
-<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; <span class="pl-c1">PII</span>;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; <span class="pl-c1">PLL</span>;
 <span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
 <span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
 <span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
-<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-c1">PII</span>&gt; vPII;
 #<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
     <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
     cin.tie(<span class="pl-c1">0</span>);              \
@@ -151,7 +151,7 @@ AC代码：</p>
 #<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
 <span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
 <span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
-<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll <span class="pl-c1">MOD</span> = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
 <span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
 <span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
 <span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
@@ -261,7 +261,7 @@ ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
 
 <span class="pl-k">int</span> <span class="pl-en">main</span>()
 {
-    IOS;
+    <span class="pl-c1">IOS</span>;
 
     <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
     cin &gt;&gt; _; <span class="pl-c"><span class="pl-c">//</span> 多组数据</span>
@@ -286,12 +286,12 @@ AC代码：</p>
 <span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
 <span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
 <span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
-<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
-<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; <span class="pl-c1">PII</span>;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; <span class="pl-c1">PLL</span>;
 <span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
 <span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
 <span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
-<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-c1">PII</span>&gt; vPII;
 #<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
     <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
     cin.tie(<span class="pl-c1">0</span>);              \
@@ -314,7 +314,7 @@ AC代码：</p>
 #<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
 <span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
 <span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">4e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
-<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll <span class="pl-c1">MOD</span> = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
 <span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
 <span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
 <span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
@@ -353,7 +353,7 @@ ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
 <span class="pl-c"></span>
 <span class="pl-c"><span class="pl-c">*/</span></span>
 
-vector&lt;PLL&gt; g[N];
+vector&lt;<span class="pl-c1">PLL</span>&gt; g[N];
 ll dist[N];
 <span class="pl-k">bool</span> vis[N];
 
@@ -361,7 +361,7 @@ ll dist[N];
 {
     <span class="pl-k">int</span> n, m;
     cin &gt;&gt; n &gt;&gt; m;
-    vll <span class="pl-smi">p</span>(n + <span class="pl-c1">1</span>, INF);
+    vll <span class="pl-smi">p</span>(n + <span class="pl-c1">1</span>, <span class="pl-c1">INF</span>);
 
     <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, m)
     {
@@ -378,7 +378,7 @@ ll dist[N];
 
     <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n)
     {
-        <span class="pl-k">if</span> (p[i] != INF)
+        <span class="pl-k">if</span> (p[i] != <span class="pl-c1">INF</span>)
         {
             g[i].<span class="pl-c1">push_back</span>({i + n, <span class="pl-c1">2</span> * p[i]});
         }
@@ -386,11 +386,11 @@ ll dist[N];
 
     <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, <span class="pl-c1">2</span> * n)
     {
-        dist[i] = INF;
+        dist[i] = <span class="pl-c1">INF</span>;
         vis[i] = <span class="pl-c1">false</span>;
     }
     dist[<span class="pl-c1">1</span>] = <span class="pl-c1">0</span>;
-    priority_queue&lt;PLL, vector&lt;PLL&gt;, greater&lt;PLL&gt;&gt; pq;
+    priority_queue&lt;<span class="pl-c1">PLL</span>, vector&lt;<span class="pl-c1">PLL</span>&gt;, greater&lt;<span class="pl-c1">PLL</span>&gt;&gt; pq;
     pq.<span class="pl-c1">push</span>({<span class="pl-c1">0</span>, <span class="pl-c1">1</span>});
     <span class="pl-k">while</span> (!pq.<span class="pl-c1">empty</span>())
     {
@@ -409,7 +409,7 @@ ll dist[N];
     }
 
     ll ans = <span class="pl-c1">min</span>(dist[n], dist[n + n]);
-    <span class="pl-k">if</span> (ans == INF)
+    <span class="pl-k">if</span> (ans == <span class="pl-c1">INF</span>)
     {
         cout &lt;&lt; -<span class="pl-c1">1</span> &lt;&lt; endl;
     }
@@ -421,7 +421,7 @@ ll dist[N];
 
 <span class="pl-k">int</span> <span class="pl-en">main</span>()
 {
-    IOS;
+    <span class="pl-c1">IOS</span>;
 
     <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
     <span class="pl-c"><span class="pl-c">//</span> cin &gt;&gt; _; // 如果是多组数据</span>
@@ -452,12 +452,12 @@ ll dist[N];
 <span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
 <span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
 <span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
-<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
-<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; <span class="pl-c1">PII</span>;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; <span class="pl-c1">PLL</span>;
 <span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
 <span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
 <span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
-<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-c1">PII</span>&gt; vPII;
 #<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
     <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
     cin.tie(<span class="pl-c1">0</span>);              \
@@ -480,7 +480,7 @@ ll dist[N];
 #<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
 <span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
 <span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">5e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
-<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll <span class="pl-c1">MOD</span> = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
 <span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
 <span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
 <span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
@@ -610,7 +610,7 @@ ll p[N], d[N];
 
 <span class="pl-k">int</span> <span class="pl-en">main</span>()
 {
-    IOS;
+    <span class="pl-c1">IOS</span>;
 
     <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
     cin &gt;&gt; _; <span class="pl-c"><span class="pl-c">//</span> 如果是多组数据</span>

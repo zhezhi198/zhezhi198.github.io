@@ -111,7 +111,7 @@ $$</p>
 这就好比动态规划，我们可以预处理出一个二维数组（杨辉三角），之后查询只需要 <code class="notranslate">O(1)</code> 。因为只涉及加法，所以不用担心除法求逆元的问题。</p>
 <h3>3. 代码实现</h3>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2010</span>;
-<span class="pl-k">const</span> <span class="pl-k">int</span> MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> <span class="pl-c1">MOD</span> = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>;
 <span class="pl-k">long</span> <span class="pl-k">long</span> c[N][N];
 
 <span class="pl-k">void</span> <span class="pl-en">init</span>() {
@@ -119,7 +119,7 @@ $$</p>
         c[i][<span class="pl-c1">0</span>] = <span class="pl-c1">1</span>; <span class="pl-c"><span class="pl-c">//</span> 边界情况</span>
         <span class="pl-k">for</span> (<span class="pl-k">int</span> j = <span class="pl-c1">1</span>; j &lt;= i; j++) {
             <span class="pl-c"><span class="pl-c">//</span> C(i, j) = C(i-1, j) + C(i-1, j-1)</span>
-            c[i][j] = (c[i - <span class="pl-c1">1</span>][j] + c[i - <span class="pl-c1">1</span>][j - <span class="pl-c1">1</span>]) % MOD;
+            c[i][j] = (c[i - <span class="pl-c1">1</span>][j] + c[i - <span class="pl-c1">1</span>][j - <span class="pl-c1">1</span>]) % <span class="pl-c1">MOD</span>;
         }
     }
 }</pre></div>
@@ -140,16 +140,16 @@ $$</p>
 </ol>
 <p>查询时仅需 <code class="notranslate">O(1)</code> 的时间复杂度。</p>
 <h3>3. 代码实现</h3>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> LL;
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> <span class="pl-c1">LL</span>;
 <span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">100010</span>; <span class="pl-c"><span class="pl-c">//</span> 根据题目要求调整大小</span>
 
 <span class="pl-k">int</span> n, p;      <span class="pl-c"><span class="pl-c">//</span> 全局变量存储范围和模数</span>
-LL f[N], g[N]; <span class="pl-c"><span class="pl-c">//</span> f: 阶乘, g: 阶乘逆元</span>
+<span class="pl-c1">LL</span> f[N], g[N]; <span class="pl-c"><span class="pl-c">//</span> f: 阶乘, g: 阶乘逆元</span>
 
 <span class="pl-c"><span class="pl-c">//</span> 快速幂求逆元: a^(p-2) % p</span>
-LL <span class="pl-en">qpow</span>(LL a, LL b, LL p)
+<span class="pl-c1">LL</span> <span class="pl-en">qpow</span>(<span class="pl-c1">LL</span> a, <span class="pl-c1">LL</span> b, <span class="pl-c1">LL</span> p)
 {
-    LL ret = <span class="pl-c1">1</span>;
+    <span class="pl-c1">LL</span> ret = <span class="pl-c1">1</span>;
     <span class="pl-k">while</span>(b)
     {
         <span class="pl-k">if</span>(b &amp; <span class="pl-c1">1</span>) ret = ret * a % p;
@@ -179,7 +179,7 @@ LL <span class="pl-en">qpow</span>(LL a, LL b, LL p)
 }
 
 <span class="pl-c"><span class="pl-c">//</span> 查询组合数</span>
-LL <span class="pl-en">C</span>(<span class="pl-k">int</span> n, <span class="pl-k">int</span> m)
+<span class="pl-c1">LL</span> <span class="pl-en">C</span>(<span class="pl-k">int</span> n, <span class="pl-k">int</span> m)
 {
     <span class="pl-k">if</span>(n &lt; m) <span class="pl-k">return</span> <span class="pl-c1">0</span>;
     <span class="pl-c"><span class="pl-c">//</span> C(n, m) = n! * inv((n-m)!) * inv(m!)</span>
@@ -200,8 +200,8 @@ $$</p>
 <p>一边循环乘分子，一边计算分母 <code class="notranslate">m!</code> 的逆元。时间复杂度仅为 <code class="notranslate">O(m)</code>。</p>
 <h3>3. 代码实现</h3>
 <div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span> 快速幂求逆元</span>
-LL <span class="pl-en">qmi</span>(LL a, LL k, LL p) {
-    LL res = <span class="pl-c1">1</span>;
+<span class="pl-c1">LL</span> <span class="pl-en">qmi</span>(<span class="pl-c1">LL</span> a, <span class="pl-c1">LL</span> k, <span class="pl-c1">LL</span> p) {
+    <span class="pl-c1">LL</span> res = <span class="pl-c1">1</span>;
     <span class="pl-k">while</span> (k) {
         <span class="pl-k">if</span> (k &amp; <span class="pl-c1">1</span>) res = res * a % p;
         a = a * a % p;
@@ -210,9 +210,9 @@ LL <span class="pl-en">qmi</span>(LL a, LL k, LL p) {
     <span class="pl-k">return</span> res;
 }
 
-LL <span class="pl-en">C</span>(<span class="pl-k">int</span> n, <span class="pl-k">int</span> m, <span class="pl-k">int</span> p) {
+<span class="pl-c1">LL</span> <span class="pl-en">C</span>(<span class="pl-k">int</span> n, <span class="pl-k">int</span> m, <span class="pl-k">int</span> p) {
     <span class="pl-k">if</span> (m &gt; n) <span class="pl-k">return</span> <span class="pl-c1">0</span>;
-    LL up = <span class="pl-c1">1</span>, down = <span class="pl-c1">1</span>;
+    <span class="pl-c1">LL</span> up = <span class="pl-c1">1</span>, down = <span class="pl-c1">1</span>;
     <span class="pl-c"><span class="pl-c">//</span> 循环计算分子和分母</span>
     <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= m; i++) {
         up = up * (n - i + <span class="pl-c1">1</span>) % p; 
@@ -235,12 +235,12 @@ C_n^m \equiv C_{n \pmod p}^{m \pmod p} \times C_{n/p}^{m/p} \pmod p
 $$</p>
 <p>递归边界是当 <code class="notranslate">m=0</code> 时返回 1。对于 <code class="notranslate">n % p</code> 这种小范围的组合数，可以直接用定义法求解。</p>
 <h3>3. 代码实现</h3>
-<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> LL;
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> <span class="pl-c1">LL</span>;
 <span class="pl-k">int</span> p; <span class="pl-c"><span class="pl-c">//</span> 模数</span>
 
 <span class="pl-c"><span class="pl-c">//</span> 快速幂求逆元</span>
-LL <span class="pl-en">qmi</span>(LL a, LL k, LL p) {
-    LL res = <span class="pl-c1">1</span>;
+<span class="pl-c1">LL</span> <span class="pl-en">qmi</span>(<span class="pl-c1">LL</span> a, <span class="pl-c1">LL</span> k, <span class="pl-c1">LL</span> p) {
+    <span class="pl-c1">LL</span> res = <span class="pl-c1">1</span>;
     <span class="pl-k">while</span> (k) {
         <span class="pl-k">if</span> (k &amp; <span class="pl-c1">1</span>) res = res * a % p;
         a = a * a % p;
@@ -250,9 +250,9 @@ LL <span class="pl-en">qmi</span>(LL a, LL k, LL p) {
 }
 
 <span class="pl-c"><span class="pl-c">//</span> 定义法求小范围组合数 C(a, b) % p</span>
-LL <span class="pl-en">C</span>(<span class="pl-k">int</span> a, <span class="pl-k">int</span> b, <span class="pl-k">int</span> p) { 
+<span class="pl-c1">LL</span> <span class="pl-en">C</span>(<span class="pl-k">int</span> a, <span class="pl-k">int</span> b, <span class="pl-k">int</span> p) { 
     <span class="pl-k">if</span> (b &gt; a) <span class="pl-k">return</span> <span class="pl-c1">0</span>;
-    LL res = <span class="pl-c1">1</span>;
+    <span class="pl-c1">LL</span> res = <span class="pl-c1">1</span>;
     <span class="pl-c"><span class="pl-c">//</span> 相当于计算 (a * ... * (a-b+1)) / b!</span>
     <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>, j = a; i &lt;= b; i++, j--) {
         res = res * j % p;
@@ -262,7 +262,7 @@ LL <span class="pl-en">C</span>(<span class="pl-k">int</span> a, <span class="pl
 }
 
 <span class="pl-c"><span class="pl-c">//</span> 卢卡斯定理递归</span>
-LL <span class="pl-en">lucas</span>(LL n, LL m, <span class="pl-k">int</span> p) {
+<span class="pl-c1">LL</span> <span class="pl-en">lucas</span>(<span class="pl-c1">LL</span> n, <span class="pl-c1">LL</span> m, <span class="pl-k">int</span> p) {
     <span class="pl-k">if</span> (m == <span class="pl-c1">0</span>) <span class="pl-k">return</span> <span class="pl-c1">1</span>;
     <span class="pl-k">return</span> <span class="pl-c1">lucas</span>(n / p, m / p, p) * <span class="pl-c1">C</span>(n % p, m % p, p) % p;
 }</pre></div>

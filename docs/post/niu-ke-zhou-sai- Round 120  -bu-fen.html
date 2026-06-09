@@ -108,12 +108,12 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
 <span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
 <span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
-<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
-<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; <span class="pl-c1">PII</span>;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; <span class="pl-c1">PLL</span>;
 <span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
 <span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
 <span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
-<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-c1">PII</span>&gt; vPII;
 #<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
     <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
     cin.tie(<span class="pl-c1">0</span>);              \
@@ -136,7 +136,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 #<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
 <span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
 <span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">2e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
-<span class="pl-k">const</span> ll MOD = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll <span class="pl-c1">MOD</span> = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
 <span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
 <span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
 <span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
@@ -254,7 +254,7 @@ ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
     e[idx] = b, ne[idx] = h[a], h[a] = idx++;
 }
 
-PII <span class="pl-en">dfs</span>(<span class="pl-k">int</span> u, <span class="pl-k">int</span> fa)
+<span class="pl-c1">PII</span> <span class="pl-en">dfs</span>(<span class="pl-k">int</span> u, <span class="pl-k">int</span> fa)
 {
     dep[u] = dep[fa] + <span class="pl-c1">1</span>;
 
@@ -272,7 +272,7 @@ PII <span class="pl-en">dfs</span>(<span class="pl-k">int</span> u, <span class=
         <span class="pl-k">if</span> (j == fa)
             <span class="pl-k">continue</span>;
 
-        PII t = <span class="pl-c1">dfs</span>(j, u);
+        <span class="pl-c1">PII</span> t = <span class="pl-c1">dfs</span>(j, u);
 
         <span class="pl-k">if</span> (t.<span class="pl-smi">fi</span> == -<span class="pl-c1">1</span>)
             <span class="pl-k">continue</span>;
@@ -325,7 +325,7 @@ PII <span class="pl-en">dfs</span>(<span class="pl-k">int</span> u, <span class=
 
 <span class="pl-k">int</span> <span class="pl-en">main</span>()
 {
-    IOS;
+    <span class="pl-c1">IOS</span>;
     <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
     <span class="pl-c"><span class="pl-c">//</span> cin &gt;&gt; _;</span>
     <span class="pl-k">while</span> (_--)
@@ -347,12 +347,12 @@ PII <span class="pl-en">dfs</span>(<span class="pl-k">int</span> u, <span class=
 <span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
 <span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
 <span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
-<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; PII;
-<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; PLL;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; <span class="pl-c1">PII</span>;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; <span class="pl-c1">PLL</span>;
 <span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
 <span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
 <span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
-<span class="pl-k">typedef</span> vector&lt;PII&gt; vPII;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-c1">PII</span>&gt; vPII;
 #<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
     <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
     cin.tie(<span class="pl-c1">0</span>);              \
@@ -375,7 +375,7 @@ PII <span class="pl-en">dfs</span>(<span class="pl-k">int</span> u, <span class=
 #<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
 <span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
 <span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
-<span class="pl-k">const</span> ll MOD = <span class="pl-c1">998244353</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll <span class="pl-c1">MOD</span> = <span class="pl-c1">998244353</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
 <span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
 <span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
 <span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
@@ -475,8 +475,8 @@ ll <span class="pl-en">qmi</span>(ll a, ll b)
     <span class="pl-k">while</span> (b)
     {
         <span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>)
-            res = res * a % MOD;
-        a = a * a % MOD;
+            res = res * a % <span class="pl-c1">MOD</span>;
+        a = a * a % <span class="pl-c1">MOD</span>;
         b &gt;&gt;= <span class="pl-c1">1</span>;
     }
     <span class="pl-k">return</span> res;
@@ -484,14 +484,14 @@ ll <span class="pl-en">qmi</span>(ll a, ll b)
 
 ll <span class="pl-en">inv</span>(ll x)
 {
-    <span class="pl-k">return</span> <span class="pl-c1">qmi</span>(x, MOD - <span class="pl-c1">2</span>);
+    <span class="pl-k">return</span> <span class="pl-c1">qmi</span>(x, <span class="pl-c1">MOD</span> - <span class="pl-c1">2</span>);
 }
 
 ll <span class="pl-en">get</span>(<span class="pl-k">int</span> l, <span class="pl-k">int</span> r)
 {
     <span class="pl-k">if</span> (l &gt; r)
         <span class="pl-k">return</span> <span class="pl-c1">0</span>;
-    <span class="pl-k">return</span> (h[r] - h[l - <span class="pl-c1">1</span>] * p[r - l + <span class="pl-c1">1</span>] % MOD + MOD) % MOD;
+    <span class="pl-k">return</span> (h[r] - h[l - <span class="pl-c1">1</span>] * p[r - l + <span class="pl-c1">1</span>] % <span class="pl-c1">MOD</span> + <span class="pl-c1">MOD</span>) % <span class="pl-c1">MOD</span>;
 }
 
 <span class="pl-k">void</span> <span class="pl-en">solve</span>()
@@ -501,8 +501,8 @@ ll <span class="pl-en">get</span>(<span class="pl-k">int</span> l, <span class="
     p[<span class="pl-c1">0</span>] = <span class="pl-c1">1</span>;
     <span class="pl-c1">rep</span>(i, <span class="pl-c1">1</span>, n)
     {
-        p[i] = p[i - <span class="pl-c1">1</span>] * <span class="pl-c1">10</span> % MOD;
-        h[i] = (h[i - <span class="pl-c1">1</span>] * <span class="pl-c1">10</span> + (s[i] - <span class="pl-s"><span class="pl-pds">'</span>0<span class="pl-pds">'</span></span>)) % MOD;
+        p[i] = p[i - <span class="pl-c1">1</span>] * <span class="pl-c1">10</span> % <span class="pl-c1">MOD</span>;
+        h[i] = (h[i - <span class="pl-c1">1</span>] * <span class="pl-c1">10</span> + (s[i] - <span class="pl-s"><span class="pl-pds">'</span>0<span class="pl-pds">'</span></span>)) % <span class="pl-c1">MOD</span>;
     }
     ll len = r - l + <span class="pl-c1">1</span>;
     ll b1 = (l - <span class="pl-c1">1</span>) / n;
@@ -525,21 +525,21 @@ ll <span class="pl-en">get</span>(<span class="pl-k">int</span> l, <span class="
     <span class="pl-k">if</span> (c &gt; <span class="pl-c1">0</span>)
     {
         ll q = p[n];
-        vm = h[n] * (<span class="pl-c1">qmi</span>(q, c) - <span class="pl-c1">1</span> + MOD) % MOD * <span class="pl-c1">inv</span>(q - <span class="pl-c1">1</span>) % MOD % MOD;
+        vm = h[n] * (<span class="pl-c1">qmi</span>(q, c) - <span class="pl-c1">1</span> + <span class="pl-c1">MOD</span>) % <span class="pl-c1">MOD</span> * <span class="pl-c1">inv</span>(q - <span class="pl-c1">1</span>) % <span class="pl-c1">MOD</span> % <span class="pl-c1">MOD</span>;
     }
     ll res = v2;
     <span class="pl-k">if</span> (c &gt; <span class="pl-c1">0</span>)
     {
-        res = (res + vm * <span class="pl-c1">qmi</span>(<span class="pl-c1">10</span>, len2) % MOD) % MOD;
+        res = (res + vm * <span class="pl-c1">qmi</span>(<span class="pl-c1">10</span>, len2) % <span class="pl-c1">MOD</span>) % <span class="pl-c1">MOD</span>;
     }
-    res = (res + v1 * <span class="pl-c1">qmi</span>(<span class="pl-c1">10</span>, len2 + mlen) % MOD) % MOD;
+    res = (res + v1 * <span class="pl-c1">qmi</span>(<span class="pl-c1">10</span>, len2 + mlen) % <span class="pl-c1">MOD</span>) % <span class="pl-c1">MOD</span>;
 
     cout &lt;&lt; res &lt;&lt; endl;
 }
 
 <span class="pl-k">int</span> <span class="pl-en">main</span>()
 {
-    IOS;
+    <span class="pl-c1">IOS</span>;
     <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
     <span class="pl-c"><span class="pl-c">//</span> cin &gt;&gt; _;</span>
     <span class="pl-k">while</span> (_--)
