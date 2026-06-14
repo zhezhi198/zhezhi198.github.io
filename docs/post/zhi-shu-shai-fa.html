@@ -194,20 +194,6 @@ ll cnt = <span class="pl-c1">0</span>;
             st_range[j - L] = <span class="pl-c1">true</span>;
         }
     }
-}
-
-<span class="pl-k">bool</span> <span class="pl-en">check</span>(ll x)
-{
-    ll sum = <span class="pl-c1">0</span>;
-    ll now = x;
-    <span class="pl-k">while</span> (now)
-    {
-        sum += now % <span class="pl-c1">10</span>;
-        now /= <span class="pl-c1">10</span>;
-    }
-    <span class="pl-k">if</span> (sum == (ll)<span class="pl-c1">sqrt</span>(sum) * (ll)<span class="pl-c1">sqrt</span>(sum))
-        <span class="pl-k">return</span> <span class="pl-c1">true</span>;
-    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
 }</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
