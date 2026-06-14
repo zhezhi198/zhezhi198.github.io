@@ -171,7 +171,7 @@ ll cnt = <span class="pl-c1">0</span>;
         <span class="pl-k">if</span> (!st[i])
         {
             p[++cnt] = i;
-            <span class="pl-k">for</span> (ll j = (ll)i * i; j &lt;=n; j += i)
+            <span class="pl-k">for</span> (ll j = (ll)i * i; j &lt;= n; j += i)
             {
                 st[j] = <span class="pl-c1">true</span>;
             }
@@ -183,8 +183,8 @@ ll cnt = <span class="pl-c1">0</span>;
 {
     <span class="pl-c1">init_prime</span>(<span class="pl-c1">sqrt</span>(R) + <span class="pl-c1">1</span>);
     <span class="pl-c1">memset</span>(st_range, <span class="pl-c1">0</span>, <span class="pl-k">sizeof</span>(<span class="pl-k">bool</span>) * (R - L + <span class="pl-c1">1</span>));
-    <span class="pl-k">if</span> (L &lt; <span class="pl-c1">2</span>)
-        L = <span class="pl-c1">2</span>;
+    <span class="pl-k">if</span> (L == <span class="pl-c1">1</span>)
+        st_range[<span class="pl-c1">0</span>] = <span class="pl-c1">true</span>;
     <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= cnt; i++)
     {
         ll prime = p[i];
@@ -194,6 +194,20 @@ ll cnt = <span class="pl-c1">0</span>;
             st_range[j - L] = <span class="pl-c1">true</span>;
         }
     }
+}
+
+<span class="pl-k">bool</span> <span class="pl-en">check</span>(ll x)
+{
+    ll sum = <span class="pl-c1">0</span>;
+    ll now = x;
+    <span class="pl-k">while</span> (now)
+    {
+        sum += now % <span class="pl-c1">10</span>;
+        now /= <span class="pl-c1">10</span>;
+    }
+    <span class="pl-k">if</span> (sum == (ll)<span class="pl-c1">sqrt</span>(sum) * (ll)<span class="pl-c1">sqrt</span>(sum))
+        <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
 }</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
