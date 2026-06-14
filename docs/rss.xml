@@ -1,5 +1,27 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Sun, 07 Jun 2026 10:58:44 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>AtCoder Beginner Contest 461</title><link>https://zhezhi198.github.io/post/AtCoder%20Beginner%20Contest%20461.html</link><description>[AtCoder Beginner Contest 461](https://atcoder.jp/contests/abc461)
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>Blog Title</title><link>https://zhezhi198.github.io</link><description>Blog description</description><copyright>Blog Title</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://zhezhi198.github.io</link></image><lastBuildDate>Sun, 14 Jun 2026 12:01:30 +0000</lastBuildDate><managingEditor>Blog Title</managingEditor><ttl>60</ttl><webMaster>Blog Title</webMaster><item><title>Codeforces Round 1103 (Div. 3)</title><link>https://zhezhi198.github.io/post/Codeforces%20Round%201103%20%28Div.%203%29.html</link><description>[Codeforces Round 1103 (Div. 3) ](https://codeforces.com/contest/2236)
+
+### A
+
+A.火车上的游戏
+
+
+
+每次测试时间限制：1秒
+
+
+
+每个测试的内存限制：256兆字节
+
+
+
+输入：标准输入
+
+
+
+输出：标准输出
+
+Dabir， Egor和Arseniy刚上了火车，决定玩个游戏。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/Codeforces%20Round%201103%20%28Div.%203%29.html</guid><pubDate>Sun, 14 Jun 2026 12:01:04 +0000</pubDate></item><item><title>AtCoder Beginner Contest 461</title><link>https://zhezhi198.github.io/post/AtCoder%20Beginner%20Contest%20461.html</link><description>[AtCoder Beginner Contest 461](https://atcoder.jp/contests/abc461)
 A,B题目比较直接，就直接给出代码了。</description><guid isPermaLink="true">https://zhezhi198.github.io/post/AtCoder%20Beginner%20Contest%20461.html</guid><pubDate>Sun, 07 Jun 2026 10:54:54 +0000</pubDate></item><item><title>AtCoder Beginner Contest 460（补题报告）</title><link>https://zhezhi198.github.io/post/AtCoder%20Beginner%20Contest%20460%EF%BC%88-bu-ti-bao-gao-%EF%BC%89.html</link><description>[AtCoder Beginner Contest 461](https://atcoder.jp/contests/abc461)
 
 E - x + y ≡ x + y
