@@ -17,7 +17,7 @@
 <meta property="og:url" content="https://zhezhi198.github.io/post/%5B-tu-lun-%5D-pan-huan-zhuan-ti.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
 <title>[图论]判环专题</title>
-
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 
 </head>
@@ -41,7 +41,17 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     body {padding: 8px;}
     .postTitle{font-size:24px;}
 }
-
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
 </style>
 
 
@@ -89,8 +99,49 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p><strong>难用的地方（痛点）</strong>：</p>
 <ul>
 <li><strong>无法提取路径</strong>：拓扑排序只能告诉你“图里有环”，但如果你需要输出环的具体节点序列，Kahn 算法几乎无能为力。</li>
-<li><strong>信息丢失</strong>：在剥离入度为 0 的点的过程中，图的原始结构被破坏了，不方便做后续的图上回溯操作。</li>
+<li><strong>信息丢失</strong>：在剥离入度为 0 的点的过程中，图的原始结构被破坏了，不方便做后续的图上回溯操作。<br>
+代码实现：</li>
 </ul>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">int</span> n, m;
+<span class="pl-k">int</span> h[N], e[M], ne[M], idx;
+<span class="pl-k">int</span> deg[N];
+<span class="pl-k">int</span> q[N], hh = <span class="pl-c1">1</span>, tt = <span class="pl-c1">0</span>;
+<span class="pl-k">void</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> a, <span class="pl-k">int</span> b)
+{
+    e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+}
+<span class="pl-k">bool</span> <span class="pl-en">topsort</span>()
+{
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    {
+        <span class="pl-k">if</span> (deg[i] == <span class="pl-c1">0</span>)
+        {
+            q[++tt] = i;
+        }
+    }
+    <span class="pl-k">while</span> (hh &lt;= tt)
+    {
+        <span class="pl-k">auto</span> u = q[hh++];
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = h[u]; ~i; i = ne[i])
+        {
+            <span class="pl-k">int</span> j = e[i];
+            <span class="pl-k">if</span> (--deg[j] == <span class="pl-c1">0</span>)
+            {
+                q[++tt] = j;
+            }
+        }
+    }
+    <span class="pl-k">return</span> tt == n;
+}
+
+<span class="pl-k">void</span> <span class="pl-en">init</span>()
+{
+    idx = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    {
+        h[i] = -<span class="pl-c1">1</span>;
+    }
+}</pre></div>
 <hr>
 <h3>2. DFS 三色标记法</h3>
 <p><strong>原理介绍</strong>：<br>
@@ -110,8 +161,63 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p><strong>难用的地方（痛点）</strong>：</p>
 <ul>
 <li><strong>爆栈风险</strong>：由于是递归实现，如果图是一条极长的链（如 10^5 级别），在某些不支持尾递归优化或栈空间严格限制的评测机上可能会引发 Stack Overflow（尽管现代比赛平台对 C++ 栈空间放得很宽，但仍需警惕）。</li>
-<li><strong>多连通块</strong>：不能只从一个点开始 DFS，必须在外层套一个循环，确保所有状态为 <code class="notranslate">0</code> 的孤立点或独立分量都被遍历到。</li>
+<li><strong>多连通块</strong>：不能只从一个点开始 DFS，必须在外层套一个循环，确保所有状态为 <code class="notranslate">0</code> 的孤立点或独立分量都被遍历到。<br>
+代码实现：</li>
 </ul>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">int</span> n, m;
+<span class="pl-k">int</span> h[N], e[M], ne[M], idx;
+<span class="pl-k">int</span> col[N]; <span class="pl-c"><span class="pl-c">//</span> 0:白色(未访问), 1:灰色(递归栈中), 2:黑色(访问完毕)</span>
+<span class="pl-k">int</span> stk[N], top=<span class="pl-c1">0</span>;     
+vector&lt;<span class="pl-k">int</span>&gt; cycle;  
+<span class="pl-k">void</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> a, <span class="pl-k">int</span> b)
+{
+    e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+}
+<span class="pl-k">bool</span> <span class="pl-en">dfs</span>(<span class="pl-k">int</span> u)
+{
+    col[u] = <span class="pl-c1">1</span>;        
+    stk[++top] = u;  
+
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = h[u]; ~i; i = ne[i])
+    {
+        <span class="pl-k">int</span> j = e[i];
+        <span class="pl-k">if</span> (col[j] == <span class="pl-c1">1</span>) 
+        {
+            <span class="pl-k">int</span> p = top;
+            <span class="pl-k">while</span> (p &gt; <span class="pl-c1">0</span> &amp;&amp; stk[p] != j) p--; 
+            
+            <span class="pl-k">for</span> (<span class="pl-k">int</span> k = p; k &lt;= top; k++) cycle.<span class="pl-c1">push_back</span>(stk[k]);
+            <span class="pl-k">return</span> <span class="pl-c1">true</span>; 
+        }
+        <span class="pl-k">else</span> <span class="pl-k">if</span> (col[j] == <span class="pl-c1">0</span>) 
+        {
+            <span class="pl-k">if</span> (<span class="pl-c1">dfs</span>(j)) <span class="pl-k">return</span> <span class="pl-c1">true</span>; 
+        }
+    }
+
+    col[u] = <span class="pl-c1">2</span>; 
+    top--;  
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+}
+
+<span class="pl-k">bool</span> <span class="pl-en">ck</span>()
+{
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    {
+        <span class="pl-k">if</span> (col[i] == <span class="pl-c1">0</span>) 
+        {
+            <span class="pl-k">if</span> (<span class="pl-c1">dfs</span>(i)) <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+        }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+}
+
+<span class="pl-k">void</span> <span class="pl-en">init</span>()
+{
+    idx = top = <span class="pl-c1">0</span>;
+    cycle.<span class="pl-c1">clear</span>();
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++) h[i] = -<span class="pl-c1">1</span>, col[i] = <span class="pl-c1">0</span>;
+}</pre></div>
 <hr>
 <h3>3. Tarjan 强连通分量算法</h3>
 <p><strong>原理介绍</strong>：<br>
@@ -144,8 +250,63 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <ul>
 <li><strong>“关于 SPFA，它死了”</strong>：极其容易被出题人的特殊构造数据（如网格图、菊花图）卡成最坏的指数级或 O(V * E) 复杂度，导致 TLE。</li>
 <li><strong>多测不清空，爆零两行泪</strong>：队列、入队次数数组 <code class="notranslate">cnt</code>、最短路数组 <code class="notranslate">dis</code>、访问标记 <code class="notranslate">vis</code> 在多组数据测试下极其容易漏清空。</li>
-<li><strong>起点问题</strong>：图可能不连通，从单一节点出发可能无法探测到其他连通块中的负环，通常需要建立一个虚拟超级源点连接所有节点。</li>
+<li><strong>起点问题</strong>：图可能不连通，从单一节点出发可能无法探测到其他连通块中的负环，通常需要建立一个虚拟超级源点连接所有节点。<br>
+代码实现：</li>
 </ul>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">int</span> n, m;
+<span class="pl-k">int</span> e[N], ne[N], h[N], idx, w[N];
+<span class="pl-k">bool</span> st[N];  <span class="pl-c"><span class="pl-c">//</span> 标记节点是否在队列中</span>
+<span class="pl-k">int</span> cnt[N];  <span class="pl-c"><span class="pl-c">//</span> 记录每个节点的松弛次数</span>
+<span class="pl-k">int</span> dist[N]; <span class="pl-c"><span class="pl-c">//</span> 记录从起点到各点的最短距离</span>
+queue&lt;<span class="pl-k">int</span>&gt; q;
+<span class="pl-k">void</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> a, <span class="pl-k">int</span> b, <span class="pl-k">int</span> c)
+{
+    e[idx] = b;
+    w[idx] = c;
+    ne[idx] = h[a];
+    h[a] = idx++;
+}
+<span class="pl-k">bool</span> <span class="pl-en">spfa</span>()
+{
+    <span class="pl-c1">memset</span>(dist, <span class="pl-c1">0x3f</span>, <span class="pl-k">sizeof</span> dist);
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    {
+        q.<span class="pl-c1">push</span>(i);
+        st[i] = <span class="pl-c1">true</span>;
+    }
+    <span class="pl-k">while</span> (q.<span class="pl-c1">size</span>())
+    {
+        <span class="pl-k">auto</span> t = q.<span class="pl-c1">front</span>();
+        q.<span class="pl-c1">pop</span>();
+        st[t] = <span class="pl-c1">false</span>;
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = h[t]; i != -<span class="pl-c1">1</span>; i = ne[i])
+        {
+            <span class="pl-k">int</span> j = e[i];
+            <span class="pl-k">if</span> (dist[j] &gt; dist[t] + w[i])
+            {
+                dist[j] = dist[t] + w[i];
+                cnt[j] = cnt[t] + <span class="pl-c1">1</span>;
+                <span class="pl-k">if</span> (cnt[j] &gt;= n)
+                    <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+                <span class="pl-k">if</span> (!st[j])
+                {
+                    st[j] = <span class="pl-c1">true</span>;
+                    q.<span class="pl-c1">push</span>(j);
+                }
+            }
+        }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+}
+
+<span class="pl-k">void</span> <span class="pl-en">init</span>()
+{
+    idx = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    {
+        h[i] = -<span class="pl-c1">1</span>;
+    }
+}</pre></div>
 <hr>
 <h3>5. 快慢指针 (Floyd 判环法)</h3>
 <p><strong>原理介绍</strong>：<br>
@@ -160,8 +321,277 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <p><strong>难用的地方（痛点）</strong>：</p>
 <ul>
 <li><strong>极度受限的图结构</strong>：只要图中有一个点的出度大于 1（即存在分支），这个方法就彻底瘫痪。</li>
-<li>只能找环，无法顺带处理图的其他拓扑性质。</li>
-</ul></div>
+<li>只能找环，无法顺带处理图的其他拓扑性质。<br>
+代码实现：</li>
+</ul>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">int</span> ne[N];
+
+<span class="pl-k">int</span> <span class="pl-en">floyd_find_cycle</span>(<span class="pl-k">int</span> head)
+{
+    <span class="pl-k">int</span> l = head;
+    <span class="pl-k">int</span> r = head;
+
+    <span class="pl-k">while</span> (r != -<span class="pl-c1">1</span> &amp;&amp; ne[r] != -<span class="pl-c1">1</span>) 
+    {
+        l = ne[l];
+        r = ne[ne[r]];
+
+        <span class="pl-k">if</span> (l == r)          
+        {
+            l = head;           
+            <span class="pl-k">while</span> (l != r)   
+            {
+                l = ne[l];
+                r = ne[r];
+            }
+            <span class="pl-k">return</span> l;           
+        }
+    }
+
+    <span class="pl-k">return</span> -<span class="pl-c1">1</span>; 
+}</pre></div>
+<h2>无向图判环：四大核心算法横向评测</h2>
+<p>相比于有向图，无向图的边是双向的（即 <code class="notranslate">A-B</code> 等价于 <code class="notranslate">A-&gt;B</code> 且 <code class="notranslate">B-&gt;A</code>）。这就带来了一个致命的陷阱：在遍历时，极容易把<strong>刚走过来的路</strong>当作环（即 <code class="notranslate">A 走到 B，B 又看了一眼 A</code>）。因此，无向图判环的核心就在于——<strong>如何优雅地屏蔽“回头路”</strong>。</p>
+<h3>1. 并查集 (DSU) —— 无向图判环的绝对主力</h3>
+<p><strong>原理介绍</strong>：<br>
+并查集天生就是为无向图连通性而生的。初始时，每个节点各自为一个独立的集合。接下来遍历图中的每一条无向边 <code class="notranslate">(u, v)</code>：</p>
+<ul>
+<li>如果 <code class="notranslate">u</code> 和 <code class="notranslate">v</code> 当前<strong>不在</strong>同一个集合中，说明这条边连接了两个不同的连通块，我们将它们合并。</li>
+<li>如果 <code class="notranslate">u</code> 和 <code class="notranslate">v</code> <strong>已经在</strong>同一个集合中，这就意味着：在不通过当前这条边 <code class="notranslate">(u, v)</code> 的情况下，<code class="notranslate">u</code> 和 <code class="notranslate">v</code> 之间就已经有别的路相连了。现在再加上这条边，必定构成闭环！</li>
+</ul>
+<p><strong>适用范围</strong>：</p>
+<ul>
+<li>无向图判环的<strong>首选方案</strong>，思维难度极低。</li>
+<li>动态加边判环（在线判环）：边是一条一条给出的，问加到第几条边时出现了环。</li>
+<li>Kruskal 最小生成树算法的底层核心。</li>
+</ul>
+<p><strong>时间复杂度</strong>：<strong>O(V + E * α(V))</strong> （结合路径压缩，近乎 O(V + E)）</p>
+<p><strong>难用的地方（痛点）</strong>：</p>
+<ul>
+<li><strong>彻底丢失路径信息</strong>：并查集只能极其高效地告诉你“有环”，但如果你问它“环是哪几个点”，它一问三不知。</li>
+<li>无法用于有向图。</li>
+</ul>
+<p><strong>代码实现</strong>：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">int</span> n, m;
+<span class="pl-k">int</span> p[N]; 
+<span class="pl-k">int</span> <span class="pl-en">find</span>(<span class="pl-k">int</span> x)
+{
+    <span class="pl-k">if</span> (p[x] != x) p[x] = <span class="pl-c1">find</span>(p[x]);
+    <span class="pl-k">return</span> p[x];
+}
+
+<span class="pl-k">bool</span> <span class="pl-en">check_cycle</span>()
+{
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++) p[i] = i;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; m; i++)
+    {
+        <span class="pl-k">int</span> u, v; 
+        <span class="pl-c"><span class="pl-c">//</span> cin &gt;&gt; u &gt;&gt; v;</span>
+        <span class="pl-k">int</span> pa = <span class="pl-c1">find</span>(u), pb = <span class="pl-c1">find</span>(v);
+        <span class="pl-k">if</span> (pa == pb) 
+        {
+            <span class="pl-k">return</span> <span class="pl-c1">true</span>; 
+        }
+        <span class="pl-k">else</span> 
+        {
+            p[pa] = pb; 
+        }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+}</pre></div>
+<h3>2. DFS 遍历 (传父节点法)</h3>
+<p><strong>原理介绍</strong>：<br>
+无向图同样可以用 DFS 判环。由于一条无向边会在邻接表中存两次（<code class="notranslate">u-&gt;v</code> 和 <code class="notranslate">v-&gt;u</code>），为了避免发生 <code class="notranslate">u</code> 搜到 <code class="notranslate">v</code>，<code class="notranslate">v</code> 又立刻顺着反向边搜回 <code class="notranslate">u</code> 的误判，我们需要在 DFS 递归时，额外传递一个参数 <code class="notranslate">fa</code>（父节点/上一步的节点）。<br>
+如果在 DFS 过程中，访问到了一个已经被标记访问过的节点，且这个节点不是当前的父节点 <code class="notranslate">fa</code>，则说明找到了一条真正的“后向边”，图中有环。</p>
+<p><strong>适用范围</strong>：</p>
+<ul>
+<li>必须找出无向环的具体路径。</li>
+<li>图论基础搜索操作。</li>
+</ul>
+<p><strong>时间复杂度</strong>：<strong>O(V + E)</strong></p>
+<p><strong>难用的地方（痛点）</strong>：</p>
+<ul>
+<li><strong>重边陷阱</strong>：如果两个节点之间有两条一模一样的无向边，传 <code class="notranslate">fa</code> 的方法会失效（因为它仅仅屏蔽了节点编号）。严谨的做法是传“上一条走过的边的编号（<code class="notranslate">edge_index</code>）”来避免原路返回。</li>
+<li>依然存在深层图的爆栈风险。</li>
+</ul>
+<p><strong>代码实现</strong>：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">int</span> n,m;
+<span class="pl-k">int</span> h[N], e[M], ne[M], idx;
+<span class="pl-k">bool</span> vis[N];
+<span class="pl-k">int</span> <span class="pl-k">pre</span>[N];        
+vector&lt;<span class="pl-k">int</span>&gt; cycle;  <span class="pl-c"><span class="pl-c">//</span> 存储最终提取出来的环路径</span>
+
+<span class="pl-k">void</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> a, <span class="pl-k">int</span> b)
+{
+    e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+}
+
+<span class="pl-k">bool</span> <span class="pl-en">dfs</span>(<span class="pl-k">int</span> u, <span class="pl-k">int</span> fa)
+{
+    vis[u] = <span class="pl-c1">true</span>;
+
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = h[u]; ~i; i = ne[i])
+    {
+        <span class="pl-k">int</span> j = e[i];
+        <span class="pl-k">if</span> (!vis[j])
+        {
+            <span class="pl-k">pre</span>[j] = u; 
+            <span class="pl-k">if</span> (<span class="pl-c1">dfs</span>(j, u)) <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+        }
+        <span class="pl-k">else</span> <span class="pl-k">if</span> (j != fa) 
+        {
+            <span class="pl-k">int</span> now = u;
+            <span class="pl-k">while</span> (now != j)
+            {
+                cycle.<span class="pl-c1">push_back</span>(now);
+                now = <span class="pl-k">pre</span>[now];
+            }
+            cycle.<span class="pl-c1">push_back</span>(j); <span class="pl-c"><span class="pl-c">//</span> 最后把起点 j 补进去</span>
+            <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+        }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+}
+
+<span class="pl-k">bool</span> <span class="pl-en">ck</span>()
+{
+    cycle.<span class="pl-c1">clear</span>();
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    {
+        <span class="pl-k">if</span> (!vis[i])
+        {
+            <span class="pl-k">if</span> (<span class="pl-c1">dfs</span>(i, -<span class="pl-c1">1</span>)) <span class="pl-k">return</span> <span class="pl-c1">true</span>; 
+        }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+}</pre></div>
+<h3>3. BFS 遍历 (层序剥离)</h3>
+<p><strong>原理介绍</strong>：<br>
+BFS 判环的思想与 DFS 极其类似。我们将节点推入队列的同时，一并推入它的父节点。如果在向外扩展时，撞到了一个<strong>已经被访问过</strong>的节点，且该节点<strong>不是导致当前节点入队的父节点</strong>，则说明有环。此外，由于无向图可能存在多个不连通的连通块，必须在外层包裹一层全局扫描函数，确保没有遗漏。</p>
+<p><strong>适用范围</strong>：</p>
+<ul>
+<li>需要求<strong>最短环</strong>的长度（在无权图中，BFS 第一次发现环的时候，通常对应着一条较短的闭环）。</li>
+<li>避免递归导致的爆栈风险时的最佳替代方案。</li>
+</ul>
+<p><strong>时间复杂度</strong>：<strong>O(V + E)</strong></p>
+<p><strong>难用的地方（痛点）</strong>：</p>
+<ul>
+<li>提取路径比 DFS 繁琐得多，需要额外倒推 <code class="notranslate">pre</code> 数组才能把环的两端拼接起来。</li>
+<li>代码略显臃肿，队列需要同时维护当前节点和父节点信息。</li>
+</ul>
+<p><strong>代码实现</strong>：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">int</span> h[N], e[M], ne[M], idx;
+<span class="pl-k">bool</span> vis[N];
+<span class="pl-k">int</span> q[N], pa[N];     <span class="pl-c"><span class="pl-c">//</span> q 存当前点，pa 存父节点</span>
+<span class="pl-k">int</span> hh = <span class="pl-c1">1</span>, tt = <span class="pl-c1">0</span>;
+<span class="pl-k">int</span> <span class="pl-k">pre</span>[N];          <span class="pl-c"><span class="pl-c">//</span> 记录每个节点的前驱，用于提取路径</span>
+vector&lt;<span class="pl-k">int</span>&gt; cycle;   <span class="pl-c"><span class="pl-c">//</span> 存储最终提取出来的环路径</span>
+
+<span class="pl-k">void</span> <span class="pl-en">add</span>(<span class="pl-k">int</span> a, <span class="pl-k">int</span> b)
+{
+    e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+}
+
+<span class="pl-c"><span class="pl-c">//</span> 针对单个连通块的 BFS 判环</span>
+<span class="pl-k">bool</span> <span class="pl-en">bfs</span>(<span class="pl-k">int</span> u)
+{
+    hh = <span class="pl-c1">1</span>, tt = <span class="pl-c1">0</span>;
+    q[++tt] = u;
+    pa[tt] = -<span class="pl-c1">1</span>;
+    vis[u] = <span class="pl-c1">true</span>;
+
+    <span class="pl-k">while</span> (hh &lt;= tt)
+    {
+        <span class="pl-k">int</span> t = q[hh];
+        <span class="pl-k">int</span> fa = pa[hh++];
+
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = h[t]; ~i; i = ne[i])
+        {
+            <span class="pl-k">int</span> j = e[i];
+            <span class="pl-k">if</span> (!vis[j])
+            {
+                vis[j] = <span class="pl-c1">true</span>;
+                <span class="pl-k">pre</span>[j] = t; <span class="pl-c"><span class="pl-c">//</span> 记录前驱</span>
+                q[++tt] = j;
+                pa[tt] = t;
+            }
+            <span class="pl-k">else</span> <span class="pl-k">if</span> (j != fa)
+            {
+                <span class="pl-c"><span class="pl-c">//</span> 撞见已被访问且非父亲的节点，确认有环！</span>
+                <span class="pl-c"><span class="pl-c">//</span> 提取路径：从当前点 t 和冲突点 j 分别往回倒推</span>
+                cycle.<span class="pl-c1">push_back</span>(j);
+                <span class="pl-k">int</span> now = t;
+                <span class="pl-k">while</span> (<span class="pl-c1">true</span>)
+                {
+                    cycle.<span class="pl-c1">push_back</span>(now);
+                    <span class="pl-k">if</span> (now == u) <span class="pl-k">break</span>; 
+                    now = <span class="pl-k">pre</span>[now];
+                }
+                <span class="pl-k">return</span> <span class="pl-c1">true</span>; 
+            }
+        }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+}
+
+<span class="pl-c"><span class="pl-c">//</span> 外层全局扫描，防止因图不连通而漏掉其他连通块里的环</span>
+<span class="pl-k">bool</span> <span class="pl-en">ck_bfs</span>()
+{
+    cycle.<span class="pl-c1">clear</span>();
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    {
+        <span class="pl-k">if</span> (!vis[i])
+        {
+            <span class="pl-k">if</span> (<span class="pl-c1">bfs</span>(i)) <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+        }
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+}</pre></div>
+<h3>4. 拓扑排序 (度数裁剪法)</h3>
+<p><strong>原理介绍</strong>：<br>
+虽然拓扑排序主要针对有向图，但无向图也能借用这个思想。<br>
+在一棵没有环的无向树中，叶子节点的度数一定为 1（孤立点为 0）。如果有环，环上的节点度数一定 &gt;= 2。<br>
+我们只需每次把图中度数 &lt;= 1 的节点放入队列并删除，同时把它相连的节点的度数减 1。如果最后图中还有剩余的节点（即队列未能处理完所有点），那么这些剥不掉的“硬骨头”构成的必然是环！</p>
+<p><strong>适用范围</strong>：</p>
+<ul>
+<li><strong>无向基环树（Pseudotree）</strong> 的绝杀算法：不仅能判环，还能极其干净地把环上的所有节点分离出来（最后度数 &gt; 1 的点全都在核心环上）。</li>
+</ul>
+<p><strong>时间复杂度</strong>：<strong>O(V + E)</strong></p>
+<p><strong>难用的地方（痛点）</strong>：</p>
+<ul>
+<li>图的结构被破坏。</li>
+<li>仅仅为了判个环用它，不如并查集来得轻量快捷。</li>
+</ul>
+<p><strong>代码实现</strong>：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">int</span> h[N], e[M], ne[M], idx;
+<span class="pl-k">int</span> deg[N]; <span class="pl-c"><span class="pl-c">//</span> 记录无向图中每个点的度数</span>
+<span class="pl-k">int</span> q[N], hh = <span class="pl-c1">1</span>, tt = <span class="pl-c1">0</span>;
+
+<span class="pl-k">bool</span> <span class="pl-en">check_cycle</span>()
+{
+    hh = <span class="pl-c1">1</span>, tt = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    {
+        <span class="pl-k">if</span> (deg[i] &lt;= <span class="pl-c1">1</span>) 
+        {
+            q[++tt] = i;
+        }
+    }
+    <span class="pl-k">while</span> (hh &lt;= tt)
+    {
+        <span class="pl-k">int</span> u = q[hh++];
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> i = h[u]; ~i; i = ne[i])
+        {
+            <span class="pl-k">int</span> j = e[i];
+            <span class="pl-k">if</span> (--deg[j] &lt;= <span class="pl-c1">1</span>)
+            {
+                q[++tt] = j;
+            }
+        }
+    }
+    
+    <span class="pl-k">return</span> tt &lt; n; 
+}</pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
@@ -186,7 +616,7 @@ if(""!=""){
 </script></div>
 </body>
 <script>
-var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
 var utterancesLoad=0;
 
 let themeSettings={
@@ -260,7 +690,70 @@ function iFrameLoading(){
     }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
 
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
 
 </script>
 
