@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="[Codeforces Round 1057 (Div. 2) ](https://codeforces.com/contest/2153)
+
+# CF2153A Circle of Apple Trees
+
+## 题目描述
+
+有 $n$ 棵苹果树围成一个圆圈。">
+<meta property="og:title" content="Codeforces Round 1057 (Div. 2)">
+<meta property="og:description" content="[Codeforces Round 1057 (Div. 2) ](https://codeforces.com/contest/2153)
+
+# CF2153A Circle of Apple Trees
+
+## 题目描述
+
+有 $n$ 棵苹果树围成一个圆圈。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://zhezhi198.github.io/post/Codeforces%20Round%201057%20%28Div.%202%29.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>Codeforces Round 1057 (Div. 2)</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">Codeforces Round 1057 (Div. 2)</h1>
+<div class="title-right">
+    <a href="https://zhezhi198.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/zhezhi198/zhezhi198.github.io/issues/31" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><p><a href="https://codeforces.com/contest/2153" rel="nofollow">Codeforces Round 1057 (Div. 2) </a></p>
+<h1>CF2153A Circle of Apple Trees</h1>
+<h2>题目描述</h2>
+<p>有 $n$ 棵苹果树围成一个圆圈。每棵树上都有一个苹果，第 $i$ 棵树上的苹果美丽值为 $b_i$，其中 $1 \le i \le n$。你开始站在第 1 棵树前。</p>
+<p>在每棵树前，你可以选择吃掉该树上的苹果，或者跳过不吃。每做出选择后，你会移动到下一棵树：从第 $i$ 棵树前往第 $i+1$ 棵树（$1 \le i \le n-1$），从第 $n$ 棵树则回到第 1 棵树。你会这样不断循环地经过这些树。</p>
+<p>但你有一个特别的限制：只有当当前苹果的美丽值严格大于你上一次吃掉的苹果的美丽值时，你才能吃下去。例如，若 $b = [2, 1, 2, 3]$，你若在第 1 棵树吃了苹果（美丽值 $2$），则不能吃第 2、3 棵树的苹果，因为它们的美丽值都不大于 $2$。但你可以在第 4 棵树吃下苹果，因为 $b_4 = 3 &amp;gt; 2$。</p>
+<p>注意，每遇到一个苹果时你都可以选择先跳过不吃，之后某轮循环再次遇到时再选择是否吃掉。</p>
+<p>你的任务是，若你每一步都做出最优决策，最多能吃到多少个苹果。</p>
+<h2>输入格式</h2>
+<p>每组测试包含多个测试用例。第一行包含整数 $t$（$1 \le t \le 500$），表示测试用例数。</p>
+<p>每组测试用例第一行包含一个整数 $n$（$1 \le n \le 100$），表示苹果树数量。</p>
+<p>第二行包含 $n$ 个整数 $b_1, b_2, \ldots, b_n$（$1 \le b_i \le n$），表示每棵树上的苹果美丽值。</p>
+<p>注意，所有测试用例中 $n$ 的总和没有额外限制。</p>
+<h2>输出格式</h2>
+<p>对每个测试用例，输出一个整数，表示你最多可以吃到的苹果数量。</p>
+<h2>输入输出样例 #1</h2>
+<h3>输入 #1</h3>
+<pre class="notranslate"><code class="notranslate">3
+4
+2 2 2 2
+5
+1 4 5 1 2
+6
+5 4 2 1 2 3
+</code></pre>
+<h3>输出 #1</h3>
+<pre class="notranslate"><code class="notranslate">1
+4
+5
+</code></pre>
+<h2>说明/提示</h2>
+<p>在第一个样例中，所有苹果的美丽值都相同，无论你先吃哪一个，之后都无法再吃其它任何苹果。因此最多只能吃 1 个。</p>
+<p>在第二个样例中，你可以按照如下方式吃掉 4 个苹果：</p>
+<ul>
+<li>在第 1 棵树前跳过。</li>
+<li>在第 2 棵树前跳过。</li>
+<li>在第 3 棵树前跳过。</li>
+<li>在第 4 棵树吃掉苹果（美丽值 $1$）。</li>
+<li>在第 5 棵树吃掉苹果（美丽值 $2$）。</li>
+<li>在第 1 棵树前跳过。由于第 1 棵树的美丽值（$b_1=1$）不大于上次吃掉的苹果美丽值（$b_5=2$），因此不能吃。</li>
+<li>在第 2 棵树吃掉苹果（美丽值 $4$）。</li>
+<li>在第 3 棵树吃掉苹果（美丽值 $5$）。</li>
+</ul>
+<p>可以证明你无法吃到 5 个苹果。因此最多只能吃 4 个。</p>
+<p>由 ChatGPT 5 翻译</p>
+<p>思路:题目并没有说绕一圈就停止，而是说吃到不能再吃就停止，能吃的规则是吃的东西是严格单调递增的。那么我们考虑从小到大的最长上升段的长度即可。</p>
+<p>代码：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
+<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
+<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; <span class="pl-c1">PII</span>;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; <span class="pl-c1">PLL</span>;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-c1">PII</span>&gt; vPII;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
+    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
+    cin.tie(<span class="pl-c1">0</span>);              \
+    cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
+#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
+<span class="pl-c"><span class="pl-c">//</span> #define lc(p) tr[p].lc</span>
+<span class="pl-c"><span class="pl-c">//</span> #define rc(p) tr[p].rc</span>
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
+#<span class="pl-k">define</span> <span class="pl-en">se</span> second
+#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
+#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
+#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
+<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
+<span class="pl-k">const</span> ll <span class="pl-c1">MOD</span> = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
+<span class="pl-k">const</span> <span class="pl-k">double</span> <span class="pl-c1">PI</span> = acos(-<span class="pl-c1">1.0</span>);
+<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
+<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
+mt19937_64 <span class="pl-en">rng</span>(chrono::steady_clock::now().time_since_epoch().count());
+ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
+{
+    ll res = <span class="pl-c1">1</span> % p;
+    a %= p;
+    <span class="pl-k">while</span> (b)
+    {
+        <span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>)
+            res = res * a % p;
+        a = a * a % p;
+        b &gt;&gt;= <span class="pl-c1">1</span>;
+    }
+    <span class="pl-k">return</span> res;
+}
+<span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c"></span>
+<span class="pl-c"><span class="pl-c">*/</span></span>
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    ll n;
+    cin &gt;&gt; n;
+    set&lt;ll&gt; st;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    {
+        ll x;
+        cin &gt;&gt; x;
+        st.<span class="pl-c1">insert</span>(x);
+    }
+    cout &lt;&lt; st.<span class="pl-c1">size</span>() &lt;&lt; endl;
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    <span class="pl-c1">IOS</span>;
+
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    cin &gt;&gt; _; <span class="pl-c"><span class="pl-c">//</span> 如果是多组数据</span>
+    <span class="pl-k">while</span> (_--)
+    {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h1>CF2153B Bitwise Reversion</h1>
+<h2>题目描述</h2>
+<p>给定三个非负整数 $x$，$y$ 和 $z$，判断是否存在三个非负整数 $a$、$b$、$c$，满足以下三个条件：</p>
+<ul>
+<li>$a \mathbin{&amp;amp;} b = x$</li>
+<li>$b \mathbin{&amp;amp;} c = y$</li>
+<li>$a \mathbin{&amp;amp;} c = z$</li>
+</ul>
+<p>其中 $\mathbin{&amp;amp;}$ 表示<a href="https://en.wikipedia.org/wiki/Bitwise_operation#AND" rel="nofollow">按位与运算</a>。</p>
+<h2>输入格式</h2>
+<p>输入包含多组测试数据。第一行包含一个整数 $t$（$1 \leq t \leq 10^4$），表示测试数据的组数。</p>
+<p>接下来每组测试数据占一行，每行包含三个整数 $x$、$y$ 和 $z$（$0 \leq x, y, z \leq 10^9$），分别表示 $a \mathbin{&amp;amp;} b$、$b \mathbin{&amp;} c$ 和 $a \mathbin{&amp;amp;} c$ 的目标值。</p>
+<h2>输出格式</h2>
+<p>对于每组测试数据，如果存在符合条件的三个非负整数 $a$、$b$、$c$，输出 "YES"；否则输出 "NO"。</p>
+<p>输出可以使用任意大小写形式，例如 "yEs"、"yes"、"Yes" 和 "YES" 都被认为是正答。</p>
+<h2>输入输出样例 #1</h2>
+<h3>输入 #1</h3>
+<pre class="notranslate"><code class="notranslate">5
+1 1 1
+3 2 6
+4 8 12
+9 10 12
+12730 3088 28130
+</code></pre>
+<h3>输出 #1</h3>
+<pre class="notranslate"><code class="notranslate">YES
+YES
+NO
+YES
+NO
+</code></pre>
+<h2>说明/提示</h2>
+<p>在第一个测试样例中，$a=3$，$b=5$，$c=9$ 满足条件：$3 \mathbin{&amp;} 5 = 1$，$5 \mathbin{&amp;} 9 = 1$，$3 \mathbin{&amp;} 9 = 1$。</p>
+<p>在第二个测试样例中，$a=7$，$b=3$，$c=22$ 满足条件：$7 \mathbin{&amp;} 3 = 3$，$3 \mathbin{&amp;} 22 = 2$，$7 \mathbin{&amp;} 22 = 6$。</p>
+<p>在第三个测试样例中，可以证明不存在非负整数 $a$、$b$、$c$ 使得 $a \mathbin{&amp;amp;} b = 4$，$b \mathbin{&amp;} c = 8$，$a \mathbin{&amp;} c = 12$。</p>
+<p>由 ChatGPT 5 翻译</p>
+<p>思路：题目给出了x,y,z，他们分别是a&amp;b,b&amp;c,a&amp;c的结果，这意味着a和b至少要有x对应2进制中1的每一位,b和c至少要有y对应二进制的每一位，以此类推，那么我们可以得到一个至少满足a&amp;b=x,b&amp;c=y,a&amp;c=z的一个基本条件，我们只需最后检查一下是否能满足a&amp;b=x,b&amp;c=y,a&amp;c=z即可。</p>
+<p>代码：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
+<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
+<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; <span class="pl-c1">PII</span>;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; <span class="pl-c1">PLL</span>;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-c1">PII</span>&gt; vPII;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
+    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
+    cin.tie(<span class="pl-c1">0</span>);              \
+    cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
+#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
+<span class="pl-c"><span class="pl-c">//</span> #define lc(p) tr[p].lc</span>
+<span class="pl-c"><span class="pl-c">//</span> #define rc(p) tr[p].rc</span>
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
+#<span class="pl-k">define</span> <span class="pl-en">se</span> second
+#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
+#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
+#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
+<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
+<span class="pl-k">const</span> ll <span class="pl-c1">MOD</span> = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
+<span class="pl-k">const</span> <span class="pl-k">double</span> <span class="pl-c1">PI</span> = acos(-<span class="pl-c1">1.0</span>);
+<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
+<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
+mt19937_64 <span class="pl-en">rng</span>(chrono::steady_clock::now().time_since_epoch().count());
+ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
+{
+    ll res = <span class="pl-c1">1</span> % p;
+    a %= p;
+    <span class="pl-k">while</span> (b)
+    {
+        <span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>)
+            res = res * a % p;
+        a = a * a % p;
+        b &gt;&gt;= <span class="pl-c1">1</span>;
+    }
+    <span class="pl-k">return</span> res;
+}
+<span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c"></span>
+<span class="pl-c"><span class="pl-c">*/</span></span>
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    ll x, y, z;
+    cin &gt;&gt; x &gt;&gt; y &gt;&gt; z;
+    <span class="pl-c"><span class="pl-c">//</span> cout&lt;&lt;log2(1e9+10)&lt;&lt;endl;</span>
+    ll a = <span class="pl-c1">0</span>, b = <span class="pl-c1">0</span>, c = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> k = <span class="pl-c1">30</span>; k &gt;= <span class="pl-c1">0</span>; k--)
+    {
+        <span class="pl-k">if</span> ((x &gt;&gt; k) &amp; <span class="pl-c1">1</span>)
+        {
+            a |= ((ll)<span class="pl-c1">1</span> &lt;&lt; k);
+            b |= ((ll)<span class="pl-c1">1</span> &lt;&lt; k);
+        }
+    }
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> k = <span class="pl-c1">30</span>; k &gt;= <span class="pl-c1">0</span>; k--)
+    {
+        <span class="pl-k">if</span> ((y &gt;&gt; k) &amp; <span class="pl-c1">1</span>)
+        {
+            b |= ((ll)<span class="pl-c1">1</span> &lt;&lt; k);
+            c |= ((ll)<span class="pl-c1">1</span> &lt;&lt; k);
+        }
+    }
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> k = <span class="pl-c1">30</span>; k &gt;= <span class="pl-c1">0</span>; k--)
+    {
+        <span class="pl-k">if</span> ((z &gt;&gt; k) &amp; <span class="pl-c1">1</span>)
+        {
+            a |= ((ll)<span class="pl-c1">1</span> &lt;&lt; k);
+            c |= ((ll)<span class="pl-c1">1</span> &lt;&lt; k);
+        }
+    }
+    <span class="pl-k">if</span> ((a &amp; b) == x &amp;&amp; (b &amp; c) == y &amp;&amp; (a &amp; c) == z)
+    {
+        cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> &lt;&lt; endl;
+    }
+    <span class="pl-k">else</span>
+    {
+        cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span> &lt;&lt; endl;
+    }
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    <span class="pl-c1">IOS</span>;
+
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    cin &gt;&gt; _; <span class="pl-c"><span class="pl-c">//</span> 如果是多组数据</span>
+    <span class="pl-k">while</span> (_--)
+    {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h1>CF2153C Symmetrical Polygons</h1>
+<h2>题目描述</h2>
+<p>给定 $n$ 根木棍，第 $i$ 根木棍的长度为 $a_i$。你需要选择这些木棍的一个非空子集，并将它们作为一个多边形的边。每根被选中的木棍必须被完整地作为一个边使用，不能将两根或更多木棍端对端拼接以组成更长的边。</p>
+<p>你的目标是用这些木棍组成立一个满足如下条件的多边形：</p>
+<ul>
+<li>对称（Symmetrical）：存在一条对称轴，使得沿这条轴折叠时多边形的两半完全重合。</li>
+<li>严格凸（Strictly convex）：所有的内角都严格小于 $180^\circ$。</li>
+<li>非退化（Non-degenerate）：没有两条相邻的边部分或完全重合，没有零长度的边，且没有 $180^\circ$ 的角。</li>
+</ul>
+<p>在所有可以组成立如上所述多边形的方案中，求最大可能的周长（即所有边长之和）。如果无法组成合法的多边形，则输出 $0$。</p>
+<h2>输入格式</h2>
+<p>每组测试包括多组测试数据。第一行包含一个整数 $t$（$1 \le t \le 10^4$），表示测试数据组数。</p>
+<p>每组测试数据的第一行包含一个整数 $n$（$3 \le n \le 2 \cdot 10^5$），表示木棍的数量。</p>
+<p>第二行包含 $n$ 个整数 $a_1, a_2, \ldots, a_n$（$1 \le a_i \le 10^9$），表示每根木棍的长度。</p>
+<p>保证所有测试数据中 $n$ 的总和不超过 $2 \cdot 10^5$。</p>
+<h2>输出格式</h2>
+<p>对于每组测试数据，输出一个整数，表示可组成立如上所述非退化、对称且严格凸多边形的最大可能周长。如果无法组成立合法多边形，则输出 $0$。</p>
+<h2>输入输出样例 #1</h2>
+<h3>输入 #1</h3>
+<pre class="notranslate"><code class="notranslate">5
+3
+5 5 7
+3
+4 5 7
+3
+5 5 10
+7
+4 3 5 1 5 3 3
+4
+2 3 5 7
+</code></pre>
+<h3>输出 #1</h3>
+<pre class="notranslate"><code class="notranslate">17
+0
+0
+23
+0
+</code></pre>
+<h2>说明/提示</h2>
+<p>在第一个测试用例中，你可以使用所有三根木棍构成一个等腰三角形。它沿着垂直虚线对称（见左图）。周长等于三条边之和：$5 + 5 + 7 = 17$。</p>
+<p>在第二个测试用例中，用所有三根木棍围成的三角形不是对称的（见右图）。可以证明，无法用任意非空子集的木棍构成对称、非退化的凸多边形。</p>
+<p>在第三个测试用例中，无法构成非退化多边形。若用三条边全部参与，长度为 $5$ 的两条边与长度为 $10$ 的边重合，形成了一条零面积的直线。</p>
+<p>在第四个测试用例中，我们可以用三根长度为 $3$ 的木棍、两根长度为 $5$ 的木棍和一根长度为 $4$ 的木棍（见左图）构成一个对称的凸多边形。长度为 $1$ 的最后一根木棍不能被包括，否则得到的多边形将不再对称（见右图）。</p>
+<p>在第五个测试用例中，不允许将长度为 $2$ 的木棍和 $3$ 的木棍连接形成长度为 $5$ 的木棍（这样就变成第一个测试用例的情形）。可以证明，无法用任意非空子集的木棍构成对称、非退化的凸多边形。</p>
+<p>由 ChatGPT 5 翻译</p>
+<p>思路：<br>
+首先得知道一个重要的结论：要构成一个多边形，得满足里面的边至少是3，其次呢，多边形里面的最长边*2&lt;多边形的总周长(结论结尾证明)。<br>
+考虑到题目要求我们构成的多边形是对称的，且不存在小木棍的拼接是延续同方向拼接，但是可以舍弃边，那么边的种类可以分为两种，其一是构成对称的边，另外一种是对称之后剩余的边或者根本无法构成对称的边，这个我们称为落单边。回想构成多边形的要求，显然我们的对称边全是可以选的，因为他本身以及成对了，只需保证边数&gt;=3即可，剩下的呢 我们考虑单边的贡献，单边如果不选可以对称，如果选一个依然可以对称，2个也是。那么单边的选取范围是[0,3],题目要求周长最大我们只需选择最长的贪心即可，但是不要忘记多边形的约束，舍弃掉一些不合理的可能。</p>
+<p>代码：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
+<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
+<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; <span class="pl-c1">PII</span>;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; <span class="pl-c1">PLL</span>;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-c1">PII</span>&gt; vPII;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
+    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
+    cin.tie(<span class="pl-c1">0</span>);              \
+    cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
+#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
+<span class="pl-c"><span class="pl-c">//</span> #define lc(p) tr[p].lc</span>
+<span class="pl-c"><span class="pl-c">//</span> #define rc(p) tr[p].rc</span>
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
+#<span class="pl-k">define</span> <span class="pl-en">se</span> second
+#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
+#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
+#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
+<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
+<span class="pl-k">const</span> ll <span class="pl-c1">MOD</span> = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
+<span class="pl-k">const</span> <span class="pl-k">double</span> <span class="pl-c1">PI</span> = acos(-<span class="pl-c1">1.0</span>);
+<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
+<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
+mt19937_64 <span class="pl-en">rng</span>(chrono::steady_clock::now().time_since_epoch().count());
+ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
+{
+    ll res = <span class="pl-c1">1</span> % p;
+    a %= p;
+    <span class="pl-k">while</span> (b)
+    {
+        <span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>)
+            res = res * a % p;
+        a = a * a % p;
+        b &gt;&gt;= <span class="pl-c1">1</span>;
+    }
+    <span class="pl-k">return</span> res;
+}
+<span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c"></span>
+<span class="pl-c"><span class="pl-c">*/</span></span>
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    ll n;
+    cin &gt;&gt; n;
+    vll <span class="pl-smi">a</span>(n + <span class="pl-c1">1</span>, <span class="pl-c1">0</span>);
+    map&lt;ll, ll&gt; cnt;
+    vll id;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    {
+        cin &gt;&gt; a[i], cnt[a[i]]++;
+        id.<span class="pl-c1">push_back</span>(a[i]);
+    }
+    <span class="pl-c1">sort</span>(<span class="pl-c1">all</span>(id));
+    id.<span class="pl-c1">erase</span>(<span class="pl-c1">unique</span>(<span class="pl-c1">all</span>(id)), id.<span class="pl-c1">end</span>());
+    ll m = id.<span class="pl-c1">size</span>() - <span class="pl-c1">1</span>;
+    ll c1 = <span class="pl-c1">0</span>, c2 = <span class="pl-c1">0</span>;
+    vll v;
+    ll sum = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">auto</span> x : id)
+    {
+        c1 += cnt[x] % <span class="pl-c1">2</span>;
+        c2 += cnt[x] / <span class="pl-c1">2</span>;
+    }
+    ll mx = <span class="pl-c1">0</span>;
+    ll c = c2 * <span class="pl-c1">2</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">auto</span> x : id)
+    {
+        <span class="pl-k">if</span> (cnt[x] &gt;= <span class="pl-c1">2</span>)
+        {
+            <span class="pl-c1">cmax</span>(mx, x);
+            sum += (cnt[x] / <span class="pl-c1">2</span>) * <span class="pl-c1">2</span> * x;
+            <span class="pl-k">if</span> (cnt[x] % <span class="pl-c1">2</span> != <span class="pl-c1">0</span>)
+            {
+                v.<span class="pl-c1">push_back</span>(x);
+            }
+        }
+        <span class="pl-k">else</span>
+        {
+            v.<span class="pl-c1">push_back</span>(x);
+        }
+    }
+    <span class="pl-c1">sort</span>(<span class="pl-c1">all</span>(v), <span class="pl-c1">greater</span>());
+    ll ans = <span class="pl-c1">0</span>;
+    <span class="pl-k">if</span> (c &gt;= <span class="pl-c1">3</span> &amp;&amp; mx * <span class="pl-c1">2</span> &lt; sum)
+    {
+        ans = sum;
+    }
+
+    <span class="pl-k">for</span> (<span class="pl-k">auto</span> x : v)
+    {
+        ll now = <span class="pl-c1">max</span>(mx, x);
+        <span class="pl-k">if</span> (c + <span class="pl-c1">1</span> &gt;= <span class="pl-c1">3</span> &amp;&amp; now * <span class="pl-c1">2</span> &lt; sum + x)
+        {
+            <span class="pl-c1">cmax</span>(ans, sum + x);
+            <span class="pl-k">break</span>;
+        }
+    }
+
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i + <span class="pl-c1">1</span> &lt; v.<span class="pl-c1">size</span>(); i++)
+    {
+        ll x1 = v[i], x2 = v[i + <span class="pl-c1">1</span>];
+        ll now = <span class="pl-c1">max</span>(mx, x1);
+        <span class="pl-k">if</span> (c + <span class="pl-c1">2</span> &gt;= <span class="pl-c1">3</span> &amp;&amp; now * <span class="pl-c1">2</span> &lt; sum + x1 + x2)
+        {
+            <span class="pl-c1">cmax</span>(ans, sum + x1 + x2);
+            <span class="pl-k">break</span>;
+        }
+    }
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    <span class="pl-c1">IOS</span>;
+
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    cin &gt;&gt; _; <span class="pl-c"><span class="pl-c">//</span> 如果是多组数据</span>
+    <span class="pl-k">while</span> (_--)
+    {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}</pre></div>
+<h3>另外值得注意的一点是博主第一次交的时候Wa了，原因是 for (int i = 0; i + 1 &lt; v.size(); i++)，for(int i=0;i&lt;v.size()-1;i++) 你们觉得这两个哪个是正确的呢，还是都可以呢。如果有一个不可以是什么情况呢？？？</h3>
+<p>这份排版已经为你做好了 Markdown 优化，公式也全部使用了标准的 LaTeX 语法，你可以直接一键复制到你的 GitHub 博客里。</p>
+<p>这里补充了完整的严谨表述，并加上了在算法竞赛中应用的小结，非常适合作为题解博客的数理基础部分：</p>
+<hr>
+<h2>定理：多边形构成条件（广义三角形不等式）</h2>
+<h3>结论</h3>
+<p>给定 $n$ 条线段，长度分别为 $a_1, a_2, \dots, a_n$，令其总周长为 $S = \sum_{i=1}^n a_i$，且其中的最长边为 $a_{\max}$。</p>
+<p>这 $n$ 条线段能够首尾相连，构成一个非退化（即面积严格大于 $0$）的 $n$ 边形，当且仅当满足以下不等式：</p>
+<p>$$2 \times a_{\max} &lt; S$$</p>
+<p>将其展开，该条件等价于<strong>最长边严格小于其余所有边之和</strong>：</p>
+<p>$$a_{\max} &lt; S - a_{\max}$$</p>
+<h3>证明过程（基于向量模型）</h3>
+<p><strong>1. 建立向量模型</strong><br>
+假设这 $n$ 条线段已经首尾相连构成了一个非退化的 $n$ 边形。我们将每一条边定向，视为向量 $\vec{v_1}, \vec{v_2}, \dots, \vec{v_n}$，其方向为绕多边形一周的方向（统一逆时针或顺时针）。<br>
+此时，每个向量的模长即为对应的边长：$\vert{}\vec{v_i}\vert{} = a_i$。</p>
+<p><strong>2. 闭合性转化</strong><br>
+因为多边形是闭合的，从起点出发沿着边走一圈最终会回到起点，所以所有向量的位移总和必然是零向量：</p>
+<p>$$\sum_{i=1}^n \vec{v_i} = \vec{0}$$</p>
+<p><strong>3. 分离最长边</strong><br>
+不妨设 $\vec{v_{\max}}$ 为长度最长的那条边对应的向量。将其单独移至等式的另一侧：</p>
+<p>$$\sum_{i \neq \max} \vec{v_i} = -\vec{v_{\max}}$$</p>
+<p><strong>4. 应用向量三角不等式</strong><br>
+对等式两边同时取模长：</p>
+<p>$$\left\vert{} \sum_{i \neq \max} \vec{v_i} \right\vert{} = \vert{}-\vec{v_{\max}}\vert{} = a_{\max}$$</p>
+<p>根据多个向量相加的三角不等式（一条折线的直线距离，总是小于等于各段折线长度之和），我们有：</p>
+<p>$$\left\vert{} \sum_{i \neq \max} \vec{v_i} \right\vert{} \le \sum_{i \neq \max} \vert{}\vec{v_i}\vert{}$$</p>
+<p>因为该多边形是<strong>非退化</strong>的，这意味着其余的边不可能与最长边完全处于同一条直线上（否则多边形会被压扁，面积为 $0$）。因此，这里的等号不成立，必须取<strong>严格小于号</strong>：</p>
+<p>$$a_{\max} &lt; \sum_{i \neq \max} a_i$$</p>
+<p><strong>5. 结论变形</strong><br>
+在不等式两边同时加上 $a_{\max}$，即可得到：</p>
+<p>$$2 \times a_{\max} &lt; \sum_{i=1}^n a_i$$</p>
+<p>即：</p>
+<p>$$2 \times a_{\max} &lt; S$$</p>
+<p>必要性证明完毕。（充分性的构造证明较繁琐，但在算法判定中，掌握该充要条件已经完全足够）。</p>
+<h3>在算法竞赛中的应用</h3>
+<p>在 ACM/ICPC 或 OI 中处理几何判定题时，这个性质极其重要。它将复杂的“多边形空间构造判定”，降维成了单纯的<strong>序列极值与前缀和判定</strong>。</p>
+<p>当你需要从一个数组中选取数字来构成多边形时，只需维护集合的 <code class="notranslate">sum</code> 和 <code class="notranslate">max</code>。这种代数转化非常适合配合排序、双指针或是动态规划（DP）来做状态转移，从而将高复杂度暴力求解优化到 $O(N \log N)$ 甚至 $O(N)$。</p>
+<hr>
+<h1>CF2153D Not Alone</h1>
+<h2>题目描述</h2>
+<p>一个长度为 $m$ 的环形数组 $b$ 被称为“优美”，如果其中每个元素至少有一个相邻元素等于它。形式化地，对于每个 $1\le i\le m$，必须满足以下条件之一：$b_i = b_{(i+m-2)\bmod m + 1}$，或 $b_i = b_{i\bmod m + 1}$，其中 $x \bmod y$ 表示 $x$ 除以 $y$ 的余数。</p>
+<p>现在给定一个长度为 $n$ 的环形数组 $a$。你可以进行如下操作：每次将 $a$ 中的任意一个元素加 $1$ 或减 $1$。你的任务是计算最少需要多少次操作，才能使数组 $a$ 变成“优美”的环形数组。更正式地说，求在所有优美环形数组 $b$ 中，最小的 $\sum_{i=1}^n |b_i - a_i|$。</p>
+<p>$^{\text{∗}}$ 在长度为 $m$ 的环形数组中：</p>
+<ul>
+<li>对于每个下标 $2\le i\le m - 1$，第 $i$ 个元素的相邻元素分别是第 $i-1$ 和第 $i+1$ 个元素。</li>
+<li>第 $1$ 个元素的相邻元素分别是第 $2$ 和第 $m$ 个元素。</li>
+<li>第 $m$ 个元素的相邻元素分别是第 $m-1$ 和第 $1$ 个元素。</li>
+</ul>
+<h2>输入格式</h2>
+<p>输入包含多组测试用例。第一行为测试用例数 $t$（$1 \le t \le 10^4$）。接下来每组测试用例描述如下：</p>
+<p>每组测试用例的第一行包含一个整数 $n$（$3 \le n \le 2\cdot 10^5$），表示数组 $a$ 的长度。</p>
+<p>第二行包含 $n$ 个整数 $a_1, a_2, \ldots, a_n$（$1 \le a_i \le 10^9$），表示环形数组 $a$ 的元素。</p>
+<p>保证所有测试用例中 $n$ 的总和不超过 $2\cdot 10^5$。</p>
+<h2>输出格式</h2>
+<p>对于每组测试用例，输出一个整数，表示最少的操作次数，使数组 $a$ 变为优美的环形数组。</p>
+<h2>输入输出样例 #1</h2>
+<h3>输入 #1</h3>
+<pre class="notranslate"><code class="notranslate">4
+5
+1 1 1 1 1
+4
+2 100 99 3
+5
+2 2 5 9 5
+6
+1 1 1 2 1 2
+</code></pre>
+<h3>输出 #1</h3>
+<pre class="notranslate"><code class="notranslate">0
+2
+4
+1
+</code></pre>
+<h2>说明/提示</h2>
+<p>在第一个测试用例中，$a$ 的所有元素都相等，因此该环形数组已经是优美的，无需任何操作。</p>
+<p>在第二个测试用例中，可以按如下顺序进行操作：</p>
+<ul>
+<li>将 $a_1$ 加 $1$，此时 $a = [3, 100, 99, 3]$。</li>
+<li>将 $a_2$ 减 $1$，此时 $a = [3, 99, 99, 3]$。</li>
+</ul>
+<p>进行这些操作后，每个元素都至少有一个相邻元素和它相等：</p>
+<ul>
+<li>
+$a_1$ 与 $a_4$ 相等。</li>
+<li>
+$a_2$ 与 $a_3$ 相等。</li>
+<li>
+$a_3$ 与 $a_2$ 相等。</li>
+<li>
+$a_4$ 与 $a_1$ 相等。</li>
+</ul>
+<p>在第三个测试用例中，可以将 $a_4$ 连续减 $4$，此时 $a = [2, 2, 5, 5, 5]$，该数组为优美数组，因为每个元素都有至少一个相邻元素等于自己。</p>
+<p>由 ChatGPT 5 翻译</p>
+<p>这道题的证明确实是核心。在算法竞赛（尤其是 OI 和 ICPC）中，很多关于“分段贪心”或者“区间修改”的题目，本质上都是通过<strong>三角不等式</strong>将长区间的决策降维到极短区间的决策。</p>
+<p>我按照你的排版习惯，帮你把这道题的完整博客补全了。其中“思路”部分我重点梳理了你觉得难讲的<strong>证明过程</strong>和<strong>为什么只需要考虑长度为 2 和 3 的段</strong>，逻辑非常严密且直观，你可以直接复制到你的 GitHub 博客中：</p>
+<hr>
+<h1>CF2153D Not Alone</h1>
+<h2>题目描述</h2>
+<p>一个长度为 $m$ 的环形数组 $b$ 被称为“优美”，如果其中每个元素至少有一个相邻元素等于它。形式化地，对于每个 $1\le i\le m$，必须满足以下条件之一：$b_i = b_{(i+m-2)\bmod m + 1}$，或 $b_i = b_{i\bmod m + 1}$，其中 $x \bmod y$ 表示 $x$ 除以 $y$ 的余数。</p>
+<p>现在给定一个长度为 $n$ 的环形数组 $a$。你可以进行如下操作：每次将 $a$ 中的任意一个元素加 $1$ 或减 $1$。你的任务是计算最少需要多少次操作，才能使数组 $a$ 变成“优美”的环形数组。更正式地说，求在所有优美环形数组 $b$ 中，最小的 $\sum_{i=1}^n \vert{}b_i - a_i\vert{}$。</p>
+<p>$^{\text{∗}}$ 在长度为 $m$ 的环形数组中：</p>
+<ul>
+<li>对于每个下标 $2\le i\le m - 1$，第 $i$ 个元素的相邻元素分别是第 $i-1$ 和第 $i+1$ 个元素。</li>
+<li>第 $1$ 个元素的相邻元素分别是第 $2$ 和第 $m$ 个元素。</li>
+<li>第 $m$ 个元素的相邻元素分别是第 $m-1$ 和第 $1$ 个元素。</li>
+</ul>
+<h2>输入格式</h2>
+<p>输入包含多组测试用例。第一行为测试用例数 $t$（$1 \le t \le 10^4$）。接下来每组测试用例描述如下：</p>
+<p>每组测试用例的第一行包含一个整数 $n$（$3 \le n \le 2\cdot 10^5$），表示数组 $a$ 的长度。</p>
+<p>第二行包含 $n$ 个整数 $a_1, a_2, \ldots, a_n$（$1 \le a_i \le 10^9$），表示环形数组 $a$ 的元素。</p>
+<p>保证所有测试用例中 $n$ 的总和不超过 $2\cdot 10^5$。</p>
+<h2>输出格式</h2>
+<p>对于每组测试用例，输出一个整数，表示最少的操作次数，使数组 $a$ 变为优美的环形数组。</p>
+<h2>输入输出样例 #1</h2>
+<h3>输入 #1</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">4
+5
+1 1 1 1 1
+4
+2 100 99 3
+5
+2 2 5 9 5
+6
+1 1 1 2 1 2
+
+</code></pre>
+<h3>输出 #1</h3>
+<pre lang="text" class="notranslate"><code class="notranslate">0
+2
+4
+1
+
+</code></pre>
+<h2>思路</h2>
+<p>题目要求每个元素至少有一个相邻元素和它相等。这意味着在最终的“优美”数组中，相等的元素会“抱团”。也就是说，整个环形数组一定会被划分为若干个连续的段，<strong>每一段内的元素完全相同，且每一段的长度至少为 2</strong>。</p>
+<p>那么这道题的核心难点（也就是 DP 状态设计的依据）来了：<strong>最优解中，我们到底需要考虑多长的段？</strong></p>
+<p><strong>结论：最优的划分方案中，每一段的长度只能是 2 或者 3。</strong></p>
+<p><strong>证明如下：</strong><br>
+假设我们划出了一个长度为 $L$（$L \ge 4$）的段，我们需要把这 $L$ 个数全都变成同一个数 $v$。根据绝对值不等式的经典结论，$v$ 应当取这 $L$ 个数的中位数，此时总操作代价为 $\sum \vert{}a_i - v\vert{}$。</p>
+<p>我们以 $L = 4$ 为例，设这四个数为 $a_1, a_2, a_3, a_4$。总代价为：</p>
+<p>$$\vert{}a_1 - v\vert{} + \vert{}a_2 - v\vert{} + \vert{}a_3 - v\vert{} + \vert{}a_4 - v\vert{}$$</p>
+<p>根据三角不等式（$\vert{}x\vert{} + \vert{}y\vert{} \ge \vert{}x - y\vert{}$），我们知道：</p>
+<p>$$\vert{}a_1 - v\vert{} + \vert{}a_2 - v\vert{} \ge \vert{}a_1 - a_2\vert{}$$</p>
+<p>$$\vert{}a_3 - v\vert{} + \vert{}a_4 - v\vert{} \ge \vert{}a_3 - a_4\vert{}$$</p>
+<p>这说明，把 4 个数强行变成同一个数的代价，<strong>必然大于或等于</strong>将其拆分成两个“长度为 2 的段”的代价（即前两个数内部匹配，后两个数内部匹配）。</p>
+<p>推而广之，任何长度 $L \ge 4$ 的整数，都可以被拆分为若干个 2 和 3 的和（例如 $4=2+2$，$5=2+3$，$6=3+3$）。而且拆分后的总代价<strong>绝对不会变大</strong>。因此，为了求最小代价，我们的 DP 状态只需要转移长度为 2 和 3 的情况即可！</p>
+<p><strong>分段代价的计算：</strong></p>
+<ol>
+<li>
+<strong>长度为 2 的段（元素为 $x, y$）：</strong> 将其变为相等的数，最优策略是变成它们之间的任意值，代价刚好是 $\vert{}x - y\vert{}$。</li>
+<li>
+<strong>长度为 3 的段（元素为 $x, y, z$）：</strong> 最优策略是变成这三个数的中位数。总代价是三个数到中位数的距离之和，这在数学上刚好等于 $\max(x, y, z) - \min(x, y, z)$。</li>
+</ol>
+<p><strong>DP 状态转移与环形处理：</strong><br>
+定义 $dp[i]$ 为前 $i$ 个元素划分完毕的最小代价：</p>
+<p>$$dp[i] = \min \begin{cases} dp[i-2] + \vert{}a_i - a_{i-1}\vert{} \ dp[i-3] + \max(a_{i-2}, a_{i-1}, a_i) - \min(a_{i-2}, a_{i-1}, a_i) \end{cases}$$</p>
+<p>由于是环形数组，分段的“断点”可以在任意位置。但因为每段最长只有 3，所以无论最优解是怎么分段的，<strong>原数组的第 1、2、3 个位置中，必定存在至少一个断点</strong>。<br>
+因此，我们只需将原数组复制一倍拼接在后面，然后分别以第 1、2、3 个元素作为起点，跑 3 遍上述的线性 DP，最后取这三种情况的最小值即可完美解决环形问题。</p>
+<h2>代码</h2>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
+<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
+<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; <span class="pl-c1">PII</span>;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; <span class="pl-c1">PLL</span>;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-c1">PII</span>&gt; vPII;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
+    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
+    cin.tie(<span class="pl-c1">0</span>);              \
+    cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
+#<span class="pl-k">define</span> <span class="pl-en">lc</span> p &lt;&lt; <span class="pl-c1">1</span>
+#<span class="pl-k">define</span> <span class="pl-en">rc</span> p &lt;&lt; <span class="pl-c1">1</span> | <span class="pl-c1">1</span>
+<span class="pl-c"><span class="pl-c">//</span> #define lc(p) tr[p].lc</span>
+<span class="pl-c"><span class="pl-c">//</span> #define rc(p) tr[p].rc</span>
+#<span class="pl-k">define</span> <span class="pl-en">INF</span> <span class="pl-c1">0x3f3f3f3f3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">inf</span> <span class="pl-c1">0x3f3f3f3f</span>
+#<span class="pl-k">define</span> <span class="pl-en">fi</span> first
+#<span class="pl-k">define</span> <span class="pl-en">se</span> second
+#<span class="pl-k">define</span> <span class="pl-en">all</span>(<span class="pl-v">x</span>) x.begin(), x.end()
+#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
+#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
+<span class="pl-k">const</span> <span class="pl-k">double</span> eps = <span class="pl-c1">1e-5</span>;
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>, M = <span class="pl-c1">2</span> * N, K = <span class="pl-c1">26</span>;
+<span class="pl-k">const</span> ll <span class="pl-c1">MOD</span> = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md3 = <span class="pl-c1">998244353</span>, Md7 = <span class="pl-c1">1e9</span> + <span class="pl-c1">7</span>, Md9 = <span class="pl-c1">1e9</span> + <span class="pl-c1">9</span>;
+<span class="pl-k">const</span> ll base1 = <span class="pl-c1">131</span>, base2 = <span class="pl-c1">13331</span>;
+<span class="pl-k">const</span> <span class="pl-k">double</span> <span class="pl-c1">PI</span> = acos(-<span class="pl-c1">1.0</span>);
+<span class="pl-k">const</span> <span class="pl-k">int</span> dx[<span class="pl-c1">8</span>] = {-<span class="pl-c1">1</span>, <span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">1</span>}, dy[<span class="pl-c1">8</span>] = {<span class="pl-c1">0</span>, <span class="pl-c1">1</span>, <span class="pl-c1">0</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">1</span>};
+<span class="pl-k">const</span> <span class="pl-k">int</span> ddx[<span class="pl-c1">8</span>] = {<span class="pl-c1">1</span>, <span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, -<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>}, ddy[<span class="pl-c1">8</span>] = {<span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, -<span class="pl-c1">2</span>, <span class="pl-c1">1</span>, -<span class="pl-c1">1</span>};
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmin</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &lt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">bool</span> <span class="pl-en">cmax</span>(T &amp;a, <span class="pl-k">const</span> T &amp;b) { <span class="pl-k">return</span> b &gt; a ? a = b, <span class="pl-c1">1</span> : <span class="pl-c1">0</span>; }
+<span class="pl-k">template </span>&lt;<span class="pl-k">typename</span> T&gt;
+<span class="pl-k">void</span> <span class="pl-en">sort_range</span>(vector&lt;T&gt; &amp;v, <span class="pl-k">int</span> l, <span class="pl-k">int</span> r) { <span class="pl-c1">sort</span>(v.<span class="pl-c1">begin</span>() + l, v.<span class="pl-c1">begin</span>() + r + <span class="pl-c1">1</span>); }
+mt19937_64 <span class="pl-en">rng</span>(chrono::steady_clock::now().time_since_epoch().count());
+ll <span class="pl-en">qmi</span>(ll a, ll b, ll p)
+{
+    ll res = <span class="pl-c1">1</span> % p;
+    a %= p;
+    <span class="pl-k">while</span> (b)
+    {
+        <span class="pl-k">if</span> (b &amp; <span class="pl-c1">1</span>)
+            res = res * a % p;
+        a = a * a % p;
+        b &gt;&gt;= <span class="pl-c1">1</span>;
+    }
+    <span class="pl-k">return</span> res;
+}
+<span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c"></span>
+<span class="pl-c"><span class="pl-c">*/</span></span>
+
+<span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    ll n;
+    cin &gt;&gt; n;
+    vll <span class="pl-smi">a</span>(<span class="pl-c1">2</span> * n + <span class="pl-c1">2</span>, <span class="pl-c1">0</span>);
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= n; i++)
+    {
+        ll x;
+        cin &gt;&gt; x;
+        a[i] = a[i + n] = x;
+    }
+    vll <span class="pl-smi">dp</span>(<span class="pl-c1">2</span> * n + <span class="pl-c1">2</span>, <span class="pl-c1">INF</span>);
+    dp[<span class="pl-c1">0</span>] = <span class="pl-c1">0</span>;
+    ll ans = <span class="pl-c1">INF</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">2</span>; i &lt;= n; i++)
+    {
+        <span class="pl-k">if</span> (i &gt;= <span class="pl-c1">2</span>)
+        {
+            dp[i] = <span class="pl-c1">min</span>(dp[i], dp[i - <span class="pl-c1">2</span>] + <span class="pl-c1">abs</span>(a[i] - a[i - <span class="pl-c1">1</span>]));
+        }
+        <span class="pl-k">if</span> (i &gt;= <span class="pl-c1">3</span>)
+        {
+            dp[i] = <span class="pl-c1">min</span>(dp[i], dp[i - <span class="pl-c1">3</span>] + <span class="pl-c1">max</span>({a[i - <span class="pl-c1">2</span>], a[i - <span class="pl-c1">1</span>], a[i]}) - <span class="pl-c1">min</span>({a[i - <span class="pl-c1">2</span>], a[i - <span class="pl-c1">1</span>], a[i]}));
+        }
+    }
+    <span class="pl-c1">cmin</span>(ans, dp[n]);
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= <span class="pl-c1">2</span> * n + <span class="pl-c1">1</span>; i++)
+        dp[i] = <span class="pl-c1">INF</span>;
+    dp[<span class="pl-c1">0</span>] = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">2</span>; i &lt;= n; i++)
+    {
+        ll now = i + <span class="pl-c1">1</span>;
+        <span class="pl-k">if</span> (i &gt;= <span class="pl-c1">2</span>)
+        {
+            dp[i] = <span class="pl-c1">min</span>(dp[i], dp[i - <span class="pl-c1">2</span>] + <span class="pl-c1">abs</span>(a[now] - a[now - <span class="pl-c1">1</span>]));
+        }
+        <span class="pl-k">if</span> (i &gt;= <span class="pl-c1">3</span>)
+        {
+            dp[i] = <span class="pl-c1">min</span>(dp[i], dp[i - <span class="pl-c1">3</span>] + <span class="pl-c1">max</span>({a[now - <span class="pl-c1">2</span>], a[now - <span class="pl-c1">1</span>], a[now]}) - <span class="pl-c1">min</span>({a[now - <span class="pl-c1">2</span>], a[now - <span class="pl-c1">1</span>], a[now]}));
+        }
+    }
+    <span class="pl-c1">cmin</span>(ans, dp[n]);
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">1</span>; i &lt;= <span class="pl-c1">2</span> * n; i++)
+        dp[i] = <span class="pl-c1">INF</span>;
+    dp[<span class="pl-c1">0</span>] = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">2</span>; i &lt;= n; i++)
+    {
+        ll now = i + <span class="pl-c1">2</span>;
+        <span class="pl-k">if</span> (i &gt;= <span class="pl-c1">2</span>)
+        {
+            dp[i] = <span class="pl-c1">min</span>(dp[i], dp[i - <span class="pl-c1">2</span>] + <span class="pl-c1">abs</span>(a[now] - a[now - <span class="pl-c1">1</span>]));
+        }
+        <span class="pl-k">if</span> (i &gt;= <span class="pl-c1">3</span>)
+        {
+            dp[i] = <span class="pl-c1">min</span>(dp[i], dp[i - <span class="pl-c1">3</span>] + <span class="pl-c1">max</span>({a[now - <span class="pl-c1">2</span>], a[now - <span class="pl-c1">1</span>], a[now]}) - <span class="pl-c1">min</span>({a[now - <span class="pl-c1">2</span>], a[now - <span class="pl-c1">1</span>], a[now]}));
+        }
+    }
+    <span class="pl-c1">cmin</span>(ans, dp[n]);
+    cout &lt;&lt; ans &lt;&lt; endl;
+}
+
+<span class="pl-k">int</span> <span class="pl-en">main</span>()
+{
+    <span class="pl-c1">IOS</span>;
+
+    <span class="pl-k">int</span> _ = <span class="pl-c1">1</span>;
+    cin &gt;&gt; _; <span class="pl-c"><span class="pl-c">//</span> 如果是多组数据</span>
+    <span class="pl-k">while</span> (_--)
+    {
+        <span class="pl-c1">solve</span>();
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">0</span>;
+}
+</pre></div></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://zhezhi198.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","zhezhi198/zhezhi198.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</html>
