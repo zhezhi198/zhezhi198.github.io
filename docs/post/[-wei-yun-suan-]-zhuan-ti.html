@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="---
+
+## 一、 整数的底层位序列与补码数学机理
+
+位序列在计算机中分为有符号（Signed）和无符号（Unsigned）两种映射规则。">
+<meta property="og:title" content="[位运算]专题">
+<meta property="og:description" content="---
+
+## 一、 整数的底层位序列与补码数学机理
+
+位序列在计算机中分为有符号（Signed）和无符号（Unsigned）两种映射规则。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://zhezhi198.github.io/post/%5B-wei-yun-suan-%5D-zhuan-ti.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>[位运算]专题</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">[位运算]专题</h1>
+<div class="title-right">
+    <a href="https://zhezhi198.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/zhezhi198/zhezhi198.github.io/issues/32" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><hr>
+<h2>一、 整数的底层位序列与补码数学机理</h2>
+<p>位序列在计算机中分为有符号（Signed）和无符号（Unsigned）两种映射规则。</p>
+<p>在现代计算机架构下，有符号整数严格采用**补码（Two's complement）**表示。网络上很多博客（包括一些早期的教材）对负数补码的描述有误，真正的核心数学性质你只需要记住这一条：<br>
+对于 $N$ 位有符号整数 $x$，其补码的代数真值严格满足：</p>
+<p>$$
+-x = \sim x + 1
+$$</p>
+<p>这一性质是后续所有“最低位提取（lowbit）”技巧的数学基石。</p>
+<blockquote>
+<p><strong>【排雷预警：C++ 标准中的未定义行为 UB】</strong></p>
+<ol>
+<li><strong>负数左移</strong>：在 C++20 之前，对负数进行左移（<code class="notranslate">&lt;&lt;</code>）是严格的未定义行为（UB）。</li>
+<li><strong>越界移位</strong>：移位位数大于等于类型的位宽（如对 <code class="notranslate">int32</code> 左移 32 位），属于 UB，其结果在开启 <code class="notranslate">-O2</code> 优化下完全不可控。<br>
+<strong>工程与竞赛规范</strong>：位运算请尽量使用无符号类型（如 <code class="notranslate">1ull &lt;&lt; i</code>）。</li>
+</ol>
+</blockquote>
+<hr>
+<h2>二、 核心位运算符与优先级陷阱</h2>
+<p>位运算符的优先级极易引起逻辑坍塌，记住这个宏观顺序（由高到低），<strong>强烈建议写宏定义或复杂逻辑时无脑加括号</strong>。</p>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th>运算符</th>
+<th>符号</th>
+<th>优先级位面</th>
+<th>核心运算法则</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>按位取反</td>
+<td><code class="notranslate">~</code></td>
+<td>第一梯队（最高）</td>
+<td>
+$0 \mapsto 1$，$1 \mapsto 0$</td>
+</tr>
+<tr>
+<td>左移 / 右移</td>
+<td>
+<code class="notranslate">&lt;&lt;</code>, <code class="notranslate">&gt;&gt;</code>
+</td>
+<td>第二梯队</td>
+<td>左移补 0；<strong>有符号数右移补符号位，无符号数右移补 0</strong>
+</td>
+</tr>
+<tr>
+<td>按位与</td>
+<td><code class="notranslate">&amp;</code></td>
+<td>第三梯队</td>
+<td>满足 <code class="notranslate">a &amp; a = a</code>、<code class="notranslate">a &amp; 0 = 0</code>
+</td>
+</tr>
+<tr>
+<td>按位异或</td>
+<td><code class="notranslate">^</code></td>
+<td>第四梯队</td>
+<td>不进位加法。满足 <code class="notranslate">a ^ a = 0</code>、<code class="notranslate">a ^ 0 = a</code>
+</td>
+</tr>
+<tr>
+<td>按位或</td>
+<td><code class="notranslate">|</code></td>
+<td>第五梯队（最低）</td>
+<td>满足 `a</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<p><em>(注：表格中的 <code class="notranslate">|</code> 为防止解析错误，写为转义形式 <code class="notranslate">\|</code>，实际代码中即为按位或)</em></p>
+<hr>
+<h2>三、 实用位运算高级操作速查表 (Cheat Sheet)</h2>
+<p>在处理状态压缩 DP 时，我们经常需要对数字的各个二进制位进行精细的“外科手术”。以下整理了竞赛中最常用的位运算 $O(1)$ 变换技巧（注：以下操作假设第 $k$ 位是从右往左数，下标从 1 开始）。</p>
+<h3>1. 基础位操作</h3>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">功能需求</th>
+<th align="left">位运算表达式</th>
+<th align="left">逻辑原理解析</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><strong>去掉最后一位</strong></td>
+<td align="left"><code class="notranslate">x &gt;&gt; 1</code></td>
+<td align="left">整体右移，最低位直接被丢弃。</td>
+</tr>
+<tr>
+<td align="left"><strong>在最后加一个 0</strong></td>
+<td align="left"><code class="notranslate">x &lt;&lt; 1</code></td>
+<td align="left">整体左移，右侧自然补 0。</td>
+</tr>
+<tr>
+<td align="left"><strong>在最后加一个 1</strong></td>
+<td align="left"><code class="notranslate">(x &lt;&lt; 1) | 1</code></td>
+<td align="left">左移后末尾为 0，与 1 进行或运算即可置 1。</td>
+</tr>
+<tr>
+<td align="left"><strong>将最后一位变为 1</strong></td>
+<td align="left"><code class="notranslate">x | 1</code></td>
+<td align="left">利用 `0</td>
+</tr>
+<tr>
+<td align="left"><strong>将最后一位变为 0</strong></td>
+<td align="left"><code class="notranslate">x &amp; ~1</code></td>
+<td align="left">严格写法。网上也有用 `(x</td>
+</tr>
+<tr>
+<td align="left"><strong>最后一位取反</strong></td>
+<td align="left"><code class="notranslate">x ^ 1</code></td>
+<td align="left">利用异或性质，除最后一位外其余保持不变。</td>
+</tr>
+<tr>
+<td align="left"><strong>将右数第 $k$ 位变为 1</strong></td>
+<td align="left"><code class="notranslate">x | (1 &lt;&lt; (k - 1))</code></td>
+<td align="left">构造第 $k$ 位为 1 的掩码，进行按位或。</td>
+</tr>
+<tr>
+<td align="left"><strong>将右数第 $k$ 位变为 0</strong></td>
+<td align="left"><code class="notranslate">x &amp; ~(1 &lt;&lt; (k - 1))</code></td>
+<td align="left">构造第 $k$ 位为 0、其余为 1 的掩码，进行按位与。</td>
+</tr>
+<tr>
+<td align="left"><strong>将右数第 $k$ 位取反</strong></td>
+<td align="left"><code class="notranslate">x ^ (1 &lt;&lt; (k - 1))</code></td>
+<td align="left">利用 <code class="notranslate">1 ^ 1 = 0</code>, <code class="notranslate">0 ^ 1 = 1</code> 定点翻转。</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<h3>2. 连续位与区间操作</h3>
+<markdown-accessiblity-table><table role="table">
+<thead>
+<tr>
+<th align="left">功能需求</th>
+<th align="left">位运算表达式</th>
+<th align="left">逻辑原理解析</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><strong>取末尾 $k$ 位</strong></td>
+<td align="left"><code class="notranslate">x &amp; ((1 &lt;&lt; k) - 1)</code></td>
+<td align="left">
+<code class="notranslate">(1&lt;&lt;k)-1</code> 会生成一个后 $k$ 位全为 1 的掩码（如 $k=3$ 得到 <code class="notranslate">0111</code>）。</td>
+</tr>
+<tr>
+<td align="left"><strong>取右数第 $k$ 位的值</strong></td>
+<td align="left"><code class="notranslate">(x &gt;&gt; (k - 1)) &amp; 1</code></td>
+<td align="left">将目标位推到最低位，然后屏蔽其他高位。</td>
+</tr>
+<tr>
+<td align="left"><strong>把末尾 $k$ 位全变为 1</strong></td>
+<td align="left"><code class="notranslate">x | ((1 &lt;&lt; k) - 1)</code></td>
+<td align="left">直接将末尾 $k$ 位用全 1 掩码覆盖。</td>
+</tr>
+<tr>
+<td align="left"><strong>把末尾 $k$ 位取反</strong></td>
+<td align="left"><code class="notranslate">x ^ ((1 &lt;&lt; k) - 1)</code></td>
+<td align="left">用全 1 掩码进行异或。</td>
+</tr>
+<tr>
+<td align="left"><strong>把右边连续的 1 变为 0</strong></td>
+<td align="left"><code class="notranslate">x &amp; (x + 1)</code></td>
+<td align="left">加 1 会让连续的 1 产生链式进位变成 0，再做与运算彻底清零。如 <code class="notranslate">0111 -&gt; 0000</code>。</td>
+</tr>
+<tr>
+<td align="left"><strong>把右起第一个 0 变为 1</strong></td>
+<td align="left"><code class="notranslate">x | (x + 1)</code></td>
+<td align="left">原理同上，加 1 翻转连续 1 及其左侧的第一个 0，然后利用或运算保留原有的 1。</td>
+</tr>
+<tr>
+<td align="left"><strong>把右起连续的 0 变为 1</strong></td>
+<td align="left"><code class="notranslate">x | (x - 1)</code></td>
+<td align="left">减 1 会让连续的 0 借位全变 1。</td>
+</tr>
+<tr>
+<td align="left"><strong>取右边连续的 1</strong></td>
+<td align="left"><code class="notranslate">(x ^ (x + 1)) &gt;&gt; 1</code></td>
+<td align="left">提取出连续的 1 的区间，移位修正。</td>
+</tr>
+<tr>
+<td align="left"><strong>去掉右起第一个 1 的左边</strong></td>
+<td align="left"><code class="notranslate">x &amp; -x</code></td>
+<td align="left">即鼎鼎大名的 <strong>lowbit</strong> 操作。原式 <code class="notranslate">x &amp; (x ^ (x - 1))</code> 等价于 <code class="notranslate">x &amp; -x</code>，但后者利用补码性质，指令更短。</td>
+</tr>
+</tbody>
+</table></markdown-accessiblity-table>
+<hr>
+<h2>四、 考点升华：算术运算与位运算的等价代换</h2>
+<p>这是区域赛最喜欢考察的脑洞点。很多题目看似是求加减法，其实需要转成位运算独立拆位处理；反之亦然。</p>
+<h3>1. 基础容斥原理（Inclusion-Exclusion on bits）</h3>
+<p>对于任意两个整数 $a$ 和 $b$，它们的按位或、按位与、按位异或与算术加法之间，存在严格的代数恒等式：</p>
+<p>$$
+a + b = (a \text{ OR } b) + (a \text{ AND } b)
+$$</p>
+<p>$$
+a \text{ OR } b = (a \oplus b) + (a \text{ AND } b)
+$$</p>
+<p>联合上面两式，可以推导出异或与加法的终极关系（<strong>半加器原理</strong>）：</p>
+<p>$$
+a + b = (a \oplus b) + 2 \times (a \text{ AND } b)
+$$</p>
+<p>或者写成移位形式：</p>
+<p>$$
+a + b = (a \oplus b) + ((a \text{ AND } b) \ll 1)
+$$</p>
+<p><strong>考点应用</strong>：如果题目给定 $a \oplus b = X$ 和 $a \text{ AND } b = Y$，让你求 $a$ 和 $b$ 的解数。你不仅能立刻算出 $a+b = X + (Y \ll 1)$，还可以利用前提条件 $(a \oplus b) \text{ AND } (a \text{ AND } b) = 0$ 来快速判断是否有解（若 $X \text{ AND } Y \neq 0$ 则必定无解）。</p>
+<h3>2. 区间异或性质</h3>
+<p>计算从 1 到 $n$ 的连续异或和存在 $O(1)$ 的周期律。设 $f(n)$ 为前 $n$ 个数的异或和：</p>
+<ul>
+<li>$n \bmod 4 = 0 \implies f(n) = n$</li>
+<li>$n \bmod 4 = 1 \implies f(n) = 1$</li>
+<li>$n \bmod 4 = 2 \implies f(n) = n + 1$</li>
+<li>$n \bmod 4 = 3 \implies f(n) = 0$</li>
+</ul>
+<hr>
+<h2>五、 状态压缩与常数优化极致</h2>
+<h3>1. 严谨的 $O(3^N)$ 子集枚举</h3>
+<p>遇到状压 DP 需要枚举当前集合 <code class="notranslate">x</code> 的所有子集 <code class="notranslate">y</code> 时，下面的写法能跳过所有非法状态：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">void</span> <span class="pl-en">solve</span>()
+{
+    ll n;
+    cin &gt;&gt; n;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> x = <span class="pl-c1">0</span>; x &lt; ((ll)<span class="pl-c1">1</span> &lt;&lt; n); x++)
+    {
+        <span class="pl-k">for</span> (<span class="pl-k">int</span> y = x;; y = x &amp; (y - <span class="pl-c1">1</span>))
+        {
+            cout &lt;&lt; y &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>;
+            <span class="pl-k">if</span> (!y)
+                <span class="pl-k">break</span>;
+        }
+        cout &lt;&lt; endl;
+    }
+}</pre></div>
+<p>原理：y - 1 会把最低位的 1 变成 0，右侧变 1。再通过 &amp; x 过滤，强制将不属于该母集的位剔除。根据二项式定理 $\sum_{k=0}^n \binom{n}{k} 2^k = 3^n$，这两重循环的总时间复杂度严格收敛于 $O(3^N)$，没有任何冗余计算。</p>
+<ol start="2">
+<li>构造汉明权重递增的排列 (Gosper's Hack)这是一个神级代码。给定一个整数 $x$，它能在 $O(1)$ 时间内计算出下一个比 $x$ 大，且二进制中 $1$ 的个数（汉明权重）与 $x$ 完全相同的数。</li>
+</ol>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll;
+<span class="pl-c"><span class="pl-c">//</span> 依赖宏定义：#define lowbit(x) ((x) &amp; (-x))</span>
+ll <span class="pl-en">wk</span>(ll x) {
+    <span class="pl-k">int</span> c = <span class="pl-c1">lowbit</span>(x);                 <span class="pl-c"><span class="pl-c">//</span> 步骤 1</span>
+    <span class="pl-k">int</span> r = x + c;                     <span class="pl-c"><span class="pl-c">//</span> 步骤 2</span>
+    <span class="pl-k">return</span> (((r ^ x) &gt;&gt; <span class="pl-c1">2</span>) / c) | r;   <span class="pl-c"><span class="pl-c">//</span> 步骤 3</span>
+}</pre></div>
+<p><strong>算法原理极其精妙，我们像剥洋葱一样拆解它：</strong><br>
+假设 $x$ 的二进制表示中，最右侧连续的 1 的区块为 <code class="notranslate">...011100...</code>（假设有 $k$ 个 1）。</p>
+<ol>
+<li>
+<strong><code class="notranslate">c = lowbit(x)</code></strong>：提取出这块连续 1 的最低位（如上面的最右边的 1）。</li>
+<li>
+<strong><code class="notranslate">r = x + c</code></strong>：由于加法进位，最右侧的连续的 1 会发生多米诺骨牌式的翻转。原本 <code class="notranslate">...011100...</code> 会变成 <code class="notranslate">...100000...</code>。
+<ul>
+<li>
+<em>代价</em>：此时我们失去了一个由 $k$ 个 1 组成的区块，只换来了一个更高位的 1。总体上，数变大了，但是我们损失了 $k-1$ 个 1。我们需要把这缺失的 $k-1$ 个 1 补偿到<strong>二进制的最最末尾</strong>，才能保证得到的数不仅汉明权重相同，而且是“仅大于 $x$”的最小值。</li>
+</ul>
+</li>
+<li>
+<strong><code class="notranslate">(((r ^ x) &gt;&gt; 2) / c) | r</code></strong>：这是找回那 $k-1$ 个 1 的过程。
+<ul>
+<li>
+<code class="notranslate">r ^ x</code>：原区块是 <code class="notranslate">011...</code>，现在是 <code class="notranslate">100...</code>，两者异或后会得到 <code class="notranslate">111...</code>。即提取出了刚刚发生翻转的所有位，恰好是 $k+1$ 个 1。</li>
+<li>
+<code class="notranslate">&gt;&gt; 2</code>：将 $k+1$ 个 1 右移 2 位，恰好去掉了 2 个 1，现在手里正好握着我们要补偿的 <strong>$k-1$ 个 1</strong>。</li>
+<li>
+<code class="notranslate">/ c</code>：因为 <code class="notranslate">c</code> 是 2 的幂，除以 <code class="notranslate">c</code> 在底层的等价操作就是向右移位。这一步直接把那 $k-1$ 个 1 狠狠地推到了二进制的最右侧边缘（第 0 位开始）。</li>
+<li>
+<code class="notranslate">| r</code>：最后，把排列好的 $k-1$ 个 1 和之前进位后的 <code class="notranslate">r</code> 拼装（按位或）在一起。完美达成目标！</li>
+</ul>
+</li>
+</ol>
+<p><strong>核心应用场景：</strong></p>
+<ul>
+<li>
+<strong>$O(1)$ 枚举组合数</strong>：当我们需要在 $N$ 个物品中恰好选 $K$ 个物品（相当于枚举所有长度为 $N$、包含 $K$ 个 1 的状态）时，直接用 <code class="notranslate">wk(x)</code> 不断跳转。不用写任何 DFS 递归，常数小到离谱！</li>
+<li>
+<strong>定长状态 DP</strong>：例如在旅行商问题 (TSP) 中，当我们想按照“已访问过 3 个城市”、“已访问过 4 个城市”来对状态进行严格的分层转移时，Gosper's Hack 就是最高效的状态生成器。</li>
+</ul>
+<h3>3. GCC 内建函数</h3>
+<p>调用底层汇编指令，效率远超市面上的手写循环。</p>
+<ul>
+<li>
+<code class="notranslate">__builtin_popcount(x)</code>：返回二进制中 1 的个数。（64 位需用 <code class="notranslate">__builtin_popcountll</code>）</li>
+<li>
+<code class="notranslate">__builtin_ctz(x)</code>：返回末尾连续 0 的个数。<strong>注意 $x=0$ 时为 UB。</strong>
+</li>
+<li>
+<code class="notranslate">__builtin_clz(x)</code>：返回前导连续 0 的个数。<strong>注意 $x=0$ 时为 UB。</strong>
+</li>
+</ul>
+<h2>六、 进阶数据结构一：0-1 Trie (字典树) 解决异或最值</h2>
+<p>当题目要求在一个动态维护的集合中，寻找与给定数 $x$ 异或结果最大（或最小）的元素时，0-1 Trie 是最锐利的武器。</p>
+<p><strong>算法原理</strong>：<br>
+将所有的数字看作长度为 31（或 63）的二进制字符串，插入到字典树中。在查询给定数字 $x$ 的最大异或对时，采用<strong>贪心策略</strong>：从最高位开始向下走，如果存在与 $x$ 当前位<strong>相反</strong>的子节点，就必须走相反的节点（这样异或出来的这一位才是 1，高位的 1 比低位所有的 1 加起来都要大）；如果不存在相反的节点，才被迫走相同的节点。</p>
+<p><strong>个人精简版模板 (解决最大异或对)</strong>：<br>
+<em>使用了静态数组 <code class="notranslate">son[N*31][2]</code> 来动态开点，常数极小。</em></p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; <span class="pl-c"><span class="pl-c">//</span> 不开long long 见祖宗</span>
+<span class="pl-k">typedef</span> <span class="pl-k">unsigned</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ull;
+<span class="pl-k">typedef</span> __int128 <span class="pl-k">i128</span>;
+<span class="pl-k">typedef</span> pair&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; <span class="pl-c1">PII</span>;
+<span class="pl-k">typedef</span> pair&lt;ll, ll&gt; <span class="pl-c1">PLL</span>;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">int</span>&gt; vi;
+<span class="pl-k">typedef</span> vector&lt;ll&gt; vll;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-k">double</span>&gt; vd;
+<span class="pl-k">typedef</span> vector&lt;<span class="pl-c1">PII</span>&gt; vPII;
+#<span class="pl-k">define</span> <span class="pl-en">IOS</span>                  \
+    <span class="pl-en">ios::sync_with_stdio</span>(<span class="pl-c1">0</span>); \
+    cin.tie(<span class="pl-c1">0</span>);              \
+    cout.tie(<span class="pl-c1">0</span>);
+#<span class="pl-k">define</span> <span class="pl-en">debug</span>(...) cout &lt;&lt; <span class="pl-s"><span class="pl-pds">"</span>[debug] <span class="pl-pds">"</span></span> #__VA_ARGS__ <span class="pl-s"><span class="pl-pds">"</span> = <span class="pl-pds">"</span></span> &lt;&lt; (__VA_ARGS__) &lt;&lt; endl;
+#<span class="pl-k">define</span> <span class="pl-en">out</span>(<span class="pl-v">x</span>) cout &lt;&lt; ((x) ? <span class="pl-s"><span class="pl-pds">"</span>YES<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span>NO<span class="pl-pds">"</span></span>) &lt;&lt; endl
+#<span class="pl-k">define</span> <span class="pl-en">mod</span>(<span class="pl-v">x, P</span>) (((x) % (P) + (P)) % (P))
+#<span class="pl-k">define</span> <span class="pl-en">endl</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-cce">\n</span><span class="pl-pds">'</span></span>
+#<span class="pl-k">define</span> <span class="pl-en">gcd</span> __gcd
+#<span class="pl-k">define</span> <span class="pl-en">lowbit</span>(<span class="pl-v">x</span>) ((x) &amp; (-x))
+#<span class="pl-k">define</span> <span class="pl-en">rep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &lt;= n; i++)
+#<span class="pl-k">define</span> <span class="pl-en">dep</span>(<span class="pl-v">i, x, n</span>) <span class="pl-k">for</span> (ll i = x; i &gt;= n; i--)
+#<span class="pl-k">define</span> <span class="pl-en">mem</span>(<span class="pl-v">a, x</span>) memset(a, x, <span class="pl-k">sizeof</span> a)
+<span class="pl-k">const</span> <span class="pl-k">int</span> N = <span class="pl-c1">1e5</span> + <span class="pl-c1">10</span>;
+
+ll n;
+ll a[N];
+<span class="pl-k">int</span> son[N*<span class="pl-c1">31</span>][<span class="pl-c1">2</span>];
+<span class="pl-k">int</span> idx;
+
+<span class="pl-c"><span class="pl-c">//</span> 插入一个数字的二进制表示</span>
+<span class="pl-k">void</span> <span class="pl-en">insert</span>(ll x)
+{
+    <span class="pl-k">int</span> p = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">31</span>; i &gt;= <span class="pl-c1">0</span>; i--)
+    {
+        <span class="pl-k">if</span> (!son[p][(x &gt;&gt; i) &amp; <span class="pl-c1">1</span>])
+            son[p][(x &gt;&gt; i) &amp; <span class="pl-c1">1</span>] = ++idx;
+        p = son[p][(x &gt;&gt; i) &amp; <span class="pl-c1">1</span>];
+    }
+}
+
+<span class="pl-c"><span class="pl-c">//</span> 贪心查询集合中与 x 异或和最大的结果</span>
+ll <span class="pl-en">query</span>(ll x)
+{
+    ll ret = <span class="pl-c1">0</span>;
+    <span class="pl-k">int</span> p = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">31</span>; i &gt;= <span class="pl-c1">0</span>; i--)
+    {
+        ll now = (x &gt;&gt; i) &amp; <span class="pl-c1">1</span>;
+        <span class="pl-c"><span class="pl-c">//</span> 优先尝试走与当前位相反的分支（异或后该位为 1）</span>
+        <span class="pl-k">if</span> (son[p][now ^ <span class="pl-c1">1</span>])
+        {
+            ret += ((ll)<span class="pl-c1">1</span> &lt;&lt; i);
+            p = son[p][now ^ <span class="pl-c1">1</span>];
+        }
+        <span class="pl-k">else</span>
+        {
+            p = son[p][now];
+        }
+    }
+    <span class="pl-k">return</span> ret;
+}</pre></div>
+<h2>七、 进阶数据结构二：线性基 (Linear Basis) 与第 $k$ 小异或和</h2>
+<p>线性基是集合在 $\text{GF}(2)$ 向量空间下的一组极大线性无关组。通俗地说，原数组能异或出来的任何数字，线性基也能异或出来；且线性基是满足这个条件的<strong>最小集合</strong>。</p>
+<p>除了求最大异或和，线性基在 ICPC/CCPC 赛场上最经典的考点是：<strong>求异或和的第 $k$ 小值</strong>。这需要我们不仅能 <code class="notranslate">insert</code>，还要能对线性基进行<strong>重构 (rebuild)</strong>。</p>
+<p><strong>算法原理 (Rebuild 机制)</strong>：</p>
+<ol>
+<li>普通的 <code class="notranslate">insert</code> 构造出的线性基，虽然能表出所有元素，但不同基元素之间可能会互相干扰（例如 $p[i]$ 的第 $j$ 位可能是 1，而 $p[j]$ 也有值，导致异或后大小不可控）。</li>
+<li>
+<code class="notranslate">rebuild</code> 过程类似于线性代数中的<strong>高斯消元化简为简化阶梯型矩阵</strong>。它用低位的基去消去高位基中的 1。重构后，对于任何基底 $d[i]$，只要你选了它，异或和就必然严格增大，彼此绝对独立。</li>
+<li>查询第 $k$ 小时，只需将 $k$ 转化为二进制，若第 $i$ 位为 1，就异或上重构后的第 $i$ 小基底 $d[i]$ 即可。注意特判原数组能否异或出 0（即 <code class="notranslate">zeros</code> 标记）。</li>
+</ol>
+<p><strong>个人标准模板 (支持插入、重构与查询第 K 小)</strong>：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate">#<span class="pl-k">include</span> <span class="pl-s"><span class="pl-pds">&lt;</span>bits/stdc++.h<span class="pl-pds">&gt;</span></span>
+<span class="pl-k">using</span> <span class="pl-k">namespace</span> <span class="pl-en">std</span><span class="pl-k">;</span>
+<span class="pl-c"><span class="pl-c">//</span> CJX__//</span>
+<span class="pl-k">typedef</span> <span class="pl-k">long</span> <span class="pl-k">long</span> ll; 
+<span class="pl-c"><span class="pl-c">//</span> ... (此处省略个人的 typedef 和宏定义缺省源) ...</span>
+
+<span class="pl-c"><span class="pl-c">/*</span></span>
+<span class="pl-c">经典例题：[https://www.luogu.com.cn/problem/P3812](https://www.luogu.com.cn/problem/P3812)</span>
+<span class="pl-c"><span class="pl-c">*/</span></span>
+ll p[<span class="pl-c1">65</span>];
+ll d[<span class="pl-c1">65</span>];
+ll a[N];
+<span class="pl-k">int</span> cnt = <span class="pl-c1">0</span>;
+<span class="pl-k">int</span> len = <span class="pl-c1">0</span>;
+<span class="pl-k">bool</span> zeros = <span class="pl-c1">false</span>;
+
+<span class="pl-c"><span class="pl-c">//</span> 贪心插入元素，构造初步线性基</span>
+<span class="pl-k">void</span> <span class="pl-en">insert</span>(ll x)
+{
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">60</span>; i &gt;= <span class="pl-c1">0</span>; i--)
+    {
+        <span class="pl-k">if</span> ((x &gt;&gt; i) &amp; <span class="pl-c1">1</span>)
+        {
+            <span class="pl-k">if</span> (!p[i])
+            {
+                p[i] = x;
+                cnt++;
+                <span class="pl-k">return</span>;
+            }
+            x ^= p[i];
+        }
+    }
+}
+
+<span class="pl-c"><span class="pl-c">//</span> 重构线性基 (化为简化阶梯型)，提取出严格递增的独立基底存入 d 数组</span>
+<span class="pl-k">void</span> <span class="pl-en">rebuild</span>(<span class="pl-k">int</span> n)
+{
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">60</span>; i &gt;= <span class="pl-c1">0</span>; i--)
+    {
+        <span class="pl-k">if</span> (p[i])
+        {
+            <span class="pl-c"><span class="pl-c">//</span> 用较小的基底去消减较大的基底</span>
+            <span class="pl-k">for</span> (<span class="pl-k">int</span> j = i - <span class="pl-c1">1</span>; j &gt;= <span class="pl-c1">0</span>; j--)
+            {
+                <span class="pl-k">if</span> (p[j] &amp;&amp; ((p[i] &gt;&gt; j) &amp; <span class="pl-c1">1</span>))
+                {
+                    p[i] ^= p[j];
+                }
+            }
+        }
+    }
+    len = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt;= <span class="pl-c1">60</span>; i++)
+    {
+        <span class="pl-k">if</span> (p[i])
+        {
+            d[len++] = p[i];
+        }
+    }
+    <span class="pl-c"><span class="pl-c">//</span> 如果插入成功的基底数量 cnt 小于总元素数量 n，说明有元素被完全消为 0，即可以异或出 0</span>
+    zeros = (cnt != n); 
+}
+
+<span class="pl-c"><span class="pl-c">//</span> 查询异或出的第 k 小值</span>
+ll <span class="pl-en">query_kth</span>(ll k)
+{
+    <span class="pl-k">if</span> (zeros)
+    {
+        <span class="pl-k">if</span> (k == <span class="pl-c1">1</span>) <span class="pl-k">return</span> <span class="pl-c1">0</span>; <span class="pl-c"><span class="pl-c">//</span> 如果能异或出 0，第 1 小就是 0</span>
+        k--; <span class="pl-c"><span class="pl-c">//</span> 排除掉 0 的排名，继续在正数中找</span>
+    }
+    <span class="pl-k">if</span> (k &gt;= ((ll)<span class="pl-c1">1</span> &lt;&lt; len)) <span class="pl-k">return</span> -<span class="pl-c1">1</span>; <span class="pl-c"><span class="pl-c">//</span> k 超出可表出的集合总数</span>
+    
+    ll res = <span class="pl-c1">0</span>;
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; len; i++)
+    {
+        <span class="pl-c"><span class="pl-c">//</span> 根据 k 的二进制表示，直接决定是否选取该基底</span>
+        <span class="pl-k">if</span> ((k &gt;&gt; i) &amp; <span class="pl-c1">1</span>)
+        {
+            res ^= d[i];
+        }
+    }
+    <span class="pl-k">return</span> res;
+}</pre></div>
+<h2>九、 进阶拓展二：SOS DP (高维前缀和 / 快速莫比乌斯变换)</h2>
+<p>我们在前文讲到了用 <code class="notranslate">for (int sub = mask; sub; sub = (sub - 1) &amp; mask)</code> 进行 $O(3^N)$ 的子集枚举。<br>
+但在区域赛中，如果 $N = 20$，状态总数 $2^{20} \approx 10^6$，此时 $O(3^N) \approx 3.48 \times 10^9$ 会直接 TLE（超时）。</p>
+<p>当题目要求对所有状态 $S$，求出其所有子集 $sub$ 的权值之和（即 $F[S] = \sum_{sub \subseteq S} A[sub]$）时，我们需要利用<strong>高维前缀和 (Sum Over Subsets, SOS DP)</strong> 技巧，将时间复杂度从 $O(3^N)$ 降维打击到 $O(N \cdot 2^N)$。</p>
+<p><strong>算法原理</strong>：<br>
+把一个长度为 $N$ 的二进制状态看成一个 $N$ 维空间中的点。求子集和，本质上就是在求这个 $N$ 维空间的前缀和。我们可以像一维、二维前缀和那样，逐个维度（逐个二进制位）进行累加推平。</p>
+<p><strong>极简代码模板</strong>：</p>
+<div class="highlight highlight-source-c++"><pre class="notranslate"><span class="pl-c"><span class="pl-c">//</span> 假设 a 数组存放初始值，我们需要求出 f 数组，f[mask] 表示 mask 所有子集的 a 权值之和</span>
+<span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; (<span class="pl-c1">1</span> &lt;&lt; n); ++i) f[i] = a[i];
+
+<span class="pl-c"><span class="pl-c">//</span> 依次枚举每一个二进制位 (也就是每一个维度)</span>
+<span class="pl-k">for</span> (<span class="pl-k">int</span> i = <span class="pl-c1">0</span>; i &lt; n; ++i) {
+    <span class="pl-k">for</span> (<span class="pl-k">int</span> mask = <span class="pl-c1">0</span>; mask &lt; (<span class="pl-c1">1</span> &lt;&lt; n); ++mask) {
+        <span class="pl-c"><span class="pl-c">//</span> 如果 mask 的第 i 位是 1，那么它必须包含第 i 位为 0 的对应子集状态的贡献</span>
+        <span class="pl-k">if</span> ((mask &gt;&gt; i) &amp; <span class="pl-c1">1</span>) {
+            f[mask] += f[mask ^ (<span class="pl-c1">1</span> &lt;&lt; i)];
+        }
+    }
+}</pre></div></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://zhezhi198.github.io">Blog Title</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行 "+diffDay+" 天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.disabled=true;
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","zhezhi198/zhezhi198.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script>MathJax = {tex: {inlineMath: [["$", "$"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+</html>
